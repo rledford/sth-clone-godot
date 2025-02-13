@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://dreui64tteynh"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_r46nk"]
+[ext_resource type="Texture2D" uid="uid://csgdvhu6rhpts" path="res://sprites/sprites.png" id="2_whvoq"]
+[ext_resource type="PackedScene" uid="uid://chrm2k7k5x4un" path="res://player/player.tscn" id="3_s2jd7"]
+[ext_resource type="Script" path="res://enemy/enemy_spawn.gd" id="4_5wacg"]
+
+[sub_resource type="GDScript" id="GDScript_76iqx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ir5cf"]
+size = Vector2(218, 282.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ctb01"]
+size = Vector2(20, 204.25)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_r46nk")
+
+[node name="Ground" type="Sprite2D" parent="."]
+position = Vector2(296.5, 160.5)
+scale = Vector2(38.0625, 21.0625)
+texture = ExtResource("2_whvoq")
+region_enabled = true
+region_rect = Rect2(16, 0, 16, 16)
+
+[node name="Stronghold" type="Node2D" parent="."]
+position = Vector2(382, 16)
+script = SubResource("GDScript_76iqx")
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Stronghold"]
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 220.0
+offset_bottom = 283.0
+
+[node name="AttackArea" type="Area2D" parent="Stronghold"]
+position = Vector2(101, 142)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Stronghold/AttackArea" groups=["attack_areas"]]
+shape = SubResource("RectangleShape2D_ir5cf")
+
+[node name="EnemySpawn" type="Node2D" parent="."]
+y_sort_enabled = true
+position = Vector2(-23, 158)
+script = ExtResource("4_5wacg")
+metadata/_edit_group_ = true
+
+[node name="SpawnArea" type="Area2D" parent="EnemySpawn"]
+input_pickable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawn/SpawnArea" groups=["enemy_spawn_areas"]]
+shape = SubResource("RectangleShape2D_ctb01")
+disabled = true
+
+[node name="Player" parent="." instance=ExtResource("3_s2jd7")]
