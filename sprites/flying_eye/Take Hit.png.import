@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://mcwam45wy1xh"
-path="res://.godot/imported/Take Hit.png-f2ff6f727eaaa41e2162c5048da8c85f.ctex"
+path="res://.godot/imported/Take Hit.png-a17e1be6b5c70c87cb0642fc0ea777cb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Take Hit.png"
-dest_files=["res://.godot/imported/Take Hit.png-f2ff6f727eaaa41e2162c5048da8c85f.ctex"]
+source_file="res://sprites/flying_eye/Take Hit.png"
+dest_files=["res://.godot/imported/Take Hit.png-a17e1be6b5c70c87cb0642fc0ea777cb.ctex"]
 
 [params]
 
