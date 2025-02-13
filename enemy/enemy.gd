@@ -20,7 +20,7 @@ func _get_attack_position() -> Vector2:
 	)
 	return Vector2(rand_x, rand_y)
 
-func _handle_hit(damage: float) -> void:
+func _handle_hit(_amount: float) -> void:
 	print("_handle_hit not implemented")
 
 func _enter_tree() -> void:

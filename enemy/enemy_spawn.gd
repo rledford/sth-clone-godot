@@ -11,7 +11,7 @@ func random_spawn_position() -> Vector2:
 	var size: Vector2 = area.shape.get_rect().size
 	
 	var rand_x = area.global_position.x
-	var rand_y = randi_range(
+	var rand_y = randf_range(
 		area.global_position.y - (size.y * 0.5),
 		area.global_position.y + (size.y * 0.5)
 	)

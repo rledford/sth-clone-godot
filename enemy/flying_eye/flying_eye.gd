@@ -20,7 +20,7 @@ func idle_state_enter():
 		return
 	anim.play("fly")
 
-func idle_state_update(delta: float):
+func idle_state_update(_delta: float):
 	if has_valid_attack_position():
 		return fsm.change_state("search")
 	attack_position = _get_attack_position()
@@ -28,7 +28,7 @@ func idle_state_update(delta: float):
 func search_state_enter():
 	anim.play("fly")
 	
-func search_state_update(delta: float):
+func search_state_update(_delta: float):
 	if collider.global_position.distance_to(attack_position) > 10:
 		velocity = (attack_position - collider.global_position).normalized() * speed
 		move_and_slide()
@@ -71,14 +71,14 @@ func init_fsm() -> void:
 
 	fsm.change_state("idle")
 
-func _handle_hit(damage: float) -> void:
-	hp -= damage
+func _handle_hit(_amount: float) -> void:
+	hp -= _amount
 	if hp <= 0:
 		fsm.change_state("death")
 
 
-func _on_area_2d_area_entered(area: Area2D) -> void:
+func _on_area_2d_area_entered(_area: Area2D) -> void:
 	fsm.change_state("attack")
 
-func _on_area_2d_area_exited(area: Area2D) -> void:
+func _on_area_2d_area_exited(_area: Area2D) -> void:
 	fsm.change_state("idle")
