@@ -1,6 +1,9 @@
 extends Node2D
 
 const FlyingEye = preload("res://enemy/flying_eye/flying_eye.tscn")
+const Goblin = preload("res://enemy/goblin/goblin.tscn")
+
+const enemy_variants: Array[PackedScene] = [FlyingEye, Goblin]
 
 var spawn_time = 2.0
 var spawn_timer = 0.0
@@ -24,7 +27,7 @@ func _physics_process(delta: float) -> void:
 	if spawn_timer > 0:
 		return
 		
-	var enemy = FlyingEye.instantiate()
+	var enemy = enemy_variants.pick_random().instantiate()
 	enemy.global_position = random_spawn_position()
 	
 	add_child(enemy)

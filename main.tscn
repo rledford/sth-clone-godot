@@ -8,7 +8,7 @@
 [sub_resource type="GDScript" id="GDScript_76iqx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ir5cf"]
-size = Vector2(218, 282.5)
+size = Vector2(89, 208)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ctb01"]
 size = Vector2(20, 204.25)
@@ -28,18 +28,19 @@ position = Vector2(382, 16)
 script = SubResource("GDScript_76iqx")
 metadata/_edit_group_ = true
 
-[node name="ColorRect" type="ColorRect" parent="Stronghold"]
-offset_left = 1.0
-offset_top = 1.0
-offset_right = 220.0
-offset_bottom = 283.0
-
 [node name="AttackArea" type="Area2D" parent="Stronghold"]
 position = Vector2(101, 142)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Stronghold/AttackArea" groups=["attack_areas"]]
+position = Vector2(-64.5, 0)
 shape = SubResource("RectangleShape2D_ir5cf")
+
+[node name="Sprite2D" type="Sprite2D" parent="Stronghold"]
+position = Vector2(41, 142)
+texture = ExtResource("2_whvoq")
+region_enabled = true
+region_rect = Rect2(160, 32, 80, 208)
 
 [node name="EnemySpawn" type="Node2D" parent="."]
 y_sort_enabled = true

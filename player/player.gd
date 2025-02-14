@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var area_2d: Area2D = $Area2D
+@onready var audio_stream_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 var damage: float = 1.0
 var fire_rate: float = 0.25
@@ -19,7 +20,8 @@ func _process(delta: float) -> void:
 		fire_timer -= delta
 	
 func _physics_process(_delta: float) -> void:
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and can_fire():
+	if Input.is_action_just_pressed("shoot") and can_fire():
+		audio_stream_player.play()
 		var enemies = area_2d.get_overlapping_bodies()
 		enemies.sort_custom(y_sort)
 		for i in range(len(enemies)):

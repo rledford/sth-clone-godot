@@ -20,6 +20,12 @@ func _get_attack_position() -> Vector2:
 	)
 	return Vector2(rand_x, rand_y)
 
+func flip() -> void:
+	if velocity.x > 0.0:
+		scale.x = scale.y * 1
+	elif velocity.x < -0.0:
+		scale.x = scale.y * -1
+
 func _handle_hit(_amount: float) -> void:
 	print("_handle_hit not implemented")
 

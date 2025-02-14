@@ -1,9 +1,10 @@
-[gd_scene load_steps=33 format=3 uid="uid://3wwderkaybu0"]
+[gd_scene load_steps=34 format=3 uid="uid://3wwderkaybu0"]
 
 [ext_resource type="Script" path="res://enemy/flying_eye/flying_eye.gd" id="1_d6poh"]
 [ext_resource type="Texture2D" uid="uid://dd0fehrxjoklw" path="res://sprites/flying_eye/Attack.png" id="2_0gb1x"]
 [ext_resource type="Texture2D" uid="uid://cxw4te6l6acu6" path="res://sprites/flying_eye/Death.png" id="3_oitif"]
 [ext_resource type="Texture2D" uid="uid://csisgh6qjiueu" path="res://sprites/flying_eye/Flight.png" id="4_v6bv5"]
+[ext_resource type="AudioStream" uid="uid://c1ge1sdlqlfxt" path="res://sfx/rifle.wav" id="5_u3m8m"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_334yu"]
 radius = 23.0
@@ -195,6 +196,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(8, 8)]
+}
 
 [sub_resource type="Animation" id="Animation_5jugl"]
 resource_name = "attack"
@@ -237,6 +250,32 @@ tracks/2/keys = {
 "values": [{
 "args": [],
 "method": &"attack_anim_finished"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CollisionShape2D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(3, 2), Vector2(8, 8)]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("BiteSFX")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
 }]
 }
 
@@ -347,17 +386,20 @@ debug_color = Color(1, 0.0118072, 0.01923, 0.42)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ho8vj")
-animation = &"death"
+animation = &"attack"
 frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(5, 3)
+position = Vector2(8, 8)
 shape = SubResource("CircleShape2D_5b7en")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_ltcut")
 }
+
+[node name="BiteSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_u3m8m")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

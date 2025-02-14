@@ -18,7 +18,7 @@ func _ready() -> void:
 func idle_state_enter():
 	if not attack_position:
 		return
-	anim.play("fly")
+	anim.play("idle")
 
 func idle_state_update(_delta: float):
 	if has_valid_attack_position():
@@ -26,7 +26,7 @@ func idle_state_update(_delta: float):
 	attack_position = _get_attack_position()
 
 func search_state_enter():
-	anim.play("fly")
+	anim.play("move")
 	
 func search_state_update(_delta: float):
 	if collider.global_position.distance_to(attack_position) > 10:
@@ -70,7 +70,6 @@ func _handle_hit(_amount: float) -> void:
 	hp -= _amount
 	if hp <= 0:
 		fsm.change_state("death")
-
 
 func _on_area_2d_area_entered(_area: Area2D) -> void:
 	fsm.change_state("attack")
