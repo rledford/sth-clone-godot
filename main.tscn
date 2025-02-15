@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://dreui64tteynh"]
+[gd_scene load_steps=7 format=3 uid="uid://dreui64tteynh"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_r46nk"]
 [ext_resource type="Texture2D" uid="uid://csgdvhu6rhpts" path="res://sprites/sprites.png" id="2_whvoq"]
-[ext_resource type="PackedScene" uid="uid://chrm2k7k5x4un" path="res://player/player.tscn" id="3_s2jd7"]
 [ext_resource type="Script" path="res://enemy/enemy_spawn.gd" id="4_5wacg"]
 
 [sub_resource type="GDScript" id="GDScript_76iqx"]
@@ -54,5 +53,3 @@ input_pickable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawn/SpawnArea" groups=["enemy_spawn_areas"]]
 shape = SubResource("RectangleShape2D_ctb01")
 disabled = true
-
-[node name="Player" parent="." instance=ExtResource("3_s2jd7")]
