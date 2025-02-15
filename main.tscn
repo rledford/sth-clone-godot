@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dreui64tteynh"]
+[gd_scene load_steps=9 format=3 uid="uid://dreui64tteynh"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_r46nk"]
 [ext_resource type="Texture2D" uid="uid://csgdvhu6rhpts" path="res://sprites/sprites.png" id="2_whvoq"]
 [ext_resource type="PackedScene" uid="uid://chrm2k7k5x4un" path="res://player/player.tscn" id="3_s2jd7"]
 [ext_resource type="Script" path="res://enemy/enemy_spawn.gd" id="4_5wacg"]
+[ext_resource type="Script" path="res://hud.gd" id="5_uxqe3"]
 
 [sub_resource type="GDScript" id="GDScript_76iqx"]
 
@@ -56,3 +57,15 @@ shape = SubResource("RectangleShape2D_ctb01")
 disabled = true
 
 [node name="Player" parent="." instance=ExtResource("3_s2jd7")]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("5_uxqe3")
+
+[node name="ProgressBar" type="ProgressBar" parent="HUD"]
+anchors_preset = -1
+anchor_right = 0.372917
+offset_left = 290.0
+offset_top = 3.0
+offset_right = 294.0
+offset_bottom = 30.0
+metadata/_edit_use_anchors_ = true

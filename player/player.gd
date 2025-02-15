@@ -8,8 +8,12 @@ var fire_rate: float = 0.25
 var fire_timer: float = 0.0
 var pierce_limit: int = 0
 
+var max_health: int = 100
+var health: int = max_health
+
 func _ready() -> void:
 	SignalBus.player_hit.connect(_handle_player_hit)
+	SignalBus.player_health_changed.emit(health, max_health)
 
 func y_sort(a, b) -> bool:
 	return a.global_position.y > b.global_position.y
@@ -37,4 +41,5 @@ func can_fire() -> bool:
 
 func _handle_player_hit(amount: float) -> void:
 	print("hit player for ", amount)
-	
+	health -= amount
+	SignalBus.player_health_changed.emit(health, max_health)
