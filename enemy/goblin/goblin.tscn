@@ -1,10 +1,11 @@
-[gd_scene load_steps=38 format=3 uid="uid://ig6r4vx2lh42"]
+[gd_scene load_steps=39 format=3 uid="uid://ig6r4vx2lh42"]
 
 [ext_resource type="Script" path="res://enemy/goblin/goblin.gd" id="1_e47dg"]
 [ext_resource type="Texture2D" uid="uid://co72xp4d5ocs1" path="res://sprites/goblin/Attack.png" id="1_hy3uc"]
 [ext_resource type="Texture2D" uid="uid://1714yb4lpu7s" path="res://sprites/goblin/Death.png" id="2_r88p0"]
 [ext_resource type="Texture2D" uid="uid://cfdikbwtx8kmi" path="res://sprites/goblin/Idle.png" id="3_bcowc"]
 [ext_resource type="Texture2D" uid="uid://grc21bp00267" path="res://sprites/goblin/Run.png" id="4_536f8"]
+[ext_resource type="AudioStream" uid="uid://btwhoq1l4b5jw" path="res://sfx/sword_slash.wav" id="6_uixm2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2kj02"]
 atlas = ExtResource("1_hy3uc")
@@ -271,6 +272,34 @@ tracks/1/keys = {
 "update": 1,
 "values": [2, 3, 4, 5, 6, 7]
 }
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attack_anim_finished"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SwordSlashSFX")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_rlkd2"]
 resource_name = "death"
@@ -389,6 +418,9 @@ shape = SubResource("CapsuleShape2D_maymc")
 libraries = {
 "": SubResource("AnimationLibrary_avf41")
 }
+
+[node name="SwordSlashSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_uixm2")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

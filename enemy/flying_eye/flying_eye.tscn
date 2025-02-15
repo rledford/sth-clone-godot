@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dd0fehrxjoklw" path="res://sprites/flying_eye/Attack.png" id="2_0gb1x"]
 [ext_resource type="Texture2D" uid="uid://cxw4te6l6acu6" path="res://sprites/flying_eye/Death.png" id="3_oitif"]
 [ext_resource type="Texture2D" uid="uid://csisgh6qjiueu" path="res://sprites/flying_eye/Flight.png" id="4_v6bv5"]
-[ext_resource type="AudioStream" uid="uid://c1ge1sdlqlfxt" path="res://sfx/rifle.wav" id="5_u3m8m"]
+[ext_resource type="AudioStream" uid="uid://b38sex0bsies1" path="res://sfx/bite.wav" id="5_stqpa"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_334yu"]
 radius = 23.0
@@ -271,7 +271,7 @@ tracks/4/path = NodePath("BiteSFX")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.8),
+"times": PackedFloat32Array(0.2),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [0.0],
@@ -399,7 +399,7 @@ libraries = {
 }
 
 [node name="BiteSFX" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_u3m8m")
+stream = ExtResource("5_stqpa")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
