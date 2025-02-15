@@ -1,19 +1,27 @@
+class_name Player
 extends Node2D
 
 @onready var area_2d: Area2D = $Area2D
 @onready var audio_stream_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
+
+const scene = preload("res://player/player.tscn")
 
 var damage: float = 1.0
 var fire_rate: float = 0.25
 var fire_timer: float = 0.0
 var pierce_limit: int = 0
 
-var max_health: int = 100
-var health: int = max_health
+var _max_health: int
+var _health: int
+
+static func create(health: int, max_health: int) -> Player:
+	var instance = scene.instantiate()
+	instance._max_health = max_health
+	instance._health = health
+	return instance
 
 func _ready() -> void:
 	SignalBus.player_hit.connect(_handle_player_hit)
-	SignalBus.player_health_changed.emit(health, max_health)
 
 func y_sort(a, b) -> bool:
 	return a.global_position.y > b.global_position.y
@@ -41,5 +49,5 @@ func can_fire() -> bool:
 
 func _handle_player_hit(amount: float) -> void:
 	print("hit player for ", amount)
-	health -= amount
-	SignalBus.player_health_changed.emit(health, max_health)
+	_health -= amount
+	SignalBus.player_health_changed.emit(_health, _max_health)
