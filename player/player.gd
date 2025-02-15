@@ -30,7 +30,7 @@ func _process(delta: float) -> void:
 	global_position = get_global_mouse_position()
 	if fire_timer > 0:
 		fire_timer -= delta
-	
+
 func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("shoot") and can_fire():
 		audio_stream_player.play()
@@ -48,6 +48,10 @@ func can_fire() -> bool:
 	return fire_timer <= 0
 
 func _handle_player_hit(amount: float) -> void:
-	print("hit player for ", amount)
-	_health -= amount
-	SignalBus.player_health_changed.emit(_health, _max_health)
+	var new_health = max(_health - amount, 0)
+	_health = new_health
+	
+	SignalBus.player_health_changed.emit(new_health, _max_health)
+	
+	if(new_health == 0):
+		SignalBus.player_died.emit()
