@@ -3,14 +3,24 @@ class_name Enemy
 
 signal hit(damage: float)
 
+@export var hp: int = 2.0
+@export var damage: int = 1.0
+@export var speed: float = 100.0
+
+var attack_position = Vector2.INF
+var hit_particle = preload("res://particles/enemy_hit_particle.tscn")
+var hit_particle_color: Color = Color.RED
+var fsm: StateMachine
+
 func filter_attack_areas(area) -> bool:
 	return area is CollisionShape2D
 
-func _get_attack_position() -> Vector2:
+func _update_attack_position() -> void:
 	var areas = get_tree().get_nodes_in_group("attack_areas").filter(filter_attack_areas) as Array[CollisionShape2D]
 	var target = areas.pick_random() as CollisionShape2D
 	if not target:
-		return Vector2.INF
+		attack_position = Vector2.INF
+		return 
 	var target_size = target.shape.get_rect().size as Vector2
 	var rand_x = target.global_position.x - (target_size.x * 0.5)
 	
@@ -18,7 +28,14 @@ func _get_attack_position() -> Vector2:
 		target.global_position.y - (target_size.y * 0.5),
 		target.global_position.y + (target_size.y * 0.5)
 	)
-	return Vector2(rand_x, rand_y)
+	
+	attack_position = Vector2(rand_x, rand_y)
+	
+func has_valid_attack_position() -> bool:
+	return attack_position and attack_position != Vector2.INF
+
+func attack_anim_finished() -> void:
+	SignalBus.player_hit.emit(damage)
 
 func flip() -> void:
 	if velocity.x > 0.0:
@@ -27,7 +44,15 @@ func flip() -> void:
 		scale.x = scale.y * -1
 
 func _handle_hit(_amount: float) -> void:
-	print("_handle_hit not implemented")
+	hp -= _amount
+	if hp <= 0:
+		fsm.change_state("death")
+
+	var particle = hit_particle.instantiate() as CPUParticles2D
+	particle.color = hit_particle_color
+	particle.color_ramp.colors
+	particle.one_shot = true
+	add_child(particle)
 
 func _enter_tree() -> void:
 	hit.connect(_handle_hit)
