@@ -33,6 +33,7 @@ func attack_state_enter():
 	anim.play("attack")
 		
 func death_state_enter():
+	SignalBus.enemy_died.emit(coin_reward)
 	anim.play("death")
 	collider.disabled = true
 

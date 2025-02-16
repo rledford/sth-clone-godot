@@ -3,8 +3,9 @@ class_name Enemy
 
 signal hit(damage: float)
 
-@export var hp: int = 2.0
-@export var damage: int = 1.0
+@export var coin_reward: int = 1
+@export var hp: int = 2
+@export var damage: int = 1
 @export var speed: float = 100.0
 
 var attack_position = Vector2.INF
@@ -50,7 +51,6 @@ func _handle_hit(_amount: float) -> void:
 
 	var particle = hit_particle.instantiate() as CPUParticles2D
 	particle.color = hit_particle_color
-	particle.color_ramp.colors
 	particle.one_shot = true
 	add_child(particle)
 

@@ -9,6 +9,7 @@ func _ready() -> void:
 	damage = 1
 	speed = 80.0
 	hit_particle_color = Color.BLUE
+	coin_reward = 2
 	init_fsm()
 
 func idle_state_enter():
@@ -34,6 +35,7 @@ func attack_state_enter():
 	anim.play("attack")
 		
 func death_state_enter():
+	SignalBus.enemy_died.emit(coin_reward)
 	anim.play("death")
 	collider.disabled = true
 
