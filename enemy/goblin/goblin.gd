@@ -3,6 +3,7 @@ extends Enemy
 @export var hp: float = 2.0
 @export var speed: float = 80.0
 @export var damage: float = 1.0
+@export var coin_reward: int = 2
 
 @onready var collider: CollisionShape2D = $CollisionShape2D
 @onready var anim: AnimationPlayer = $AnimationPlayer
@@ -38,6 +39,7 @@ func attack_state_enter():
 	anim.play("attack")
 		
 func death_state_enter():
+	SignalBus.enemy_died.emit(coin_reward)
 	anim.play("death")
 	collider.disabled = true
 
