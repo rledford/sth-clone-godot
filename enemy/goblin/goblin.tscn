@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://ig6r4vx2lh42"]
+[gd_scene load_steps=40 format=3 uid="uid://ig6r4vx2lh42"]
 
 [ext_resource type="Script" path="res://enemy/goblin/goblin.gd" id="1_e47dg"]
 [ext_resource type="Texture2D" uid="uid://co72xp4d5ocs1" path="res://sprites/goblin/Attack.png" id="1_hy3uc"]
@@ -386,11 +386,41 @@ tracks/1/keys = {
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
 }
 
+[sub_resource type="Animation" id="Animation_kh46b"]
+resource_name = "idle"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_avf41"]
 _data = {
 "RESET": SubResource("Animation_iw2ej"),
 "attack": SubResource("Animation_8003s"),
 "death": SubResource("Animation_rlkd2"),
+"idle": SubResource("Animation_kh46b"),
 "move": SubResource("Animation_evq22")
 }
 
