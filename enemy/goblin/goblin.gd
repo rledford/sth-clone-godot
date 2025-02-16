@@ -1,18 +1,14 @@
 extends Enemy
 
-@export var hp: float = 2.0
-@export var speed: float = 80.0
-@export var damage: float = 1.0
-
 @onready var collider: CollisionShape2D = $CollisionShape2D
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
-var fsm: StateMachine
-var attack_position: Vector2
-
 func _ready() -> void:
-	attack_position = Vector2.INF
+	hp = 2
+	damage = 1
+	speed = 80.0
+	hit_particle_color = Color.BLUE
 	init_fsm()
 
 func idle_state_enter():
@@ -23,7 +19,7 @@ func idle_state_enter():
 func idle_state_update(_delta: float):
 	if has_valid_attack_position():
 		return fsm.change_state("search")
-	attack_position = _get_attack_position()
+	_update_attack_position()
 
 func search_state_enter():
 	anim.play("move")
@@ -41,14 +37,6 @@ func death_state_enter():
 	anim.play("death")
 	collider.disabled = true
 
-		
-func has_valid_attack_position() -> bool:
-	return attack_position and attack_position != Vector2.INF
-
-func attack_anim_finished() -> void:
-	# emit hit on player
-	SignalBus.player_hit.emit(damage)
-
 func init_fsm() -> void:
 	fsm = StateMachine.new()
 	
@@ -65,11 +53,6 @@ func init_fsm() -> void:
 	fsm.add_state("death", death_state)
 
 	fsm.change_state("idle")
-
-func _handle_hit(_amount: float) -> void:
-	hp -= _amount
-	if hp <= 0:
-		fsm.change_state("death")
 
 func _on_area_2d_area_entered(_area: Area2D) -> void:
 	fsm.change_state("attack")

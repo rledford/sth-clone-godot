@@ -69,6 +69,9 @@ func shoot() -> void:
 		if i >= pierce_limit:
 			break
 	
+	if not len(enemies):
+		SignalBus.shot_hit_ground.emit(global_position)
+	
 	fire_timer = fire_rate
 	
 	var new_ammo = _ammo - 1
