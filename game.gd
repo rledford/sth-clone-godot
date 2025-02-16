@@ -13,13 +13,16 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	SignalBus.player_died.connect(_handle_player_died)
 	
-	var max_health = 100
+	var max_health = 10
 	var health = max_health
+	
+	var max_ammo = 7
+	var ammo = max_ammo
 
-	var player = Player.create(health, max_health)
+	var player = Player.create(health, max_health, ammo, max_ammo)
 	add_child(player)
 
-	var hud = HUD.create(health, max_health)
+	var hud = HUD.create(health, max_health, ammo, max_ammo)
 	add_child(hud)
 
 func _handle_player_died() -> void:
