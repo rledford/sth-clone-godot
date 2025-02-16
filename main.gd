@@ -8,7 +8,6 @@ func _ready() -> void:
 	SignalBus.start_new_game.connect(_handle_new_game)
 	_new_game()
 
-
 func _new_game() -> void:
 	_game = Game.create()
 	add_child(_game)
