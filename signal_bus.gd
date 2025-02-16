@@ -7,3 +7,5 @@ signal player_hit(damage: int)
 signal player_died
 signal player_health_changed(health: int)
 signal player_ammo_changed(ammo: int)
+
+signal shot_hit_ground(global_position: Vector2)

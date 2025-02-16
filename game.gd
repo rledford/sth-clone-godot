@@ -13,7 +13,7 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	SignalBus.player_died.connect(_handle_player_died)
 	
-	var max_health = 10
+	var max_health = 100
 	var health = max_health
 	
 	var max_ammo = 7
