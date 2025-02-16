@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccvlgxna8aace"]
+
+[sub_resource type="Gradient" id="Gradient_c4jwi"]
+colors = PackedColorArray(0.513233, 0.513233, 0.513233, 1, 1, 1, 1, 1)
+
+[node name="EnemyHitParticle" type="CPUParticles2D"]
+amount = 100
+lifetime = 0.5
+explosiveness = 0.75
+randomness = 1.0
+lifetime_randomness = 0.5
+local_coords = true
+emission_shape = 1
+emission_sphere_radius = 10.0
+gravity = Vector2(0, 200)
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+linear_accel_max = 80.0
+radial_accel_min = 50.0
+radial_accel_max = 100.0
+scale_amount_min = 0.1
+scale_amount_max = 2.5
+color_ramp = SubResource("Gradient_c4jwi")

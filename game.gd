@@ -15,7 +15,7 @@ func _ready() -> void:
 	SignalBus.player_died.connect(_handle_player_died)
 	SignalBus.enemy_died.connect(_handle_enemy_died)
 	
-	var max_health = 10
+	var max_health = 100
 	var health = max_health
 	
 	var max_ammo = 7

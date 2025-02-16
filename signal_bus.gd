@@ -11,3 +11,5 @@ signal player_ammo_changed(ammo: int)
 signal enemy_died(coins: int)
 
 signal coins_changed(coins: int)
+
+signal shot_hit_ground(global_position: Vector2)
