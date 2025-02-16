@@ -2,12 +2,14 @@ class_name Player
 extends Node2D
 
 @onready var area_2d: Area2D = $Area2D
-@onready var audio_stream_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready var shoot_audio_stream: AudioStreamPlayer2D = $ShootAudioStream
+@onready var no_ammo_audio_stream: AudioStreamPlayer2D = $NoAmmoAudioStream
+@onready var single_bullet_load_stream: AudioStreamPlayer2D = $SingleBulletLoadStream
 
 const scene = preload("res://player/player.tscn")
 
 var damage: float = 1.0
-var fire_rate: float = 0.25
+var fire_rate: float = 0.1
 var fire_timer: float = 0.0
 var pierce_limit: int = 0
 
@@ -17,7 +19,7 @@ var _ammo: int
 var _max_ammo: int
 
 var _is_reloading: bool = false
-var _reload_time: float = 2.0
+var _reload_time: float = 3.0
 var _reload_timer: float = 0.0
 
 static func create(health: int, max_health: int, ammo: int, max_ammo: int) -> Player:
@@ -44,8 +46,11 @@ func _process(delta: float) -> void:
 		update_reload(delta)
 
 func _physics_process(_delta: float) -> void:
-	if Input.is_action_just_pressed("shoot") and can_shoot():
-		shoot()
+	if Input.is_action_just_pressed("shoot"):
+		if can_shoot():
+			shoot()
+		else:
+			no_ammo_audio_stream.play()
 	elif Input.is_action_just_pressed("reload") and can_reload():
 		reload()
 
@@ -55,7 +60,7 @@ func can_shoot() -> bool:
 func shoot() -> void:
 	_is_reloading = false
 	
-	audio_stream_player.play()
+	shoot_audio_stream.play()
 	var enemies = area_2d.get_overlapping_bodies()
 	enemies.sort_custom(y_sort)
 	for i in range(len(enemies)):
@@ -81,7 +86,12 @@ func reload() -> void:
 
 func update_reload(delta: float) -> void:
 	_reload_timer = max(_reload_timer - delta, 0)
-	var new_ammo = _max_ammo * ((_reload_time - _reload_timer) / _reload_time)
+	
+	var new_ammo = floor(_max_ammo * ((_reload_time - _reload_timer) / _reload_time))
+	
+	if new_ammo > _ammo:
+		single_bullet_load_stream.play()
+	
 	_ammo = new_ammo
 	SignalBus.player_ammo_changed.emit(new_ammo, _max_ammo)
 	
