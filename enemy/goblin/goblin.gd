@@ -55,9 +55,3 @@ func init_fsm() -> void:
 	fsm.add_state("death", death_state)
 
 	fsm.change_state("idle")
-
-func _on_area_2d_area_entered(_area: Area2D) -> void:
-	fsm.change_state("attack")
-
-func _on_area_2d_area_exited(_area: Area2D) -> void:
-	fsm.change_state("idle")
