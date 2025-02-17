@@ -44,13 +44,13 @@ func _process(delta: float) -> void:
 	if _is_reloading:
 		update_reload(delta)
 
-func _physics_process(_delta: float) -> void:
-	if Input.is_action_just_pressed("shoot"):
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("shoot"):
 		if can_shoot():
 			shoot()
 		else:
 			no_ammo_audio_stream.play()
-	elif Input.is_action_just_pressed("reload") and can_reload():
+	elif event.is_action_pressed("reload") and can_reload():
 		reload()
 
 func can_shoot() -> bool:

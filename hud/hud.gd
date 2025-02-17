@@ -6,6 +6,7 @@ extends CanvasLayer
 @onready var ammo_bar: ProgressBar = %AmmoBar
 @onready var ammo_bar_label: Label = %AmmoBarLabel
 @onready var coin_label: Label = %CoinLabel
+@onready var shop_btn: Button = %ShopButton
 
 const scene = preload("res://hud/hud.tscn")
 
@@ -37,6 +38,8 @@ func _ready() -> void:
 	ammo_bar.value = _init_ammo
 	ammo_bar.max_value = _init_max_ammo
 	update_ammo_bar_text()
+
+	shop_btn.pressed.connect(func(): SignalBus.open_upgrade_menu.emit() )
 
 	_update_coin_label(_init_coins)
 	SignalBus.coins_changed.connect(_handle_coins_changed)
