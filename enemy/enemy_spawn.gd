@@ -3,8 +3,9 @@ extends Node2D
 const FlyingEye = preload("res://enemy/flying_eye/flying_eye.tscn")
 const Goblin = preload("res://enemy/goblin/goblin.tscn")
 const Skeleton = preload("res://enemy/skeleton/skeleton.tscn")
+const Mushroom = preload("res://enemy/mushroom/mushroom.tscn")
 
-const enemy_variants: Array[PackedScene] = [FlyingEye, Goblin, Skeleton]
+const enemy_variants: Array[PackedScene] = [FlyingEye, Goblin, Skeleton, Mushroom]
 
 var spawn_time = 2.0
 var spawn_timer = 0.0

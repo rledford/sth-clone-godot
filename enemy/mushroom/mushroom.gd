@@ -6,14 +6,14 @@ extends Enemy
 
 func _ready() -> void:
 	hp = 2
-	damage = 1
-	speed = 80.0
+	damage = 3
+	speed = 50.0
 	init_fsm()
 
 func idle_state_enter():
 	if not attack_position:
 		return
-	anim.play("fly")
+	anim.play("idle")
 
 func idle_state_update(_delta: float):
 	if has_valid_attack_position():
@@ -21,7 +21,7 @@ func idle_state_update(_delta: float):
 	_update_attack_position()
 
 func move_state_enter():
-	anim.play("fly")
+	anim.play("run")
 	
 func move_state_update(_delta: float):
 	if collider.global_position.distance_to(attack_position) > 10:
