@@ -7,7 +7,7 @@ extends Enemy
 func _ready() -> void:
 	hp = 2
 	damage = 1
-	speed = 80.0
+	speed = 120.0
 	hit_particle_color = Color.BLUE
 	coin_reward = 2
 	init_fsm()
