@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://dbl6fw50m6ps8"]
+[gd_scene load_steps=47 format=3 uid="uid://dbl6fw50m6ps8"]
 
 [ext_resource type="Script" path="res://enemy/skeleton/skeleton.gd" id="1_des4f"]
 [ext_resource type="Texture2D" uid="uid://bc5473l7ser4e" path="res://sprites/skeleton/Attack.png" id="2_dryqp"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://baoa5x65lnhel" path="res://sprites/skeleton/Idle.png" id="5_dds06"]
 [ext_resource type="Texture2D" uid="uid://bhhipsj7xftff" path="res://sprites/skeleton/Walk.png" id="6_kdlnu"]
 [ext_resource type="Texture2D" uid="uid://g0e3duhisl7a" path="res://sprites/skeleton/Take Hit.png" id="7_b2t8m"]
+[ext_resource type="AudioStream" uid="uid://dujfgu5fokhg5" path="res://sfx/shield_block.ogg" id="8_f7exi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mm7bu"]
 radius = 27.5136
@@ -383,7 +384,7 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id="Animation_p717h"]
 resource_name = "block"
-length = 0.4
+length = 0.3
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -404,10 +405,10 @@ tracks/1/path = NodePath("AnimatedSprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3]
+"values": [1, 2, 3]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -416,10 +417,10 @@ tracks/2/path = NodePath("CollisionShape2D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(15, -2)]
+"values": [Vector2(15, -2), Vector2(18, -2)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -428,10 +429,10 @@ tracks/3/path = NodePath("HitBlockedPoint:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.1, 0.4),
+"times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(20, -4), Vector2(27, -4)]
+"update": 1,
+"values": [Vector2(20, -4), Vector2(28, -4)]
 }
 
 [sub_resource type="Animation" id="Animation_s2ktj"]
@@ -600,5 +601,8 @@ libraries = {
 
 [node name="HitBlockedPoint" type="Node2D" parent="."]
 position = Vector2(27, -4)
+
+[node name="ShieldBlockSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_f7exi")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

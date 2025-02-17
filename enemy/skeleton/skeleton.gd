@@ -6,6 +6,7 @@ const SparkParticle = preload("res://particles/spark_particle.tscn")
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var hit_blocked_point: Node2D = $HitBlockedPoint
+@onready var shield_block_sfx: AudioStreamPlayer2D = $ShieldBlockSFX
 
 @export var block_time = 4.5
 var block_timer = 0.0
@@ -27,7 +28,14 @@ func _handle_hit(damage: int) -> void:
 		spark.one_shot = true
 		spark.color = Color.YELLOW
 		spark.position = hit_blocked_point.position
+		
 		add_child(spark)
+		
+		anim.seek(0, true)
+		anim.play()
+		
+		shield_block_sfx.play()
+		
 		return
 	
 	super._handle_hit(damage)
