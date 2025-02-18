@@ -31,7 +31,6 @@ func _handle_hit(damage: int) -> void:
 		
 		add_child(spark)
 		
-		# only recoil when in block state (not while blocking in mid-attack)
 		if fsm.get_current_state_id() == "block":
 			anim.seek(0, true)
 			anim.play()
