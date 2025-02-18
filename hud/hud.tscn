@@ -66,11 +66,20 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="CoinLabel" type="Label" parent="MarginContainer/HBoxContainer/CoinPanel/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/CoinPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="CoinLabel" type="Label" parent="MarginContainer/HBoxContainer/CoinPanel/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "0"
+
+[node name="ShopButton" type="Button" parent="MarginContainer/HBoxContainer/CoinPanel/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "BUY"
 
 [node name="HealthBarContainer" type="Control" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2

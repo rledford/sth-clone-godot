@@ -9,7 +9,8 @@ extends Node2D
 const scene = preload("res://player/player.tscn")
 
 var damage: float = 1.0
-var fire_rate: float = 0.1
+var base_fire_rate: float = 0.2
+var fire_rate: float = base_fire_rate
 var fire_timer: float = 0.0
 var pierce_limit: int = 0
 
@@ -34,6 +35,10 @@ static func create(health: int, max_health: int, ammo: int, max_ammo: int) -> Pl
 func _ready() -> void:
 	SignalBus.player_hit.connect(_handle_player_hit)
 
+	ClipSizeUpgrade.new().level_change.connect(_handle_clip_size_upgrade)
+	FireRateUpgrade.new().level_change.connect(_handle_fire_rate_upgrade)
+
+
 func y_sort(a, b) -> bool:
 	return a.global_position.y > b.global_position.y
 
@@ -44,17 +49,19 @@ func _process(delta: float) -> void:
 	if _is_reloading:
 		update_reload(delta)
 
-func _physics_process(_delta: float) -> void:
-	if Input.is_action_just_pressed("shoot"):
-		if can_shoot():
-			shoot()
-		else:
-			no_ammo_audio_stream.play()
-	elif Input.is_action_just_pressed("reload") and can_reload():
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("shoot"):
+		_handle_shoot()
+	elif event.is_action_pressed("reload") and can_reload():
 		reload()
 
-func can_shoot() -> bool:
-	return _ammo > 0 and fire_timer <= 0
+func _handle_shoot() -> void:
+	if _ammo < 0:
+		no_ammo_audio_stream.play()
+		return
+	if fire_timer > 0:
+		return
+	shoot()
 	
 func shoot() -> void:
 	_is_reloading = false
@@ -108,3 +115,11 @@ func _handle_player_hit(amount: int) -> void:
 	
 	if(new_health == 0):
 		SignalBus.player_died.emit()
+
+# These would probably be simpler if we create gun and magazine classes
+func _handle_clip_size_upgrade(level: int):
+	_max_ammo = 7 + level
+	SignalBus.player_ammo_changed.emit(_ammo, _max_ammo)
+
+func _handle_fire_rate_upgrade(level: int):
+	fire_rate =  base_fire_rate - (level * base_fire_rate * 0.1)
