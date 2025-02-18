@@ -44,7 +44,7 @@ func flip() -> void:
 	elif velocity.x < -0.0:
 		scale.x = scale.y * -1
 
-func _handle_hit(_amount: float) -> void:
+func _handle_hit(_amount: int) -> void:
 	hp -= _amount
 	if hp <= 0:
 		fsm.change_state("death")
@@ -56,3 +56,9 @@ func _handle_hit(_amount: float) -> void:
 
 func _enter_tree() -> void:
 	hit.connect(_handle_hit)
+	
+func _on_area_2d_area_entered(_area: Area2D) -> void:
+	fsm.change_state("attack")
+
+func _on_area_2d_area_exited(_area: Area2D) -> void:
+	fsm.change_state("idle")

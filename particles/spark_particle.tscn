@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://t6aeieg7juhm"]
+
+[node name="SparkParticle_tscn" type="CPUParticles2D"]
+amount = 5
+lifetime = 0.5
+explosiveness = 0.75
+emission_shape = 1
+emission_sphere_radius = 11.22
+gravity = Vector2(0, 125)
+scale_amount_max = 3.0

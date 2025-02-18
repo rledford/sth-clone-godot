@@ -19,7 +19,7 @@ var _ammo: int
 var _max_ammo: int
 
 var _is_reloading: bool = false
-var _reload_time: float = 3.0
+var _reload_time: float = 2.5
 var _reload_timer: float = 0.0
 
 static func create(health: int, max_health: int, ammo: int, max_ammo: int) -> Player:
@@ -42,7 +42,6 @@ func _process(delta: float) -> void:
 	if fire_timer > 0:
 		fire_timer -= delta
 	if _is_reloading:
-		_reload_timer -= delta
 		update_reload(delta)
 
 func _physics_process(_delta: float) -> void:
