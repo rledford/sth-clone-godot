@@ -8,14 +8,14 @@ const SparkParticle = preload("res://particles/spark_particle.tscn")
 @onready var hit_blocked_point: Node2D = $HitBlockedPoint
 @onready var shield_block_sfx: AudioStreamPlayer2D = $ShieldBlockSFX
 
-@export var block_time = 4.5
+@export var block_time = 1.5
 var block_timer = 0.0
 var state_id_before_block_started: String
 
 var is_blocking = false
 
 func _ready() -> void:
-	hp = 2
+	hp = 3
 	damage = 3
 	speed = 35.0
 	hit_particle_color = Color.BLACK

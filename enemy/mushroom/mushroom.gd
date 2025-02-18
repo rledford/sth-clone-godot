@@ -5,9 +5,9 @@ extends Enemy
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready() -> void:
-	hp = 2
-	damage = 3
-	speed = 50.0
+	hp = 6
+	damage = 5
+	speed = 45.0
 	init_fsm()
 
 func idle_state_enter():
