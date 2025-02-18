@@ -33,7 +33,10 @@ static func create(health: int, max_health: int, ammo: int, max_ammo: int) -> Pl
 
 func _ready() -> void:
 	SignalBus.player_hit.connect(_handle_player_hit)
-	SignalBus.upgrade_purchased.connect(_handle_upgrade_purchased)
+
+	ClipSizeUpgrade.new().level_change.connect(_handle_clip_size_upgrade)
+	FireRateUpgrade.new().level_change.connect(_handle_fire_rate_upgrade)
+
 
 func y_sort(a, b) -> bool:
 	return a.global_position.y > b.global_position.y
@@ -110,11 +113,12 @@ func _handle_player_hit(amount: int) -> void:
 	if(new_health == 0):
 		SignalBus.player_died.emit()
 
-# NOTE: Needs to be refactored later when we separate magazine and such as their own classes
-func _handle_upgrade_purchased(upgrade_id: String, _level: int):
-	if(upgrade_id == 'clip_size'):
-		_max_ammo += 1
-		SignalBus.player_ammo_changed.emit(_ammo, _max_ammo)
-	if(upgrade_id == "fire_rate"):
-		fire_rate = fire_rate * 0.9
-	
+# These would probably be simpler if we create gun and magazine classes
+func _handle_clip_size_upgrade(level: int):
+	_max_ammo = 7 + level
+	SignalBus.player_ammo_changed.emit(_ammo, _max_ammo)
+
+# This one seems to be bugged a bit not sure
+func _handle_fire_rate_upgrade(level: int):
+	var base = 0.2
+	fire_rate =  base - (level * base * 0.1)

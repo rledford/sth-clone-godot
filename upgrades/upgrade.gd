@@ -1,19 +1,27 @@
 extends Resource
-class_name UpgradeDefinition
+class_name Upgrade
 
-@export var id: String
-@export var name: String
-@export var cost: int
 
-func _init(_id: String, _name: String, _cost: int) -> void:
-	self.id = _id
-	self.name = _name
-	self.cost = _cost
+var name: String
+var id: String
+var _level: int = 0
 
-# NOTE: This class needs to change into being an "abstract upgrade", with the actual upgrades being subclasses of this class, sadly we don't have abstract classes or interfaces in GDScript, so we'll have to make do with this
-# The upgrade system would have a way to "register" upgrades, so other systems can "push them out" to the menu, so they would own them and the upgrade system stays "simple"
-static func get_all() -> Array:
-	return [
-		UpgradeDefinition.new("clip_size", "Clip Size", 10),
-		UpgradeDefinition.new("fire_rate", "Fire Rate", 10),
-	]
+signal level_increase
+signal level_change(level: int)
+
+func getCost() -> int:
+	assert("getCost needs to be implemented in subclasses")
+	return _level * 0
+
+func getLevel() -> int:
+	return _level
+
+func getLabel() -> String:
+	return name + " " + str(_level)
+
+func _increment_level() -> void:
+	_level += 1
+	level_change.emit(_level)
+
+func _on_level_increase() -> void:
+	_increment_level()

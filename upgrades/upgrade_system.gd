@@ -1,31 +1,31 @@
 class_name UpgradeSystem
 extends Resource
 
-var _upgrades = UpgradeDefinition.get_all()
-
-func _create_upgrade_levels(upgrades)->Dictionary:
-	var result: Dictionary = {}
-	for upgrade in upgrades:
-		result[upgrade.id] = 0
-	return result
-
-var _upgrade_levels: Dictionary
+var _upgrades: Array
 
 var _state: GameState
 
 func _init(state) -> void:
-	_upgrade_levels = _create_upgrade_levels(_upgrades)
+	_upgrades = []
 	_state = state
 
+	SignalBus.register_upgrade.connect(_handle_register_upgrade)
 	SignalBus.attempt_upgrade.connect(_handle_attempt_upgrade)
 
-func can_afford(upgrade: UpgradeDefinition) -> bool:
-	return _state.get_coins() >= upgrade.cost
+func can_afford(upgrade: Upgrade) -> bool:
+	return _state.get_coins() >= upgrade.getCost()	
 
-func _handle_attempt_upgrade(upgrade: UpgradeDefinition) -> void:
+func get_upgrades() -> Array:
+	return _upgrades
+
+func _handle_attempt_upgrade(upgrade: Upgrade) -> void:
 	if not can_afford(upgrade): return
+	
+	var cost = upgrade.getCost()
 
-	_state.decrease_coins.emit(upgrade.cost)
-	_upgrade_levels[upgrade.id] += 1
+	_state.decrease_coins.emit(cost)
 
-	SignalBus.upgrade_purchased.emit(upgrade.id, _upgrade_levels[upgrade.id])
+	upgrade.level_increase.emit()
+
+func _handle_register_upgrade(upgrade: Upgrade) -> void:
+	_upgrades.append(upgrade)

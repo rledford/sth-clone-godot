@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bxn8amhs6oilh"]
 
-[ext_resource type="Script" path="res://upgrades/upgrade_menu.gd" id="1_7f686"]
+[ext_resource type="Script" path="res://upgrades/menu/upgrade_menu.gd" id="1_7f686"]
 
 [node name="UpgradeMenu" type="Control"]
 z_index = 4

@@ -45,7 +45,7 @@ func _handle_open_upgrade_menu() -> void:
 	if get_tree().root.has_node("UpgradeMenu"): return
 	
 	# Creating the menu on the spot here, but it might be better to keep it around and hide/show it when needed?
-	var upgrade_menu = UpgradeMenu.create()
+	var upgrade_menu = UpgradeMenu.create(_state.get_upgrade_system())
 
 	# Not exactly sure if we should be hiding the HUD, we shuffle the menu around to keep it visible, since the information is still relevant
 	_hud.hide()

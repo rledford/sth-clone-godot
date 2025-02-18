@@ -3,16 +3,19 @@ class_name UpgradeMenu
 
 @onready var upgrades_grid: GridContainer = %UpgradesGrid
 @onready var close_btn: Button = %CloseButton
-const scene = preload("res://upgrades/upgrade_menu.tscn")
+const scene = preload("res://upgrades/menu/upgrade_menu.tscn")
 
-static func create() -> UpgradeMenu:
+var _upgrade_system: UpgradeSystem
+
+static func create(upgrade_system: UpgradeSystem) -> UpgradeMenu:
 	var instance = scene.instantiate()
+	instance._upgrade_system = upgrade_system
 	return instance
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	close_btn.pressed.connect(_on_close)
-	var upgrades = UpgradeDefinition.get_all()
+	var upgrades = _upgrade_system.get_upgrades()
 	for upgrade in upgrades:
 		var upgrade_item = UpgradeMenuButton.create(upgrade)
 		upgrades_grid.add_child(upgrade_item)

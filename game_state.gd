@@ -40,6 +40,9 @@ func get_ammo() -> int:
 func get_max_ammo() -> int:
 	return _max_ammo
 
+func get_upgrade_system() -> UpgradeSystem:
+	return _upgrades
+
 func _handle_player_died() -> void:
 	SignalBus.game_over.emit(_wave, _coins)
 

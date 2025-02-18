@@ -19,4 +19,5 @@ signal open_upgrade_menu
 signal close_upgrade_menu
 
 signal upgrade_purchased(upgrade_id: String, level: int)
-signal attempt_upgrade(upgrade: UpgradeDefinition)
+signal attempt_upgrade(upgrade: Upgrade)
+signal register_upgrade(upgrade: Upgrade)
