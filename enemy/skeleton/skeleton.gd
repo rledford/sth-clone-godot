@@ -19,7 +19,7 @@ func _ready() -> void:
 	damage = 3
 	speed = 35.0
 	hit_particle_color = Color.BLACK
-	coin_reward = 4
+	coin_reward = 5
 	init_fsm()
 	
 func _handle_hit(damage: int) -> void:

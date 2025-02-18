@@ -8,8 +8,8 @@ func _ready() -> void:
 	hp = 1
 	damage = 2
 	speed = 120.0
-	hit_particle_color = Color.BLUE
 	coin_reward = 2
+	hit_particle_color = Color.BLUE
 	init_fsm()
 
 func idle_state_enter():

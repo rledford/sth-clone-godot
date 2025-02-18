@@ -8,6 +8,7 @@ func _ready() -> void:
 	hp = 2
 	damage = 1
 	speed = 80.0
+	coin_reward = 3
 	init_fsm()
 
 func idle_state_enter():
