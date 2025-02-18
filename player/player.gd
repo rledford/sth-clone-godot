@@ -9,7 +9,8 @@ extends Node2D
 const scene = preload("res://player/player.tscn")
 
 var damage: float = 1.0
-var fire_rate: float = 0.1
+var base_fire_rate: float = 0.2
+var fire_rate: float = base_fire_rate
 var fire_timer: float = 0.0
 var pierce_limit: int = 0
 
@@ -50,15 +51,17 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("shoot"):
-		if can_shoot():
-			shoot()
-		else:
-			no_ammo_audio_stream.play()
+		_handle_shoot()
 	elif event.is_action_pressed("reload") and can_reload():
 		reload()
 
-func can_shoot() -> bool:
-	return _ammo > 0 and fire_timer <= 0
+func _handle_shoot() -> void:
+	if _ammo < 0:
+		no_ammo_audio_stream.play()
+		return
+	if fire_timer > 0:
+		return
+	shoot()
 	
 func shoot() -> void:
 	_is_reloading = false
@@ -118,7 +121,5 @@ func _handle_clip_size_upgrade(level: int):
 	_max_ammo = 7 + level
 	SignalBus.player_ammo_changed.emit(_ammo, _max_ammo)
 
-# This one seems to be bugged a bit not sure
 func _handle_fire_rate_upgrade(level: int):
-	var base = 0.2
-	fire_rate =  base - (level * base * 0.1)
+	fire_rate =  base_fire_rate - (level * base_fire_rate * 0.1)
