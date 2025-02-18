@@ -3,51 +3,43 @@ extends Node2D
 
 const scene = preload("res://game.tscn")
 
-# TODO: What relates to upgrades might be better placed in a separate class
-# It might need to be placed as a sibling of Game, or above
-# Due to wanting to pause the "Game" when the upgrade menu is open (Do we want this?)
-var upgrades = UpgradeDefinition.get_all()
-
-func create_upgrade_levels(_upgrades)->Dictionary:
-	var result: Dictionary = {}
-	for upgrade in _upgrades:
-		result[upgrade.id] = 0
-	return result
-
-var _upgrade_levels = create_upgrade_levels(upgrades)
-
-var _wave: int = 1
-var _coins: int = 0
-var _hud: HUD
 
 static func create() -> Game:
 	var instance = scene.instantiate()
 	return instance
 
+
+var _hud: HUD
+var _state: GameState
+
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	_state = GameState.new()
 	SignalBus.player_died.connect(_handle_player_died)
-	SignalBus.enemy_died.connect(_handle_enemy_died)
 	SignalBus.open_upgrade_menu.connect(_handle_open_upgrade_menu)
 	
-	var max_health = 100
-	var health = max_health
-	
-	var max_ammo = 7
-	var ammo = max_ammo
+	var player = Player.create(
+		_state.get_health(),
+		_state.get_max_health(),
+		_state.get_ammo(),
+		_state.get_max_ammo(),
+	)
 
-	var player = Player.create(health, max_health, ammo, max_ammo)
 	add_child(player)
 
-	_hud = HUD.create(health, max_health, ammo, max_ammo, _coins)
+	_hud = HUD.create(
+		_state.get_health(),
+		_state.get_max_health(),
+		_state.get_ammo(),
+		_state.get_max_ammo(),
+		_state.get_coins(),
+	)
+
 	add_child(_hud)
 
 func _handle_player_died() -> void:
-	SignalBus.game_over.emit(_wave)
+	SignalBus.game_over.emit(_state.get_wave(), _state.get_coins())
 
-func _handle_enemy_died(reward: int) -> void:
-	_coins += reward
-	SignalBus.coins_changed.emit(_coins)
 
 func _handle_open_upgrade_menu() -> void:
 	if get_tree().root.has_node("UpgradeMenu"): return
@@ -61,7 +53,3 @@ func _handle_open_upgrade_menu() -> void:
 	get_tree().root.add_child(upgrade_menu)
 
 	SignalBus.close_upgrade_menu.connect(func(): _hud.show() )
-	SignalBus.upgrade_purchased.connect(_handle_upgrade_purchased)
-
-func _handle_upgrade_purchased(upgrade: UpgradeDefinition) -> void:
-	print("upgrade purchased ", upgrade.id)

@@ -20,4 +20,4 @@ func _ready() -> void:
 	buy_btn.pressed.connect(_on_buy)
 
 func _on_buy() -> void:
-	SignalBus.upgrade_purchased.emit(_upgrade)
+	SignalBus.attempt_upgrade.emit(_upgrade)
