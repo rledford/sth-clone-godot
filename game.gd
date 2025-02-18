@@ -38,7 +38,7 @@ func _ready() -> void:
 	add_child(_hud)
 
 func _handle_player_died() -> void:
-	SignalBus.game_over.emit(_state.get_wave(), _state.get_coins())
+	SignalBus.game_over.emit(_state.get_wave())
 
 
 func _handle_open_upgrade_menu() -> void:
