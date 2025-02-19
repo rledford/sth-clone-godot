@@ -56,7 +56,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		reload()
 
 func _handle_shoot() -> void:
-	if _ammo < 0:
+	if _ammo <= 0:
 		no_ammo_audio_stream.play()
 		return
 	if fire_timer > 0:
