@@ -1,21 +1,21 @@
 class_name UpgradeSystem
 extends Resource
 
-var _upgrades: Array
+var _upgrades: Array[Upgrade]
 
-var _state: GameState
+var _purse: CoinPurse
 
-func _init(state) -> void:
+func _init(purse: CoinPurse) -> void:
 	_upgrades = []
-	_state = state
+	_purse = purse
 
 	SignalBus.register_upgrade.connect(_handle_register_upgrade)
 	SignalBus.attempt_upgrade.connect(_handle_attempt_upgrade)
 
 func can_afford(upgrade: Upgrade) -> bool:
-	return _state.purse.get_gold() >= upgrade.getCost()	
+	return _purse.get_coins() >= upgrade.getCost()	
 
-func get_upgrades() -> Array:
+func get_upgrades() -> Array[Upgrade]:
 	return _upgrades
 
 func _handle_attempt_upgrade(upgrade: Upgrade) -> void:
@@ -23,7 +23,7 @@ func _handle_attempt_upgrade(upgrade: Upgrade) -> void:
 	
 	var cost = upgrade.getCost()
 
-	_state.purse.add(-cost)
+	_purse.spend_coins(cost)
 	upgrade.level_increase.emit()
 
 func _handle_register_upgrade(upgrade: Upgrade) -> void:
