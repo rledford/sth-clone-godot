@@ -13,6 +13,7 @@ var _hud: HUD
 var _state: GameState
 var _purse: CoinPurse
 var _upgrades: UpgradeSystem
+var _magazine: Magazine
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -21,12 +22,14 @@ func _ready() -> void:
 	_upgrades = UpgradeSystem.new(_purse)
 	SignalBus.player_died.connect(_handle_player_died)
 	SignalBus.open_upgrade_menu.connect(_handle_open_upgrade_menu)
+
+	_magazine = Magazine.new()
 	
 	var player = Player.create(
 		_state.get_health(),
 		_state.get_max_health(),
-		_state.get_ammo(),
-		_state.get_max_ammo(),
+		_magazine
+
 	)
 
 	add_child(player)
@@ -34,11 +37,10 @@ func _ready() -> void:
 	_hud = HUD.create(
 		_state.get_health(),
 		_state.get_max_health(),
-		_state.get_ammo(),
-		_state.get_max_ammo(),
+		_magazine.get_ammo(),
+		_magazine.get_max_ammo(),
 		_purse.get_coins(),
 	)
-
 	add_child(_hud)
 
 func _handle_player_died() -> void:
