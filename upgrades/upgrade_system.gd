@@ -13,7 +13,7 @@ func _init(state) -> void:
 	SignalBus.attempt_upgrade.connect(_handle_attempt_upgrade)
 
 func can_afford(upgrade: Upgrade) -> bool:
-	return _state.get_coins() >= upgrade.getCost()	
+	return _state.purse.get_gold() >= upgrade.getCost()	
 
 func get_upgrades() -> Array:
 	return _upgrades
@@ -23,8 +23,7 @@ func _handle_attempt_upgrade(upgrade: Upgrade) -> void:
 	
 	var cost = upgrade.getCost()
 
-	_state.decrease_coins.emit(cost)
-
+	_state.purse.add(-cost)
 	upgrade.level_increase.emit()
 
 func _handle_register_upgrade(upgrade: Upgrade) -> void:
