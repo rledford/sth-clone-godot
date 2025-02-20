@@ -1,4 +1,4 @@
-extends Control
+extends CanvasLayer
 class_name UpgradeMenu
 
 @onready var upgrades_grid: GridContainer = %UpgradesGrid
@@ -13,7 +13,6 @@ static func create(upgrade_system: UpgradeSystem) -> UpgradeMenu:
 	return instance
 
 func _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	close_btn.pressed.connect(_on_close)
 	var upgrades = _upgrade_system.get_upgrades()
 	for upgrade in upgrades:
@@ -22,7 +21,3 @@ func _ready() -> void:
 
 func _on_close() -> void:
 	SignalBus.close_upgrade_menu.emit()
-	self.queue_free()
-
-func _exit_tree() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
