@@ -3,6 +3,7 @@ extends Node2D
 
 const scene = preload("res://game.tscn")
 
+@onready var enemy_spawn: EnemySpawn = $EnemySpawn
 
 static func create() -> Game:
 	var instance = scene.instantiate()
@@ -19,6 +20,10 @@ func _ready() -> void:
 	_state = GameState.new()
 	_purse =  CoinPurse.new()
 	_upgrades = UpgradeSystem.new(_purse)
+
+	var _waves = Waves.new(enemy_spawn)
+	add_child(_waves)
+
 	SignalBus.player_died.connect(_handle_player_died)
 	SignalBus.open_upgrade_menu.connect(_handle_open_upgrade_menu)
 	
@@ -40,6 +45,8 @@ func _ready() -> void:
 	)
 
 	add_child(_hud)
+
+	_waves.start()
 
 func _handle_player_died() -> void:
 	SignalBus.game_over.emit(_state.get_wave())

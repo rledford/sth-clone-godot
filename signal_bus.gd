@@ -19,3 +19,6 @@ signal close_upgrade_menu
 
 signal attempt_upgrade(upgrade: Upgrade)
 signal register_upgrade(upgrade: Upgrade)
+
+signal break_started(break_time: float)
+signal wave_started(wave: int)

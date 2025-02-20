@@ -56,6 +56,7 @@ func _handle_hit(_amount: int) -> void:
 
 func _enter_tree() -> void:
 	hit.connect(_handle_hit)
+	self.add_to_group("enemy")
 	
 func _on_area_2d_area_entered(_area: Area2D) -> void:
 	fsm.change_state("attack")
