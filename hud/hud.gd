@@ -49,7 +49,7 @@ func _ready() -> void:
 	SignalBus.player_health_changed.connect(_handle_player_health_changed)
 	SignalBus.player_ammo_changed.connect(_handle_player_ammo_changed)
 	SignalBus.break_started.connect(_handle_break_started)
-	SignalBus.break_timer_change.connect(_handle_break_timer_change)
+	SignalBus.break_timer_change.connect(_update_break_timer)
 	SignalBus.wave_started.connect(_handle_wave_started)
 
 func _handle_player_health_changed(health: int, max_health: int) -> void:
@@ -64,12 +64,12 @@ func _handle_player_ammo_changed(ammo: int, max_ammo: int) -> void:
 	
 	update_ammo_bar_text()
 
-func _handle_break_started(break_time: float) -> void:
-	break_container.show()
+func _update_break_timer(break_time: float) -> void:
 	break_label.text = "NEXT WAVE IN: %3.1f" % break_time
 
-func _handle_break_timer_change(break_time: float) -> void:
-	break_label.text = "NEXT WAVE IN: %3.1f" % break_time
+func _handle_break_started(break_time: float) -> void:
+	break_container.show()
+	_update_break_timer(break_time)
 
 func _handle_wave_started(wave: int) -> void:
 	break_container.hide()

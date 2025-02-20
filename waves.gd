@@ -2,8 +2,7 @@ class_name Waves
 extends Node2D
 
 var base_spawn_time: float = 3.0
-var break_time: float = 10.0
-var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+var break_time: float = 6.0
 
 var _wave: int = 0
 var _break_timer: float = 0.0
@@ -38,13 +37,12 @@ func _start_break() -> void:
 	_break_timer = break_time
 	SignalBus.break_started.emit(break_time)
 
-
 func _start_wave() -> void:
 	_set_state("spawning")
 	_wave += 1
 	var wave = _calculator.get_enemy_spawns(_wave)
 	_spawned_all_enemies = false
-	print("Starting wave " + str(_wave) + " with " + str(wave))
+	print("[Waves] Starting " + str(_wave) + " with " + str(wave))
 	_enemy_spawn.spawn_wave(wave)
 	SignalBus.wave_started.emit(_wave)
 
