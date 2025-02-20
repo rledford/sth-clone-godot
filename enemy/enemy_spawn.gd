@@ -35,17 +35,19 @@ func _physics_process(delta: float) -> void:
 		return
 
 	var current = _wave.pop_front()
-	var score = current["score"]
-	var enemy = enemies.get(score).pick_random().instantiate()
-	enemy.global_position = _random_spawn_position()
-	
-	add_child(enemy)
-	_spawn_timer = current["spawn_timer"]
+	_spawn(current.score, current.spawn_timer)
 
 	if _wave.is_empty():
 		print("Spawned all enemies!")
 		spawned_all_enemies.emit()
 
+func _spawn(score: int, timer: float) -> void:
+	var enemy = enemies.get(score).pick_random().instantiate()
+	enemy.add_to_group("enemies")
+	enemy.global_position = _random_spawn_position()
+	add_child(enemy)
+	_spawn_timer = timer
+	
 func _random_spawn_position() -> Vector2:
 	var areas = get_tree().get_nodes_in_group("enemy_spawn_areas") as Array[CollisionShape2D]
 	var area: CollisionShape2D = areas.pick_random()

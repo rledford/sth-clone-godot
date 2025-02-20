@@ -21,4 +21,5 @@ signal attempt_upgrade(upgrade: Upgrade)
 signal register_upgrade(upgrade: Upgrade)
 
 signal break_started(break_time: float)
+signal break_timer_change(time_left: float)
 signal wave_started(wave: int)
