@@ -34,4 +34,3 @@ func _change_ammo(ammo: int, max_ammo = _max_ammo) -> void:
 	_max_ammo = max_ammo
 	print("[Magazine]: Ammo changed to: ", _ammo, "/", _max_ammo)
 	SignalBus.player_ammo_changed.emit(_ammo, _max_ammo)
-
