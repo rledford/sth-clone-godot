@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://hxy5uqx5y7gc"
+path="res://.godot/imported/Standard Encounter Theme 01.mp3-eebc8227c9d59c3c2e933fa46af26110.mp3str"
+
+[deps]
+
+source_file="res://music/Standard Encounter Theme 01.mp3"
+dest_files=["res://.godot/imported/Standard Encounter Theme 01.mp3-eebc8227c9d59c3c2e933fa46af26110.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
