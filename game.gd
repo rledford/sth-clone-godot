@@ -13,6 +13,7 @@ var _hud: HUD
 var _state: GameState
 var _purse: CoinPurse
 var _upgrades: UpgradeSystem
+var _upgrade_menu: UpgradeMenu
 var _magazine: Magazine
 
 func _ready() -> void:
@@ -20,9 +21,6 @@ func _ready() -> void:
 	_state = GameState.new()
 	_purse =  CoinPurse.new()
 	_upgrades = UpgradeSystem.new(_purse)
-	SignalBus.player_died.connect(_handle_player_died)
-	SignalBus.open_upgrade_menu.connect(_handle_open_upgrade_menu)
-
 	_magazine = Magazine.new()
 	
 	var player = Player.create(
@@ -43,18 +41,21 @@ func _ready() -> void:
 	)
 	add_child(_hud)
 
+	_upgrade_menu = UpgradeMenu.create(_upgrades)
+	_upgrade_menu.hide()
+	add_child(_upgrade_menu)
+
+	SignalBus.player_died.connect(_handle_player_died)
+	SignalBus.open_upgrade_menu.connect(_handle_open_upgrade_menu)
+	SignalBus.close_upgrade_menu.connect(_handle_close_upgrade_menu)
+
 func _handle_player_died() -> void:
 	SignalBus.game_over.emit(_state.get_wave())
 
+func _handle_close_upgrade_menu() -> void:
+	_upgrade_menu.hide()
+	_hud.show()
+
 func _handle_open_upgrade_menu() -> void:
-	if get_tree().root.has_node("UpgradeMenu"): return
-	
-	# Creating the menu on the spot here, but it might be better to keep it around and hide/show it when needed?
-	var upgrade_menu = UpgradeMenu.create(_upgrades)
-
-	# Not exactly sure if we should be hiding the HUD, we shuffle the menu around to keep it visible, since the information is still relevant
 	_hud.hide()
-	
-	get_tree().root.add_child(upgrade_menu)
-
-	SignalBus.close_upgrade_menu.connect(func(): _hud.show() )
+	_upgrade_menu.show()
