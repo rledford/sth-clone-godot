@@ -2,8 +2,11 @@ extends Node2D
 
 var _game: Game
 var _end_screen: EndScreen
+var _music: Music
 
 func _ready() -> void:
+	_music = Music.new()
+	add_child(_music)
 	SignalBus.game_over.connect(_handle_game_over)
 	SignalBus.start_new_game.connect(_handle_new_game)
 	_new_game()

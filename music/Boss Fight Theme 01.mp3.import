@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b07cukuvtk3sr"
+path="res://.godot/imported/Boss Fight Theme 01.mp3-a5c31218b4228a9664fd2dbd49e8c417.mp3str"
+
+[deps]
+
+source_file="res://music/Boss Fight Theme 01.mp3"
+dest_files=["res://.godot/imported/Boss Fight Theme 01.mp3-a5c31218b4228a9664fd2dbd49e8c417.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
