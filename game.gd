@@ -3,6 +3,7 @@ extends Node2D
 
 const scene = preload("res://game.tscn")
 
+@onready var enemy_spawn: EnemySpawn = $EnemySpawn
 
 static func create() -> Game:
 	var instance = scene.instantiate()
@@ -21,13 +22,16 @@ func _ready() -> void:
 	_state = GameState.new()
 	_purse =  CoinPurse.new()
 	_upgrades = UpgradeSystem.new(_purse)
+
+	var _waves = Waves.new(enemy_spawn)
+	add_child(_waves)
+
 	_magazine = Magazine.new()
 	
 	var player = Player.create(
 		_state.get_health(),
 		_state.get_max_health(),
 		_magazine
-
 	)
 
 	add_child(player)
@@ -40,6 +44,8 @@ func _ready() -> void:
 		_purse.get_coins(),
 	)
 	add_child(_hud)
+
+	_waves.start()
 
 	_upgrade_menu = UpgradeMenu.create(_upgrades)
 	_upgrade_menu.hide()
