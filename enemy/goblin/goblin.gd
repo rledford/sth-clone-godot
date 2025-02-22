@@ -5,7 +5,7 @@ extends Enemy
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready() -> void:
-	hp = 1
+	hp = 2
 	damage = 2
 	speed = 120.0
 	coin_reward = 2
