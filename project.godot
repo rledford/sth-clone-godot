@@ -28,10 +28,6 @@ window/size/window_height_override=768
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
 
-[editor]
-
-movie_writer/movie_file="/Users/rledford/Development/godot/sth-clone-godot/clips/clip.avi"
-
 [global_group]
 
 enemy=""
