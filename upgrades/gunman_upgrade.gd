@@ -9,5 +9,4 @@ func _init() -> void:
 	level_increase.connect(_on_level_increase)
 
 func getCost() -> int:
-	return 0
-	# return (_level * 10) + 100
+	return (_level * 20) + 10
