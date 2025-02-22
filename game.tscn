@@ -97,7 +97,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAQABAAAAAAABAAAAAQABAAAAAAACAAAAAQABAAA
 tile_set = SubResource("TileSet_e7gln")
 
 [node name="Stronghold" type="Node2D" parent="."]
-position = Vector2(382, 16)
+position = Vector2(380, 18)
 script = SubResource("GDScript_76iqx")
 metadata/_edit_group_ = true
 
@@ -127,3 +127,50 @@ input_pickable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawn/SpawnArea" groups=["enemy_spawn_areas"]]
 shape = SubResource("RectangleShape2D_ctb01")
 disabled = true
+
+[node name="GunmanPosts" type="Node" parent="."]
+
+[node name="Post1" type="Node2D" parent="GunmanPosts" groups=["gunman_posts"]]
+position = Vector2(385, 81)
+
+[node name="ColorRect" type="ColorRect" parent="GunmanPosts/Post1"]
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 4.0
+offset_bottom = 5.0
+
+[node name="Post2" type="Node2D" parent="GunmanPosts" groups=["gunman_posts"]]
+position = Vector2(385, 112)
+
+[node name="ColorRect" type="ColorRect" parent="GunmanPosts/Post2"]
+offset_left = -3.0
+offset_top = -4.0
+offset_right = 3.0
+offset_bottom = 3.0
+
+[node name="Post3" type="Node2D" parent="GunmanPosts" groups=["gunman_posts"]]
+position = Vector2(385, 144)
+
+[node name="ColorRect" type="ColorRect" parent="GunmanPosts/Post3"]
+offset_left = -3.0
+offset_top = -4.0
+offset_right = 3.0
+offset_bottom = 3.0
+
+[node name="Post4" type="Node2D" parent="GunmanPosts" groups=["gunman_posts"]]
+position = Vector2(385, 176)
+
+[node name="ColorRect" type="ColorRect" parent="GunmanPosts/Post4"]
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 4.0
+
+[node name="Post5" type="Node2D" parent="GunmanPosts" groups=["gunman_posts"]]
+position = Vector2(385, 208)
+
+[node name="ColorRect" type="ColorRect" parent="GunmanPosts/Post5"]
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 4.0

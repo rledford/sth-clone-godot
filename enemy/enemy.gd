@@ -66,6 +66,7 @@ func _handle_hit(_amount: int) -> void:
 
 
 func _enter_tree() -> void:
+	SignalBus.enemy_died.connect(_handle_enemy_died)
 	hit.connect(_handle_hit)
 
 
@@ -75,3 +76,7 @@ func _on_area_2d_area_entered(_area: Area2D) -> void:
 
 func _on_area_2d_area_exited(_area: Area2D) -> void:
 	fsm.change_state("idle")
+	
+func _handle_enemy_died(enemy: Enemy, _reward: int) -> void:
+	if enemy == self:
+		remove_from_group("enemy")

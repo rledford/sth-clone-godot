@@ -1,6 +1,8 @@
 class_name Player
 extends Node2D
 
+const Gunman = preload("res://npc/gunman/gunman.tscn")
+
 @onready var area_2d: Area2D = $Area2D
 @onready var shoot_audio_stream: AudioStreamPlayer2D = $ShootAudioStream
 @onready var no_ammo_audio_stream: AudioStreamPlayer2D = $NoAmmoAudioStream
@@ -118,4 +120,11 @@ func _handle_fire_rate_upgrade(level: int):
 	fire_rate =  base_fire_rate - (level * base_fire_rate * 0.1)
 	
 func _handle_gunman_upgrade(level: int):
-	pass
+	var gunman = Gunman.instantiate()
+	var posts = get_tree().get_nodes_in_group("gunman_posts") as Array[Node2D]
+	var min_occupancy = posts.map(
+		func (p): return p.get_child_count()).reduce(
+			func (min, value): return value if value < min else min)
+	
+	posts.filter(
+		func (p): return p.get_child_count() <= min_occupancy).pick_random().add_child(gunman)
