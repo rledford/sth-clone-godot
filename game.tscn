@@ -131,45 +131,50 @@ disabled = true
 [node name="GunmanPosts" type="Node" parent="."]
 
 [node name="Post1" type="Node2D" parent="GunmanPosts" groups=["gunman_posts"]]
-position = Vector2(385, 81)
+position = Vector2(386, 81)
 
 [node name="ColorRect" type="ColorRect" parent="GunmanPosts/Post1"]
+visible = false
 offset_left = -2.0
 offset_top = -2.0
 offset_right = 4.0
 offset_bottom = 5.0
 
 [node name="Post2" type="Node2D" parent="GunmanPosts" groups=["gunman_posts"]]
-position = Vector2(385, 112)
+position = Vector2(386, 113)
 
 [node name="ColorRect" type="ColorRect" parent="GunmanPosts/Post2"]
+visible = false
 offset_left = -3.0
 offset_top = -4.0
 offset_right = 3.0
 offset_bottom = 3.0
 
 [node name="Post3" type="Node2D" parent="GunmanPosts" groups=["gunman_posts"]]
-position = Vector2(385, 144)
+position = Vector2(386, 145)
 
 [node name="ColorRect" type="ColorRect" parent="GunmanPosts/Post3"]
+visible = false
 offset_left = -3.0
 offset_top = -4.0
 offset_right = 3.0
 offset_bottom = 3.0
 
 [node name="Post4" type="Node2D" parent="GunmanPosts" groups=["gunman_posts"]]
-position = Vector2(385, 176)
+position = Vector2(386, 177)
 
 [node name="ColorRect" type="ColorRect" parent="GunmanPosts/Post4"]
+visible = false
 offset_left = -3.0
 offset_top = -3.0
 offset_right = 3.0
 offset_bottom = 4.0
 
 [node name="Post5" type="Node2D" parent="GunmanPosts" groups=["gunman_posts"]]
-position = Vector2(385, 208)
+position = Vector2(386, 209)
 
 [node name="ColorRect" type="ColorRect" parent="GunmanPosts/Post5"]
+visible = false
 offset_left = -3.0
 offset_top = -3.0
 offset_right = 3.0

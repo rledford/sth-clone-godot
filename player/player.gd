@@ -128,3 +128,7 @@ func _handle_gunman_upgrade(level: int):
 	
 	posts.filter(
 		func (p): return p.get_child_count() <= min_occupancy).pick_random().add_child(gunman)
+	
+	var target_areas = get_tree().get_nodes_in_group("enemy_spawn_areas") as Array[CollisionShape2D]
+	var area: CollisionShape2D = target_areas.pick_random()
+	gunman.rotation = gunman.global_position.angle_to_point(area.global_position)

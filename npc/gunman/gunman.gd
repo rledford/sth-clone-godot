@@ -44,7 +44,6 @@ func _update_fire(delta: float):
 	_fire_timer = max(_fire_timer - delta, 0)
 	if _fire_timer <= 0:
 		_fire_timer = _fire_time
-		_muzzle_fire_particle.rotation = global_position.angle_to_point(_target.global_position) - deg_to_rad(90.0)
 		_muzzle_fire_particle.restart()
 		_muzzle_fire_particle.emitting = true
 		gun_shot_sfx.play()
@@ -52,6 +51,7 @@ func _update_fire(delta: float):
 
 func _update_target() -> void:
 	if _target:
+		rotation = global_position.angle_to_point(_target.global_position)
 		return
 	var enemies = (get_tree().get_nodes_in_group("enemy") as Array[Enemy]).filter(_is_in_range)
 	if len(enemies):
