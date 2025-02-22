@@ -9,7 +9,6 @@ static func create() -> Game:
 	var instance = scene.instantiate()
 	return instance
 
-
 var _hud: HUD
 var _state: GameState
 var _purse: CoinPurse
