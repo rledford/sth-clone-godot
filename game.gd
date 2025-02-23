@@ -1,6 +1,7 @@
 class_name Game
 extends Node2D
 
+const StrongholdScene = preload("res://stronghold/stronghold.tscn")
 const scene = preload("res://game.tscn")
 
 @onready var enemy_spawn: EnemySpawn = $EnemySpawn
@@ -15,12 +16,16 @@ var _purse: CoinPurse
 var _upgrades: UpgradeSystem
 var _upgrade_menu: UpgradeMenu
 var _magazine: Magazine
+var _stronghold: Stronghold
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	_state = GameState.new()
 	_purse =  CoinPurse.new()
 	_upgrades = UpgradeSystem.new(_purse)
+	
+	_stronghold = StrongholdScene.instantiate()
+	add_child(_stronghold)
 
 	var _waves = Waves.new(enemy_spawn)
 	add_child(_waves)

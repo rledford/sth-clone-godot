@@ -1,8 +1,6 @@
 class_name Player
 extends Node2D
 
-const Gunman = preload("res://npc/gunman/gunman.tscn")
-
 @onready var area_2d: Area2D = $Area2D
 @onready var shoot_audio_stream: AudioStreamPlayer2D = $ShootAudioStream
 @onready var no_ammo_audio_stream: AudioStreamPlayer2D = $NoAmmoAudioStream
@@ -26,8 +24,6 @@ var _reload_time: float = 0.35
 var _reload_timer: float = 0.0
 var _magazine: Magazine
 
-var _gunman: Array[Gunman]
-
 static func create(health: int, max_health: int, magazine: Magazine) -> Player:
 	var instance = scene.instantiate()
 	instance._max_health = max_health
@@ -40,7 +36,6 @@ func _ready() -> void:
 	SignalBus.player_hit.connect(_handle_player_hit)
 
 	FireRateUpgrade.new().level_change.connect(_handle_fire_rate_upgrade)
-	GunmanUpgrade.new().level_change.connect(_handle_gunman_upgrade)
 
 
 func y_sort(a, b) -> bool:
@@ -119,16 +114,3 @@ func _handle_player_hit(amount: int) -> void:
 func _handle_fire_rate_upgrade(level: int):
 	fire_rate =  base_fire_rate - (level * base_fire_rate * 0.1)
 	
-func _handle_gunman_upgrade(level: int):
-	var gunman = Gunman.instantiate()
-	var posts = get_tree().get_nodes_in_group("gunman_posts") as Array[Node2D]
-	var min_occupancy = posts.map(
-		func (p): return p.get_child_count()).reduce(
-			func (min, value): return value if value < min else min)
-	
-	posts.filter(
-		func (p): return p.get_child_count() <= min_occupancy).pick_random().add_child(gunman)
-	
-	var target_areas = get_tree().get_nodes_in_group("enemy_spawn_areas") as Array[CollisionShape2D]
-	var area: CollisionShape2D = target_areas.pick_random()
-	gunman.rotation = gunman.global_position.angle_to_point(area.global_position)
