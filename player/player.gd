@@ -24,22 +24,25 @@ var _reload_time: float = 0.35
 var _reload_timer: float = 0.0
 var _magazine: Magazine
 
+
 static func create(health: int, max_health: int, magazine: Magazine) -> Player:
 	var instance = scene.instantiate()
 	instance._max_health = max_health
 	instance._health = health
 	instance._magazine = magazine
-	
+
 	return instance
+
 
 func _ready() -> void:
 	SignalBus.player_hit.connect(_handle_player_hit)
 
-	FireRateUpgrade.new().level_change.connect(_handle_fire_rate_upgrade)
+	FireRateUpgrade.new().level_changed.connect(_handle_fire_rate_upgrade)
 
 
 func y_sort(a, b) -> bool:
 	return a.global_position.y > b.global_position.y
+
 
 func _process(delta: float) -> void:
 	global_position = get_global_mouse_position()
@@ -48,11 +51,13 @@ func _process(delta: float) -> void:
 	if _is_reloading:
 		update_reload(delta)
 
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("shoot"):
 		_handle_shoot()
 	elif event.is_action_pressed("reload") and can_reload():
 		reload()
+
 
 func _handle_shoot() -> void:
 	if not _magazine.has_ammo():
@@ -61,10 +66,11 @@ func _handle_shoot() -> void:
 	if fire_timer > 0:
 		return
 	shoot()
-	
+
+
 func shoot() -> void:
 	_is_reloading = false
-	
+
 	shoot_audio_stream.play()
 	_magazine.unload(1)
 	var enemies = area_2d.get_overlapping_bodies()
@@ -74,42 +80,46 @@ func shoot() -> void:
 			enemies[i].hit.emit(damage)
 		if i >= pierce_limit:
 			break
-	
+
 	if not len(enemies):
 		SignalBus.shot_hit_ground.emit(global_position)
-	
+
 	fire_timer = fire_rate
 
 
 func can_reload() -> bool:
 	return not _is_reloading and not _magazine.is_full()
 
+
 func reload() -> void:
 	_reload_timer = _reload_time
 	_is_reloading = true
 
+
 func update_reload(delta: float) -> void:
 	_reload_timer = max(_reload_timer - delta, 0)
-	if(_reload_timer > 0):
+	if _reload_timer > 0:
 		return
 
 	_magazine.load(1)
 	single_bullet_load_stream.play()
 
-	if(_magazine.is_full()):
+	if _magazine.is_full():
 		_is_reloading = false
 		return
 
 	_reload_timer = _reload_time
 
+
 func _handle_player_hit(amount: int) -> void:
 	var new_health = max(_health - amount, 0)
 	_health = new_health
-	
+
 	SignalBus.player_health_changed.emit(new_health, _max_health)
-	
-	if(new_health == 0):
+
+	if new_health == 0:
 		SignalBus.player_died.emit()
 
+
 func _handle_fire_rate_upgrade(level: int):
-	fire_rate =  base_fire_rate - (level * base_fire_rate * 0.1)
+	fire_rate = base_fire_rate - (level * base_fire_rate * 0.1)

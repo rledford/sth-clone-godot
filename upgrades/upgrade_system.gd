@@ -5,26 +5,36 @@ var _upgrades: Array[Upgrade]
 
 var _purse: CoinPurse
 
+
 func _init(purse: CoinPurse) -> void:
 	_upgrades = []
 	_purse = purse
 
+	# I'm not sure about the register any more.
+	# It's a bit of a code smell and it requires a certain order of initialization
+	# Should come up with something a bit more elegant
+	# It could be a simple callable instead which will not silently fail at least
 	SignalBus.register_upgrade.connect(_handle_register_upgrade)
 	SignalBus.attempt_upgrade.connect(_handle_attempt_upgrade)
 
+
 func can_afford(upgrade: Upgrade) -> bool:
-	return _purse.get_coins() >= upgrade.getCost()	
+	return _purse.get_coins() >= upgrade.get_cost()
+
 
 func get_upgrades() -> Array[Upgrade]:
 	return _upgrades
 
+
 func _handle_attempt_upgrade(upgrade: Upgrade) -> void:
-	if not can_afford(upgrade): return
-	
-	var cost = upgrade.getCost()
+	if not can_afford(upgrade):
+		return
+
+	var cost = upgrade.get_cost()
 
 	_purse.spend_coins(cost)
 	upgrade.level_increase.emit()
+
 
 func _handle_register_upgrade(upgrade: Upgrade) -> void:
 	_upgrades.append(upgrade)
