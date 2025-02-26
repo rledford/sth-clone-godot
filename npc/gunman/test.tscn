@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://db7ihhgp7u7ia"]
+
+[ext_resource type="PackedScene" uid="uid://d0wslu4gux2vm" path="res://npc/gunman/gunman.tscn" id="1_6rbtf"]
+[ext_resource type="PackedScene" uid="uid://dbl6fw50m6ps8" path="res://enemy/skeleton/skeleton.tscn" id="2_k2p1y"]
+[ext_resource type="PackedScene" uid="uid://bq426kjjri0m5" path="res://enemy/mushroom/mushroom.tscn" id="3_sm5dm"]
+[ext_resource type="PackedScene" uid="uid://3wwderkaybu0" path="res://enemy/flying_eye/flying_eye.tscn" id="4_brdgg"]
+[ext_resource type="PackedScene" uid="uid://ig6r4vx2lh42" path="res://enemy/goblin/goblin.tscn" id="5_jpb7t"]
+
+[node name="Test" type="Node2D"]
+
+[node name="Skeleton" parent="." groups=["enemy"] instance=ExtResource("2_k2p1y")]
+position = Vector2(107, 134)
+
+[node name="Gunman" parent="." instance=ExtResource("1_6rbtf")]
+position = Vector2(169, 109)
+
+[node name="Mushroom" parent="." groups=["enemy"] instance=ExtResource("3_sm5dm")]
+position = Vector2(162, 156)
+
+[node name="FlyingEye" parent="." instance=ExtResource("4_brdgg")]
+position = Vector2(114, 76)
+
+[node name="Goblin" parent="." instance=ExtResource("5_jpb7t")]
+position = Vector2(158, 48)

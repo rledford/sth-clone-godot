@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://yhxqwlgqwm4m"]
+
+[node name="MuzzleFireParticle" type="CPUParticles2D"]
+amount = 15
+lifetime = 0.2
+speed_scale = 2.0
+explosiveness = 1.0
+randomness = 1.0
+spread = 10.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 75.0
+initial_velocity_max = 150.0
+scale_amount_min = 0.25
+scale_amount_max = 1.5
+color = Color(0.233925, 0.233925, 0.233925, 0.713726)
