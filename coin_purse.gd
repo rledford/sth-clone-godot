@@ -20,5 +20,5 @@ func _transact(amount: int) -> void:
 	SignalBus.coins_changed.emit(_coins)
 	print("[Purse] Transaction: " + str(amount) + ". Balance: " + str(_coins))
 
-func _handle_enemy_died(_enemy: Enemy, reward: int) -> void:
+func _handle_enemy_died(reward: int) -> void:
 	earn_coins(reward)
