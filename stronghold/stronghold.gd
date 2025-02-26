@@ -4,7 +4,7 @@ class_name Stronghold
 const Gunman = preload("res://npc/gunman/gunman.tscn")
 
 func _ready() -> void:
-	GunmanUpgrade.new().level_change.connect(_handle_gunman_upgrade)
+	GunmanUpgrade.new().level_changed.connect(_handle_gunman_upgrade)
 
 func _handle_gunman_upgrade(level: int):
 	var gunman = Gunman.instantiate()

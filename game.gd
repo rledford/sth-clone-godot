@@ -2,12 +2,12 @@ class_name Game
 extends Node2D
 
 const StrongholdScene = preload("res://stronghold/stronghold.tscn")
-const scene = preload("res://game.tscn")
+const Scene = preload("res://game.tscn")
 
 @onready var enemy_spawn: EnemySpawn = $EnemySpawn
 
 static func create() -> Game:
-	var instance = scene.instantiate()
+	var instance = Scene.instantiate()
 	return instance
 
 var _hud: HUD
@@ -17,13 +17,6 @@ var _upgrades: UpgradeSystem
 var _upgrade_menu: UpgradeMenu
 var _magazine: Magazine
 var _stronghold: Stronghold
-
-@onready var enemy_spawn: EnemySpawn = $EnemySpawn
-
-
-static func create() -> Game:
-	var instance = Scene.instantiate()
-	return instance
 
 
 func _ready() -> void:

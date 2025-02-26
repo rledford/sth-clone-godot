@@ -12,8 +12,6 @@ var _fire_time: float = 0.75
 var _fire_timer: float = 0.0
 
 func _ready() -> void:
-	SignalBus.enemy_died.connect(_handle_enemy_died)
-	
 	_aim_timer = _rand_aim_time()
 	_fire_timer = _fire_time
 	_muzzle_fire_particle.emitting = false
@@ -49,13 +47,13 @@ func _update_target() -> void:
 	if _target:
 		rotation = global_position.angle_to_point(_target.global_position)
 		return
-	var enemies = (get_tree().get_nodes_in_group("enemy") as Array[Enemy]).filter(_is_in_range)
+	var enemies = (get_tree().get_nodes_in_group("enemies") as Array[Enemy]).filter(_is_in_range)
 	if len(enemies):
 		_target = enemies.pick_random()
+		_target.died.connect(_handle_target_died)
 		print("[Gunman] Acquired target " + str(_target))
 
-func _handle_enemy_died(enemy: Enemy, _reward: int) -> void:
-	if enemy == _target:
-		_aim_timer = _rand_aim_time()
-		_fire_timer = _fire_time
-		_target = null
+func _handle_target_died() -> void:
+	_aim_timer = _rand_aim_time()
+	_fire_timer = _fire_time
+	_target = null
