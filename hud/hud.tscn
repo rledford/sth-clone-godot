@@ -1,8 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://decshe1k1616e"]
 
 [ext_resource type="Script" path="res://hud/hud.gd" id="1_8u4np"]
-
-[sub_resource type="Theme" id="Theme_r0ivv"]
+[ext_resource type="Theme" uid="uid://b7ridqq1ro7a8" path="res://metal_theme.tres" id="2_in6bj"]
 
 [node name="HUD" type="CanvasLayer"]
 follow_viewport_enabled = true
@@ -14,7 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_r0ivv")
+theme = ExtResource("2_in6bj")
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
@@ -55,6 +54,7 @@ offset_right = 9.0
 offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_in6bj")
 horizontal_alignment = 1
 vertical_alignment = 1
 
