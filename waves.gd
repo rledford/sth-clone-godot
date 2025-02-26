@@ -10,20 +10,17 @@ var _enemy_spawn: EnemySpawn
 
 var _break_timer: CustomTimer
 
-var _spawned_all_enemies: bool = false
-
 var _calculator: WaveCalculator
 
 
 func _init(enemy_spawn: EnemySpawn) -> void:
 	_enemy_spawn = enemy_spawn
-	_calculator = WaveCalculator.new(base_spawn_time, enemy_spawn.enemies)
+	_calculator = WaveCalculator.new(base_spawn_time, enemy_spawn.ENEMIES)
 	_break_timer = CustomTimer.new(break_time)
 	add_child(_break_timer)
 
 
 func start() -> void:
-	_enemy_spawn.spawned_all_enemies.connect(func(): _spawned_all_enemies = true)
 	_start_wave()
 
 
@@ -40,7 +37,6 @@ func _start_wave() -> void:
 	_set_state("spawning")
 	_wave += 1
 	var wave = _calculator.get_enemy_spawns(_wave)
-	_spawned_all_enemies = false
 	print("[Waves] Starting " + str(_wave) + " with " + str(wave))
 	_enemy_spawn.spawn_wave(wave)
 	SignalBus.wave_started.emit(_wave)
