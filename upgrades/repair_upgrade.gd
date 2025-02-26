@@ -1,16 +1,16 @@
-class_name FireRateUpgrade
+class_name RepairUpgrade
 extends Upgrade
 
 
 func _init() -> void:
-	name = "Fire Rate"
-	id = "fire_rate"
-	_category = UpgradeCategory.WEAPON
-	priority = 2
+	name = "Repair"
+	id = "repair"
+	_category = UpgradeCategory.HEALTH
+	priority = 1
 
 	SignalBus.register_upgrade.emit(self)
 	level_increased.connect(_on_level_increased)
 
 
 func get_cost() -> int:
-	return (_level * 15) + 10
+	return 20

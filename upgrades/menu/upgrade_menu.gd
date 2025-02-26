@@ -1,16 +1,18 @@
-extends CanvasLayer
 class_name UpgradeMenu
+extends CanvasLayer
 
-@onready var upgrades_grid: GridContainer = %UpgradesGrid
-@onready var close_btn: Button = %CloseButton
-const scene = preload("res://upgrades/menu/upgrade_menu.tscn")
+const Scene = preload("res://upgrades/menu/upgrade_menu.tscn")
 
 var _upgrade_system: UpgradeSystem
+@onready var upgrades_grid: GridContainer = %UpgradesGrid
+@onready var close_btn: Button = %CloseButton
+
 
 static func create(upgrade_system: UpgradeSystem) -> UpgradeMenu:
-	var instance = scene.instantiate()
+	var instance = Scene.instantiate()
 	instance._upgrade_system = upgrade_system
 	return instance
+
 
 func _ready() -> void:
 	close_btn.pressed.connect(_on_close)
@@ -19,5 +21,7 @@ func _ready() -> void:
 		var upgrade_item = UpgradeMenuButton.create(upgrade)
 		upgrades_grid.add_child(upgrade_item)
 
+
 func _on_close() -> void:
+	# Rename signal to upgrade_menu_closed, and it could also be a local one
 	SignalBus.close_upgrade_menu.emit()
