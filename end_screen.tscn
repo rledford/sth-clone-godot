@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b2686q2yqno12"]
+[gd_scene load_steps=3 format=3 uid="uid://b2686q2yqno12"]
 
 [ext_resource type="Script" path="res://end_screen.gd" id="1_ha82k"]
+[ext_resource type="Theme" uid="uid://b7ridqq1ro7a8" path="res://metal_theme.tres" id="2_xnpfq"]
 
 [node name="EndScreen" type="Node2D"]
 script = ExtResource("1_ha82k")
@@ -16,6 +17,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource("2_xnpfq")
 
 [node name="Background" type="PanelContainer" parent="Control"]
 layout_mode = 1
