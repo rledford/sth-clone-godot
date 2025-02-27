@@ -13,13 +13,15 @@ const ENEMIES: Dictionary = {1: [FlyingEye], 2: [Goblin], 4: [Skeleton], 6: [Mus
 
 
 func spawn_wave(wave: Array) -> void:
-	var last_spawned_enemy
+	for i in wave.size():
+		var item = wave[i]
+		var enemy = _spawn(item.score)
+		var is_last_enemy = i == wave.size() - 1
 
-	for item in wave:
-		last_spawned_enemy = _spawn(item.score)
+		if is_last_enemy:
+			enemy.died.connect(wave_cleared.emit)
+
 		await get_tree().create_timer(item.spawn_timer).timeout
-
-	last_spawned_enemy.died.connect(wave_cleared.emit)
 
 
 func is_valid_score(score: int) -> bool:
