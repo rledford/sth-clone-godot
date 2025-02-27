@@ -20,6 +20,7 @@ var _init_coins: int
 @onready var break_container: PanelContainer = %"Break Container"
 @onready var break_label: Label = %BreakLabel
 @onready var wave_counter_label: Label = %WaveCounterLabel
+@onready var fps_label: Label = %FPSLabel
 
 
 static func create(health: int, max_health: int, ammo: int, max_ammo: int, coins: int) -> HUD:
@@ -53,6 +54,10 @@ func _ready() -> void:
 	SignalBus.break_started.connect(_handle_break_started)
 	SignalBus.break_timer_change.connect(_update_break_timer)
 	SignalBus.wave_started.connect(_handle_wave_started)
+
+
+func _process(_delta) -> void:
+	fps_label.text = "FPS: %3d" % Engine.get_frames_per_second()
 
 
 func _handle_player_health_changed(health: int, max_health: int) -> void:

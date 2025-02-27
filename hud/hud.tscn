@@ -160,3 +160,24 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "{break}"
+
+[node name="FPSContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/Bottombar"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Bottombar/FPSContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Bottombar/FPSContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="FPSLabel" type="Label" parent="MarginContainer/VBoxContainer/Bottombar/FPSContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "{break}"

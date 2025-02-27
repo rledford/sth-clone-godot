@@ -1,0 +1,78 @@
+[gd_scene load_steps=9 format=3 uid="uid://oy3y3ii0oio6"]
+
+[ext_resource type="Texture2D" uid="uid://b2o67fa2w0rj2" path="res://ground/2d_lights_and_shadows_neutral_point_light.webp" id="1_3s66m"]
+[ext_resource type="Script" path="res://fire.gd" id="2_rcqj8"]
+
+[sub_resource type="Curve" id="Curve_qnp8h"]
+min_value = -1.0
+_data = [Vector2(0.00197629, 0.0564517), 0.0, 0.0, 0, 0, Vector2(0.498024, 0.0755132), -12.3244, -12.3244, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_xygeu"]
+_data = [Vector2(0, 0.00879765), 0.0, 0.0, 0, 0, Vector2(0.503953, 0.447214), 2.06682, 2.06682, 0, 0, Vector2(0.978261, 0.685484), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_tqmkf"]
+
+[sub_resource type="Curve" id="Curve_5pee1"]
+min_value = -360.0
+max_value = 360.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.250988, 205.601), 0.0, 0.0, 0, 0, Vector2(0.505929, -0.263916), 0.0, 0.0, 0, 0, Vector2(0.747036, 212.463), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Curve" id="Curve_omup0"]
+_data = [Vector2(0.013834, 0.475806), 0.0, -2.12423, 0, 0, Vector2(0.505929, 0.532991), -2.52611, -2.52611, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_5gfxp"]
+offsets = PackedFloat32Array(0, 0.0711297, 0.401674, 0.702929, 1)
+colors = PackedColorArray(0.994282, 0.940755, 0.974892, 1, 0.996078, 0.945098, 0.0117647, 1, 0.995976, 0.304443, 0.0773654, 1, 1, 0.00392157, 0, 1, 1, 1, 1, 0)
+
+[node name="Fire" type="Area2D"]
+
+[node name="Light" type="PointLight2D" parent="."]
+position = Vector2(1, 7)
+color = Color(1, 0.639216, 0.286275, 1)
+energy = 1.29
+texture = ExtResource("1_3s66m")
+texture_scale = 6.0
+script = ExtResource("2_rcqj8")
+
+[node name="Smoke" type="CPUParticles2D" parent="."]
+position = Vector2(0, -21)
+amount = 2000
+lifetime = 3.0
+speed_scale = 0.3
+randomness = 1.0
+lifetime_randomness = 1.0
+emission_shape = 2
+emission_sphere_radius = 16.0
+gravity = Vector2(0, -50)
+orbit_velocity_min = -0.2
+orbit_velocity_curve = SubResource("Curve_qnp8h")
+scale_amount_min = 0.0
+scale_amount_max = 6.0
+scale_amount_curve = SubResource("Curve_xygeu")
+color = Color(1, 1, 1, 0.45098)
+color_ramp = SubResource("Gradient_tqmkf")
+
+[node name="FireParticles" type="CPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.2)
+amount = 5000
+lifetime = 0.5
+speed_scale = 0.4
+randomness = 1.0
+draw_order = 1
+emission_shape = 1
+emission_sphere_radius = 16.0
+direction = Vector2(0, -1)
+spread = 0.0
+gravity = Vector2(0, -100)
+initial_velocity_max = 204.14
+angular_velocity_min = -45.0
+angular_velocity_max = 45.0
+angular_velocity_curve = SubResource("Curve_5pee1")
+scale_amount_min = 0.0
+scale_amount_max = 12.4
+scale_amount_curve = SubResource("Curve_omup0")
+color_ramp = SubResource("Gradient_5gfxp")
