@@ -1,8 +1,8 @@
 class_name Waves
 extends Node2D
 
-var base_spawn_time: float = 2.0
-var break_time: float = 6.0
+var base_spawn_time: float = 2.5
+var break_time: float = 10.0
 
 var _wave: int = 0
 var _state: String = "idle"
