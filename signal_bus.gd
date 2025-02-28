@@ -5,7 +5,7 @@ signal start_new_game
 
 signal player_hit(damage: int)
 signal player_died
-signal player_health_changed(health: int)
+signal player_health_changed(health: int, max_health: int)
 signal player_ammo_changed(ammo: int)
 
 signal enemy_died(coins: int)

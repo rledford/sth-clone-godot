@@ -14,9 +14,6 @@ var fire_rate: float = base_fire_rate
 var fire_timer: float = 0.0
 var pierce_limit: int = 0
 
-var _max_health: int
-var _health: int
-
 var _is_reloading: bool = false
 
 ## The time it takes to reload one bullet
@@ -25,18 +22,14 @@ var _reload_timer: float = 0.0
 var _magazine: Magazine
 
 
-static func create(health: int, max_health: int, magazine: Magazine) -> Player:
+static func create(magazine: Magazine) -> Player:
 	var instance = scene.instantiate()
-	instance._max_health = max_health
-	instance._health = health
 	instance._magazine = magazine
 
 	return instance
 
 
 func _ready() -> void:
-	SignalBus.player_hit.connect(_handle_player_hit)
-
 	FireRateUpgrade.new().level_changed.connect(_handle_fire_rate_upgrade)
 
 
@@ -109,16 +102,6 @@ func update_reload(delta: float) -> void:
 		return
 
 	_reload_timer = _reload_time
-
-
-func _handle_player_hit(amount: int) -> void:
-	var new_health = max(_health - amount, 0)
-	_health = new_health
-
-	SignalBus.player_health_changed.emit(new_health, _max_health)
-
-	if new_health == 0:
-		SignalBus.player_died.emit()
 
 
 func _handle_fire_rate_upgrade(level: int):

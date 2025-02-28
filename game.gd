@@ -4,6 +4,13 @@ extends Node2D
 const StrongholdScene = preload("res://stronghold/stronghold.tscn")
 const Scene = preload("res://game.tscn")
 
+var _hud: HUD
+var _purse: CoinPurse
+var _upgrades: UpgradeSystem
+var _upgrade_menu: UpgradeMenu
+var _magazine: Magazine
+var _waves: Waves
+var _stronghold: Stronghold
 @onready var enemy_spawn: EnemySpawn = $EnemySpawn
 
 
@@ -12,38 +19,28 @@ static func create() -> Game:
 	return instance
 
 
-var _hud: HUD
-var _state: GameState
-var _purse: CoinPurse
-var _upgrades: UpgradeSystem
-var _upgrade_menu: UpgradeMenu
-var _magazine: Magazine
-var _stronghold: Stronghold
-
-
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	_state = GameState.new()
 	_purse = CoinPurse.new()
 	_upgrades = UpgradeSystem.new(_purse)
 
 	_stronghold = StrongholdScene.instantiate()
 	add_child(_stronghold)
 
-	var waves = Waves.new(enemy_spawn)
-	add_child(waves)
+	_waves = Waves.new(enemy_spawn)
+	add_child(_waves)
 
 	_magazine = Magazine.new()
 
-	var player = Player.create(_state.get_health(), _state.get_max_health(), _magazine)
+	var player = Player.create(_magazine)
 
 	add_child(player)
 
 	_hud = (
 		HUD
 		. create(
-			_state.get_health(),
-			_state.get_max_health(),
+			_stronghold.get_health().get_health(),
+			_stronghold.get_health().get_max_health(),
 			_magazine.get_ammo(),
 			_magazine.get_max_ammo(),
 			_purse.get_coins(),
@@ -51,7 +48,7 @@ func _ready() -> void:
 	)
 	add_child(_hud)
 
-	waves.start()
+	_waves.start()
 
 	_upgrade_menu = UpgradeMenu.create(_upgrades)
 	_upgrade_menu.hide()
@@ -63,7 +60,7 @@ func _ready() -> void:
 
 
 func _handle_player_died() -> void:
-	SignalBus.game_over.emit(_state.get_wave())
+	SignalBus.game_over.emit(_waves.get_wave())
 
 
 func _handle_close_upgrade_menu() -> void:

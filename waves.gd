@@ -24,6 +24,10 @@ func start() -> void:
 	_start_wave()
 
 
+func get_wave() -> int:
+	return _wave
+
+
 func _start_break() -> void:
 	_set_state("break")
 	_break_timer.time_changed.connect(SignalBus.break_timer_change.emit)
