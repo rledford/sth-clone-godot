@@ -12,5 +12,9 @@ func _init() -> void:
 	level_increased.connect(_on_level_increased)
 
 
+func get_label() -> String:
+	return name
+
+
 func get_cost() -> int:
 	return 20
