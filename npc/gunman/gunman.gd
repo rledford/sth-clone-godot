@@ -26,16 +26,6 @@ func _ready() -> void:
 	_muzzle_fire_particle.one_shot = true
 
 
-func _rand_aim_time() -> float:
-	return randf_range(0.25, 0.75)
-
-
-func _is_in_range(a: Node2D) -> bool:
-	return (
-		global_position.distance_to(a.global_position) <= (_collider.shape as CircleShape2D).radius
-	)
-
-
 func _physics_process(delta: float) -> void:
 	_update_target()
 	_update_fire(delta)
@@ -62,7 +52,7 @@ func _update_target() -> void:
 	if _target:
 		rotation = global_position.angle_to_point(_target.global_position)
 		return
-	var enemies = (get_tree().get_nodes_in_group("enemies") as Array[Enemy]).filter(_is_in_range)
+	var enemies = _get_available_targets()
 	if len(enemies):
 		_target = enemies.pick_random()
 		_target.died.connect(_handle_target_died)
@@ -73,3 +63,17 @@ func _handle_target_died() -> void:
 	_aim_timer = _rand_aim_time()
 	_fire_timer = _fire_time
 	_target = null
+
+
+func _get_available_targets() -> Array[Enemy]:
+	return (get_tree().get_nodes_in_group("enemies") as Array[Enemy]).filter(_is_in_range)
+
+
+func _rand_aim_time() -> float:
+	return randf_range(0.25, 0.75)
+
+
+func _is_in_range(a: Node2D) -> bool:
+	return (
+		global_position.distance_to(a.global_position) <= (_collider.shape as CircleShape2D).radius
+	)
