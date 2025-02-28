@@ -1,6 +1,8 @@
 class_name Gunman
 extends Node2D
 
+const Scene = preload("res://npc/gunman/gunman.tscn")
+
 var damage = 1
 var _target: Enemy
 var _aim_timer: float = 0.0
@@ -10,6 +12,11 @@ var _fire_timer: float = 0.0
 @onready var _collider: CollisionShape2D = $Area2D/CollisionShape2D
 @onready var _muzzle_fire_particle: CPUParticles2D = $MuzzleFireParticle
 @onready var _gun_shot_sfx: AudioStreamPlayer2D = $GunShotSFX
+
+
+static func create() -> Gunman:
+	var instance = Scene.instance()
+	return instance
 
 
 func _ready() -> void:
