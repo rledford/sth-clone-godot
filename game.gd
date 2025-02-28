@@ -6,9 +6,11 @@ const Scene = preload("res://game.tscn")
 
 @onready var enemy_spawn: EnemySpawn = $EnemySpawn
 
+
 static func create() -> Game:
 	var instance = Scene.instantiate()
 	return instance
+
 
 var _hud: HUD
 var _state: GameState
@@ -24,7 +26,7 @@ func _ready() -> void:
 	_state = GameState.new()
 	_purse = CoinPurse.new()
 	_upgrades = UpgradeSystem.new(_purse)
-	
+
 	_stronghold = StrongholdScene.instantiate()
 	add_child(_stronghold)
 
