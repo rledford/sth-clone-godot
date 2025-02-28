@@ -1,12 +1,10 @@
-[gd_scene load_steps=11 format=4 uid="uid://slofpfprsu74"]
+[gd_scene load_steps=9 format=4 uid="uid://slofpfprsu74"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3d8c0"]
 [ext_resource type="Texture2D" uid="uid://csgdvhu6rhpts" path="res://sprites/sprites.png" id="2_45bvi"]
 [ext_resource type="Script" path="res://enemy/enemy_spawn.gd" id="3_6mtbq"]
 [ext_resource type="Script" path="res://ground/ground.gd" id="3_lsyou"]
-[ext_resource type="PackedScene" uid="uid://oy3y3ii0oio6" path="res://fire.tscn" id="5_sa5vv"]
-[ext_resource type="Texture2D" uid="uid://b2o67fa2w0rj2" path="res://ground/2d_lights_and_shadows_neutral_point_light.webp" id="5_ytu4n"]
-[ext_resource type="Script" path="res://fire.gd" id="6_xe17c"]
+[ext_resource type="PackedScene" uid="uid://24ft8ilcffew" path="res://brazier.tscn" id="8_p77ok"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xa82j"]
 texture = ExtResource("2_45bvi")
@@ -110,19 +108,8 @@ disabled = true
 [node name="Darkness" type="CanvasModulate" parent="."]
 color = Color(0, 0, 0, 0.470588)
 
-[node name="Fire" parent="." instance=ExtResource("5_sa5vv")]
-position = Vector2(334, 293)
-scale = Vector2(0.2, 0.2)
+[node name="Brazier" parent="." instance=ExtResource("8_p77ok")]
+position = Vector2(350, 247)
 
-[node name="old_fire" type="PointLight2D" parent="."]
-visible = false
-position = Vector2(103, 254)
-color = Color(1, 0.639216, 0.286275, 1)
-energy = 1.29
-texture = ExtResource("5_ytu4n")
-texture_scale = 1.8
-script = ExtResource("6_xe17c")
-
-[node name="Fire3" parent="." instance=ExtResource("5_sa5vv")]
-position = Vector2(335, 21)
-scale = Vector2(0.2, 0.2)
+[node name="Brazier2" parent="." instance=ExtResource("8_p77ok")]
+position = Vector2(349, 73)

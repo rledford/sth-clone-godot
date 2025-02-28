@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://d0yl5nwauy8ue"]
+[gd_scene load_steps=5 format=3 uid="uid://d0yl5nwauy8ue"]
 
 [ext_resource type="Script" path="res://stronghold/stronghold.gd" id="1_keyt1"]
 [ext_resource type="Texture2D" uid="uid://csgdvhu6rhpts" path="res://sprites/sprites.png" id="2_iu65f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ir5cf"]
 size = Vector2(89, 208)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_481pu"]
+polygon = PackedVector2Array(-40, 104, 40, 104, 40, -104, -40, -104)
 
 [node name="Stronghold" type="Node2D"]
 position = Vector2(380, 18)
@@ -76,3 +79,8 @@ offset_left = -3.0
 offset_top = -3.0
 offset_right = 3.0
 offset_bottom = 4.0
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+position = Vector2(41, 142)
+occluder = SubResource("OccluderPolygon2D_481pu")
+occluder_light_mask = 3
