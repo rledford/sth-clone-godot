@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=3 uid="uid://b41tbi2s3mjxq"]
+
+[ext_resource type="Theme" uid="uid://b7ridqq1ro7a8" path="res://metal_theme.tres" id="1_aag60"]
+[ext_resource type="Script" path="res://wave_anouncment.gd" id="2_wprbb"]
+
+[sub_resource type="Gradient" id="Gradient_8huvv"]
+offsets = PackedFloat32Array(0, 0.35, 0.65, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.705882, 0, 0, 0, 0.705882, 0, 0, 0, 0)
+metadata/_snap_enabled = true
+metadata/_snap_count = 20
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kq3nl"]
+gradient = SubResource("Gradient_8huvv")
+use_hdr = true
+
+[node name="WaveAnnouncement" type="Control"]
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_aag60")
+script = ExtResource("2_wprbb")
+
+[node name="Control" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -19.0
+offset_bottom = 19.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="TextureRect" parent="Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("GradientTexture2D_kq3nl")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="CenterContainer" type="CenterContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+
+[node name="WaveLabel" type="Label" parent="Control/MarginContainer/CenterContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Wave 1
+"
