@@ -11,22 +11,29 @@ var _aim_timer: float = 0.0
 var _fire_time: float = 0.75
 var _fire_timer: float = 0.0
 
+
 func _ready() -> void:
 	_aim_timer = _rand_aim_time()
 	_fire_timer = _fire_time
 	_muzzle_fire_particle.emitting = false
 	_muzzle_fire_particle.one_shot = true
 
+
 func _rand_aim_time() -> float:
 	return randf_range(0.25, 0.75)
 
+
 func _is_in_range(a: Node2D) -> bool:
-	return global_position.distance_to(a.global_position) <= (_collider.shape as CircleShape2D).radius
+	return (
+		global_position.distance_to(a.global_position) <= (_collider.shape as CircleShape2D).radius
+	)
+
 
 func _physics_process(delta: float) -> void:
 	_update_target()
 	_update_fire(delta)
-	
+
+
 func _update_fire(delta: float):
 	if not _target:
 		return
@@ -43,6 +50,7 @@ func _update_fire(delta: float):
 		_gun_shot_sfx.play()
 		_target.hit.emit(damage)
 
+
 func _update_target() -> void:
 	if _target:
 		rotation = global_position.angle_to_point(_target.global_position)
@@ -52,6 +60,7 @@ func _update_target() -> void:
 		_target = enemies.pick_random()
 		_target.died.connect(_handle_target_died)
 		print("[Gunman] Acquired target " + str(_target))
+
 
 func _handle_target_died() -> void:
 	_aim_timer = _rand_aim_time()

@@ -76,6 +76,7 @@ func _on_area_2d_area_entered(_area: Area2D) -> void:
 
 func _on_area_2d_area_exited(_area: Area2D) -> void:
 	fsm.change_state("idle")
-	
+
+
 func _handle_died() -> void:
 	remove_from_group("enemies")

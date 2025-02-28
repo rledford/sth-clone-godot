@@ -4,6 +4,7 @@ var _game: Game
 var _end_screen: EndScreen
 var _music: Music
 
+
 func _ready() -> void:
 	_music = Music.new()
 	add_child(_music)
@@ -11,9 +12,11 @@ func _ready() -> void:
 	SignalBus.start_new_game.connect(_handle_new_game)
 	_new_game()
 
+
 func _new_game() -> void:
 	_game = Game.create()
 	add_child(_game)
+
 
 func _handle_game_over(wave: int) -> void:
 	_end_screen = EndScreen.create(wave)
@@ -25,10 +28,12 @@ func _handle_new_game() -> void:
 	_delete_end_screen()
 	_new_game()
 
+
 func _delete_game() -> void:
 	if _game:
 		_game.queue_free()
 		_game = null
+
 
 func _delete_end_screen() -> void:
 	if _end_screen:

@@ -122,5 +122,4 @@ func _handle_player_hit(amount: int) -> void:
 
 
 func _handle_fire_rate_upgrade(level: int):
-	fire_rate =  base_fire_rate - (level * base_fire_rate * 0.1)
-	
+	fire_rate = base_fire_rate - (level * base_fire_rate * 0.1)
