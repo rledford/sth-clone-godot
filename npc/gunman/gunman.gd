@@ -32,10 +32,8 @@ func _physics_process(delta: float) -> void:
 		_aim_at(_target, delta)
 
 
-func act() -> void:
-	# Idea, we might want to store the previous X actions, and decide to do something different
-	# Like reloading when we don't have a full magazine and there weren't any enemies for a while
-	var action = await think()
+func act(actions: Array[Action] = []) -> void:
+	var action = await think(actions)
 
 	match action:
 		Action.SHOOT:
@@ -49,10 +47,14 @@ func act() -> void:
 		Action.RELOAD:
 			print("[Gunman] Reloading")
 
-	act()
+	actions.append(action)
+	if actions.size() > 4:
+		actions.remove_at(0)
+
+	act(actions)
 
 
-func think() -> Action:
+func think(actions: Array[Action]) -> Action:
 	await get_tree().create_timer(_get_thinking_time()).timeout
 
 	if not _has_ammo():
@@ -63,7 +65,9 @@ func think() -> Action:
 			return Action.AIM
 		if _is_in_sight(_target):
 			return Action.SHOOT
-	elif not _has_full_ammo():
+
+	var been_looking_a_while = actions.all(func(a): return a == Action.LOOK_FOR_TARGETS)
+	if been_looking_a_while and not _has_full_ammo():
 		return Action.RELOAD
 
 	return Action.LOOK_FOR_TARGETS
@@ -81,12 +85,13 @@ func _shoot() -> void:
 	await get_tree().create_timer(shoot_time).timeout
 
 
+# TODO: implement a magazine that works for all weapons
 func _has_ammo() -> bool:
 	return true
 
 
 func _has_full_ammo() -> bool:
-	return true
+	return false
 
 
 func _acquire_target() -> void:
