@@ -46,7 +46,8 @@ func has_valid_attack_position() -> bool:
 
 func attack_anim_finished() -> void:
 	if hp <= 0:
-		print("shouldn't be attacking when dead")
+		print("shouldn't be attacking when dead - changing to death state in this method is a workaround")
+		fsm.change_state("death")
 	else:
 		SignalBus.player_hit.emit(damage)
 
