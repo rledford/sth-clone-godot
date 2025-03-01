@@ -41,10 +41,10 @@ func attack_state_enter():
 
 
 func death_state_enter():
-	SignalBus.enemy_died.emit(coin_reward)
 	died.emit()
 	anim.play("death")
 	collider.disabled = true
+	SignalBus.enemy_died.emit(coin_reward)
 
 
 func init_fsm() -> void:

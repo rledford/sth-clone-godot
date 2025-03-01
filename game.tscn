@@ -79,7 +79,7 @@ texture = ExtResource("2_45bvi")
 sources/1 = SubResource("TileSetAtlasSource_xa82j")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ctb01"]
-size = Vector2(20, 204.25)
+size = Vector2(769, 148)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_3d8c0")
@@ -93,13 +93,12 @@ tile_set = SubResource("TileSet_e7gln")
 
 [node name="EnemySpawn" type="Node2D" parent="."]
 y_sort_enabled = true
-position = Vector2(-23, 158)
 script = ExtResource("3_6mtbq")
-metadata/_edit_group_ = true
 
 [node name="SpawnArea" type="Area2D" parent="EnemySpawn"]
 input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawn/SpawnArea" groups=["enemy_spawn_areas"]]
+position = Vector2(-431.5, 158)
 shape = SubResource("RectangleShape2D_ctb01")
 disabled = true
