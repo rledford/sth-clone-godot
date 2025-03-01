@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=4 uid="uid://slofpfprsu74"]
+[gd_scene load_steps=9 format=4 uid="uid://slofpfprsu74"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3d8c0"]
 [ext_resource type="Texture2D" uid="uid://csgdvhu6rhpts" path="res://sprites/sprites.png" id="2_45bvi"]
 [ext_resource type="Script" path="res://enemy/enemy_spawn.gd" id="3_6mtbq"]
 [ext_resource type="Script" path="res://ground/ground.gd" id="3_lsyou"]
+[ext_resource type="PackedScene" uid="uid://24ft8ilcffew" path="res://brazier.tscn" id="8_p77ok"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xa82j"]
 texture = ExtResource("2_45bvi")
@@ -103,3 +104,12 @@ input_pickable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawn/SpawnArea" groups=["enemy_spawn_areas"]]
 shape = SubResource("RectangleShape2D_ctb01")
 disabled = true
+
+[node name="Darkness" type="CanvasModulate" parent="."]
+color = Color(0, 0, 0, 0.470588)
+
+[node name="Brazier" parent="." instance=ExtResource("8_p77ok")]
+position = Vector2(350, 247)
+
+[node name="Brazier2" parent="." instance=ExtResource("8_p77ok")]
+position = Vector2(349, 73)

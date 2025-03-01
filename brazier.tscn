@@ -1,0 +1,27 @@
+[gd_scene load_steps=7 format=3 uid="uid://24ft8ilcffew"]
+
+[ext_resource type="PackedScene" uid="uid://oy3y3ii0oio6" path="res://fire.tscn" id="1_0kx7s"]
+[ext_resource type="Texture2D" uid="uid://b7x7cl88b06an" path="res://sprites/brazier.png" id="1_cgqsm"]
+[ext_resource type="Texture2D" uid="uid://dqsc36j4enk43" path="res://sprites/brazier_n.png" id="2_giuhx"]
+[ext_resource type="Texture2D" uid="uid://cbfnqm3s1of65" path="res://sprites/brazier_s.png" id="3_gxr0a"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_bb2ue"]
+polygon = PackedVector2Array(-8, -1, -8, 3, -7, 3, -7, 4, -6, 4, -6, 5, -5, 5, -5, 7, -3, 7, -3, 8, 3, 8, 3, 7, 5, 7, 5, 5, 6, 5, 6, 4, 7, 4, 7, 3, 8, 3, 8, -1, 7, -1, 7, 2, 6, 2, 6, -1, 5, -1, 5, 4, 4, 4, 4, -1, 3, -1, 3, 4, 2, 4, 2, -1, 1, -1, 1, 4, -1, 4, -1, -1, -2, -1, -2, 4, -3, 4, -3, -1, -4, -1, -4, 4, -5, 4, -5, -1, -6, -1, -6, 2, -7, 2, -7, -1)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_j66ch"]
+diffuse_texture = ExtResource("1_cgqsm")
+normal_texture = ExtResource("2_giuhx")
+specular_texture = ExtResource("3_gxr0a")
+
+[node name="Brazier" type="Node2D"]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+visible = false
+occluder = SubResource("OccluderPolygon2D_bb2ue")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("CanvasTexture_j66ch")
+
+[node name="Fire" parent="." instance=ExtResource("1_0kx7s")]
+position = Vector2(0, -3)
+scale = Vector2(0.2, 0.2)
