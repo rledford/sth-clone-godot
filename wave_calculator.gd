@@ -24,9 +24,7 @@ func get_enemy_spawns(wave_number: int):
 
 	for _index in range(total_batches):
 		var enemy_difficulty_pool = _enemies.keys().filter(
-			_filter_lte(
-				_get_max_enemy_score(difficulty)
-			)
+			_filter_lte(_get_max_enemy_score(difficulty))
 		)
 		var max_enemy_difficulty = enemy_difficulty_pool.max()
 
@@ -37,7 +35,9 @@ func get_enemy_spawns(wave_number: int):
 		while batch_score < target_batch_score and total_difficulty < difficulty:
 			var remaining_batch_score = target_batch_score - batch_score
 			if remaining_batch_score < max_enemy_difficulty:
-				enemy_difficulty_pool = enemy_difficulty_pool.filter(_filter_lte(remaining_batch_score))
+				enemy_difficulty_pool = enemy_difficulty_pool.filter(
+					_filter_lte(remaining_batch_score)
+				)
 				max_enemy_difficulty = enemy_difficulty_pool.max()
 
 			var enemy_difficulty = enemy_difficulty_pool.pick_random()

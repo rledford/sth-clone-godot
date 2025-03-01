@@ -21,9 +21,10 @@ func spawn_wave(wave) -> void:
 
 		await get_tree().create_timer(1.0).timeout
 
+
 func _on_enemy_died() -> void:
-		if len(get_tree().get_nodes_in_group("enemies")) == 0:
-			wave_cleared.emit()
+	if len(get_tree().get_nodes_in_group("enemies")) == 0:
+		wave_cleared.emit()
 
 
 func _spawn(score: int) -> Enemy:
@@ -40,7 +41,7 @@ func _random_spawn_position() -> Vector2:
 	var size: Vector2 = area.shape.get_rect().size
 
 	var rand_x = randf_range(
-		area.global_position.x - (size.x *0.5), area.global_position.x + (size.x * 0.5)
+		area.global_position.x - (size.x * 0.5), area.global_position.x + (size.x * 0.5)
 	)
 
 	var rand_y = randf_range(
