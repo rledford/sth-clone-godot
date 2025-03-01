@@ -1,12 +1,14 @@
 class_name Gunman
 extends Node2D
 
+enum Action { SHOOT, LOOK_FOR_TARGETS, AIM, RELOAD }
 const Scene = preload("res://npc/gunman/gunman.tscn")
 
 var damage = 1
+var base_thinking_time = 0.25
+var shoot_time = 1
+
 var _target: Enemy
-var _fire_time: float = 0.75
-var _fire_timer: float = 0.0
 
 @onready var _collider: CollisionShape2D = $Area2D/CollisionShape2D
 @onready var _muzzle_fire_particle: CPUParticles2D = $MuzzleFireParticle
@@ -19,27 +21,72 @@ static func create() -> Gunman:
 
 
 func _ready() -> void:
-	_fire_timer = _fire_time
-	_muzzle_fire_particle.emitting = false
 	_muzzle_fire_particle.one_shot = true
+	_muzzle_fire_particle.emitting = false
+
+	act()
 
 
 func _physics_process(delta: float) -> void:
-	if not _target:
-		return _acquire_target()
+	if _target:
+		_aim_at(_target, delta)
 
-	_aim_at(_target, delta)
 
-	if not _is_in_sight(_target):
-		return
+func act() -> void:
+	# Idea, we might want to store the previous X actions, and decide to do something different
+	# Like reloading when we don't have a full magazine and there weren't any enemies for a while
+	var action = await think()
 
-	_fire_timer = max(_fire_timer - delta, 0)
-	if _fire_timer <= 0:
-		_fire_timer = _fire_time
-		_muzzle_fire_particle.restart()
-		_muzzle_fire_particle.emitting = true
-		_gun_shot_sfx.play()
-		_target.hit.emit(damage)
+	match action:
+		Action.SHOOT:
+			print("[Gunman] Firing at target")
+			await _shoot()
+		Action.LOOK_FOR_TARGETS:
+			print("[Gunman] Looking for targets")
+			_acquire_target()
+		Action.AIM:
+			print("[Gunman] Aiming at target")
+		Action.RELOAD:
+			print("[Gunman] Reloading")
+
+	act()
+
+
+func think() -> Action:
+	await get_tree().create_timer(_get_thinking_time()).timeout
+
+	if not _has_ammo():
+		return Action.RELOAD
+
+	if _target:
+		if not _is_in_sight(_target):
+			return Action.AIM
+		if _is_in_sight(_target):
+			return Action.SHOOT
+	elif not _has_full_ammo():
+		return Action.RELOAD
+
+	return Action.LOOK_FOR_TARGETS
+
+
+func _get_thinking_time() -> float:
+	return base_thinking_time * randf_range(0.9, 1.1)
+
+
+func _shoot() -> void:
+	_muzzle_fire_particle.restart()
+	_muzzle_fire_particle.emitting = true
+	_gun_shot_sfx.play()
+	_target.hit.emit(damage)
+	await get_tree().create_timer(shoot_time).timeout
+
+
+func _has_ammo() -> bool:
+	return true
+
+
+func _has_full_ammo() -> bool:
+	return true
 
 
 func _acquire_target() -> void:
@@ -67,16 +114,11 @@ func _get_aim_direction(node: Node) -> float:
 
 func _handle_target_died() -> void:
 	print("[Gunman] Target died!")
-	_fire_timer = _fire_time
 	_target = null
 
 
 func _get_available_targets() -> Array[Node]:
 	return (get_tree().get_nodes_in_group("enemies")).filter(_is_in_range)
-
-
-func _rand_aim_time() -> float:
-	return randf_range(0.25, 0.75)
 
 
 func _is_in_range(a: Node2D) -> bool:
