@@ -1,8 +1,6 @@
 class_name Stronghold
 extends Node2D
 
-const Gunman = preload("res://npc/gunman/gunman.tscn")
-
 var _health: Health
 
 
@@ -21,7 +19,7 @@ func get_health() -> Health:
 
 
 func _handle_gunman_upgrade(_level: int):
-	var gunman = Gunman.instantiate()
+	var gunman = Gunman.create()
 	var posts = get_tree().get_nodes_in_group("gunman_posts") as Array[Node2D]
 	var min_occupancy = (
 		posts
