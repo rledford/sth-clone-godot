@@ -1,12 +1,7 @@
 class_name Player
 extends Node2D
 
-@onready var area_2d: Area2D = $Area2D
-@onready var shoot_audio_stream: AudioStreamPlayer2D = $ShootAudioStream
-@onready var no_ammo_audio_stream: AudioStreamPlayer2D = $NoAmmoAudioStream
-@onready var single_bullet_load_stream: AudioStreamPlayer2D = $SingleBulletLoadStream
-
-const scene = preload("res://player/player.tscn")
+const Scene = preload("res://player/player.tscn")
 
 var damage: float = 1.0
 var base_fire_rate: float = 0.2
@@ -19,11 +14,16 @@ var _is_reloading: bool = false
 ## The time it takes to reload one bullet
 var _reload_time: float = 0.35
 var _reload_timer: float = 0.0
-var _magazine: Magazine
+var _magazine: PlayerMagazine
+
+@onready var area_2d: Area2D = $Area2D
+@onready var shoot_audio_stream: AudioStreamPlayer2D = $ShootAudioStream
+@onready var no_ammo_audio_stream: AudioStreamPlayer2D = $NoAmmoAudioStream
+@onready var single_bullet_load_stream: AudioStreamPlayer2D = $SingleBulletLoadStream
 
 
-static func create(magazine: Magazine) -> Player:
-	var instance = scene.instantiate()
+static func create(magazine: PlayerMagazine) -> Player:
+	var instance = Scene.instantiate()
 	instance._magazine = magazine
 
 	return instance
