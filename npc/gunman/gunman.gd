@@ -5,7 +5,6 @@ const Scene = preload("res://npc/gunman/gunman.tscn")
 
 var damage = 1
 var _target: Enemy
-var _aim_timer: float = 0.0
 var _fire_time: float = 0.75
 var _fire_timer: float = 0.0
 
@@ -20,7 +19,6 @@ static func create() -> Gunman:
 
 
 func _ready() -> void:
-	_aim_timer = _rand_aim_time()
 	_fire_timer = _fire_time
 	_muzzle_fire_particle.emitting = false
 	_muzzle_fire_particle.one_shot = true
@@ -30,21 +28,18 @@ func _physics_process(delta: float) -> void:
 	if not _target:
 		return _acquire_target()
 
+	_aim_at(_target, delta)
+
 	if not _is_in_sight(_target):
-		return _aim_at(_target, delta)
+		return
 
-	if _is_in_sight(_target):
-		_aim_timer = max(_aim_timer - delta, 0)
-		if _aim_timer > 0:
-			return
-
-		_fire_timer = max(_fire_timer - delta, 0)
-		if _fire_timer <= 0:
-			_fire_timer = _fire_time
-			_muzzle_fire_particle.restart()
-			_muzzle_fire_particle.emitting = true
-			_gun_shot_sfx.play()
-			_target.hit.emit(damage)
+	_fire_timer = max(_fire_timer - delta, 0)
+	if _fire_timer <= 0:
+		_fire_timer = _fire_time
+		_muzzle_fire_particle.restart()
+		_muzzle_fire_particle.emitting = true
+		_gun_shot_sfx.play()
+		_target.hit.emit(damage)
 
 
 func _acquire_target() -> void:
@@ -72,7 +67,6 @@ func _get_aim_direction(node: Node) -> float:
 
 func _handle_target_died() -> void:
 	print("[Gunman] Target died!")
-	_aim_timer = _rand_aim_time()
 	_fire_timer = _fire_time
 	_target = null
 
