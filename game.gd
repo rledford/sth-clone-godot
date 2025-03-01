@@ -30,7 +30,7 @@ func _ready() -> void:
 	_waves = Waves.new(enemy_spawn)
 	add_child(_waves)
 
-	_magazine = Magazine.new()
+	_magazine = PlayerMagazine.new(7, 7)
 
 	var player = Player.create(_magazine)
 

@@ -9,10 +9,12 @@ var base_thinking_time = 0.25
 var shoot_time = 1
 
 var _target: Enemy
+var _magazine: Magazine
 
 @onready var _collider: CollisionShape2D = $Area2D/CollisionShape2D
 @onready var _muzzle_fire_particle: CPUParticles2D = $MuzzleFireParticle
 @onready var _gun_shot_sfx: AudioStreamPlayer2D = $GunShotSFX
+@onready var _single_bullet_load_stream: AudioStreamPlayer2D = $SingleBulletLoadStream
 
 
 static func create() -> Gunman:
@@ -23,6 +25,7 @@ static func create() -> Gunman:
 func _ready() -> void:
 	_muzzle_fire_particle.one_shot = true
 	_muzzle_fire_particle.emitting = false
+	_magazine = Magazine.new(2, 2)
 
 	act()
 
@@ -46,6 +49,7 @@ func act(actions: Array[Action] = []) -> void:
 			print("[Gunman] Aiming at target")
 		Action.RELOAD:
 			print("[Gunman] Reloading")
+			await _reload()
 
 	actions.append(action)
 	if actions.size() > 4:
@@ -57,7 +61,7 @@ func act(actions: Array[Action] = []) -> void:
 func think(actions: Array[Action]) -> Action:
 	await get_tree().create_timer(_get_thinking_time()).timeout
 
-	if not _has_ammo():
+	if not _magazine.has_ammo():
 		return Action.RELOAD
 
 	if _target:
@@ -67,31 +71,30 @@ func think(actions: Array[Action]) -> Action:
 			return Action.SHOOT
 
 	var been_looking_a_while = actions.all(func(a): return a == Action.LOOK_FOR_TARGETS)
-	if been_looking_a_while and not _has_full_ammo():
+	if been_looking_a_while and not _magazine.is_full():
 		return Action.RELOAD
 
 	return Action.LOOK_FOR_TARGETS
 
 
 func _get_thinking_time() -> float:
-	return base_thinking_time * randf_range(0.9, 1.1)
+	return base_thinking_time * randf_range(0.9, 1.3)
 
 
 func _shoot() -> void:
 	_muzzle_fire_particle.restart()
 	_muzzle_fire_particle.emitting = true
 	_gun_shot_sfx.play()
+	_magazine.unload(1)
 	_target.hit.emit(damage)
 	await get_tree().create_timer(shoot_time).timeout
 
 
-# TODO: implement a magazine that works for all weapons
-func _has_ammo() -> bool:
-	return true
-
-
-func _has_full_ammo() -> bool:
-	return false
+func _reload() -> void:
+	while not _magazine.is_full():
+		_single_bullet_load_stream.play()
+		_magazine.load(1)
+		await get_tree().create_timer(1).timeout
 
 
 func _acquire_target() -> void:
