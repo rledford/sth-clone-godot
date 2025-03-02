@@ -6,11 +6,11 @@ var _health: Health
 
 func _ready() -> void:
 	GunmanUpgrade.new().level_changed.connect(_handle_gunman_upgrade)
-	RepairUpgrade.new().level_changed.connect(_on_repair_level_changed)
 	_health = Health.new(100)
 	_health.health_changed.connect(SignalBus.player_health_changed.emit)
 	_health.died.connect(SignalBus.player_died.emit)
 
+	RepairUpgrade.new(_health).level_changed.connect(_on_repair_level_changed)
 	SignalBus.player_hit.connect(_on_player_hit)
 
 

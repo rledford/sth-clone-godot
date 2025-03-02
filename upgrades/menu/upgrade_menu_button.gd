@@ -4,15 +4,17 @@ extends PanelContainer
 const Scene = preload("res://upgrades/menu/upgrade_menu_button.tscn")
 
 var _upgrade: Upgrade
+var _system: UpgradeSystem
 
 @onready var name_label: Label = %UpgradeName
 @onready var cost_label: Label = %UpgradeCost
 @onready var buy_btn: Button = %UpgradeBuyButton
 
 
-static func create(upgrade: Upgrade) -> UpgradeMenuButton:
+static func create(upgrade: Upgrade, system: UpgradeSystem) -> UpgradeMenuButton:
 	var instance = Scene.instantiate()
 	instance._upgrade = upgrade
+	instance._system = system
 	return instance
 
 
@@ -24,12 +26,11 @@ func _ready() -> void:
 	SignalBus.open_upgrade_menu.connect(update_values)
 
 
-# Should somehow get the current coin count to disable/enable the button
 func update_values() -> void:
 	name_label.text = _upgrade.get_label()
 	cost_label.text = String.num(_upgrade.get_cost())
+	buy_btn.disabled = not _system.can_afford(_upgrade) or not _upgrade.can_buy()
 
 
 func _on_buy() -> void:
-	# This could be a local signal, and it should be past tense
-	SignalBus.attempt_upgrade.emit(_upgrade)
+	_system.attempt_upgrade(_upgrade)
