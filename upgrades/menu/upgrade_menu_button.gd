@@ -29,7 +29,7 @@ func _ready() -> void:
 func update_values() -> void:
 	name_label.text = _upgrade.get_label()
 	cost_label.text = String.num(_upgrade.get_cost())
-	buy_btn.disabled = not _system.can_afford(_upgrade)
+	buy_btn.disabled = not _system.can_afford(_upgrade) or not _upgrade.can_buy()
 
 
 func _on_buy() -> void:

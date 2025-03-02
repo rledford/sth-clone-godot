@@ -30,6 +30,8 @@ func get_upgrades() -> Array[Upgrade]:
 func attempt_upgrade(upgrade: Upgrade) -> void:
 	if not can_afford(upgrade):
 		return
+	if not upgrade.can_buy():
+		return
 
 	var cost = upgrade.get_cost()
 

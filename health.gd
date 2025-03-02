@@ -13,6 +13,10 @@ func _init(max_health: int) -> void:
 	_health = max_health
 
 
+func is_full() -> bool:
+	return _health == _max_health
+
+
 func get_health() -> int:
 	return _health
 

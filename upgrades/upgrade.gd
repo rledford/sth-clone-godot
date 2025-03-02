@@ -28,6 +28,10 @@ var _level: int = 0
 var _category: UpgradeCategory
 
 
+func can_buy() -> bool:
+	return true
+
+
 func get_cost() -> int:
 	@warning_ignore("ASSERT_ALWAYS_TRUE")
 	assert("get_cost needs to be implemented in subclasses")
