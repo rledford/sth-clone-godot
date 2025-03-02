@@ -8,7 +8,7 @@ extends Enemy
 func _ready() -> void:
 	hp = 2
 	damage = 1
-	speed = 80.0
+	speed = 65.0
 	coin_reward = 3
 	init_fsm()
 
@@ -41,10 +41,10 @@ func attack_state_enter():
 
 
 func death_state_enter():
-	SignalBus.enemy_died.emit(coin_reward)
 	died.emit()
 	anim.play("death")
 	collider.disabled = true
+	SignalBus.enemy_died.emit(coin_reward)
 
 
 func init_fsm() -> void:

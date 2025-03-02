@@ -31,7 +31,8 @@ func _update_attack_position() -> void:
 	var target_size = target.shape.get_rect().size as Vector2
 	var rand_x = target.global_position.x - (target_size.x * 0.5)
 
-	var rand_y = randi_range(
+	var rand_y = clamp(
+		global_position.y,
 		target.global_position.y - (target_size.y * 0.5),
 		target.global_position.y + (target_size.y * 0.5)
 	)
@@ -44,7 +45,13 @@ func has_valid_attack_position() -> bool:
 
 
 func attack_anim_finished() -> void:
-	SignalBus.player_hit.emit(damage)
+	if hp <= 0:
+		print(
+			"shouldn't be attacking when dead - changing to death state in this method is a workaround"
+		)
+		fsm.change_state("death")
+	else:
+		SignalBus.player_hit.emit(damage)
 
 
 func flip() -> void:

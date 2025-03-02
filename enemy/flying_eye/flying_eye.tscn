@@ -386,7 +386,7 @@ debug_color = Color(1, 0.0118072, 0.01923, 0.42)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ho8vj")
-animation = &"fly"
+animation = &"attack"
 frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

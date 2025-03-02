@@ -12,20 +12,20 @@ const Mushroom = preload("res://enemy/mushroom/mushroom.tscn")
 const ENEMIES: Dictionary = {1: [FlyingEye], 2: [Goblin], 4: [Skeleton], 6: [Mushroom]}
 
 
-func spawn_wave(wave: Array) -> void:
-	for i in wave.size():
-		var item = wave[i]
-		var enemy = _spawn(item.score)
-		var is_last_enemy = i == wave.size() - 1
+func spawn_wave(wave: Array, wave_frequency: float) -> void:
+	print('[Enemy Spawn] Spawning wave in ', len(wave), ' batches at ', wave_frequency, ' frequency')
+	for batch in wave:
+		print("[Enemy Spawn] Spawning batch ", batch)
+		for enemy_difficulty in batch:
+			var enemy = _spawn(enemy_difficulty)
+			enemy.died.connect(_on_enemy_died)
 
-		if is_last_enemy:
-			enemy.died.connect(wave_cleared.emit)
-
-		await get_tree().create_timer(item.spawn_timer).timeout
+		await get_tree().create_timer(wave_frequency).timeout
 
 
-func is_valid_score(score: int) -> bool:
-	return ENEMIES.has(score)
+func _on_enemy_died() -> void:
+	if len(get_tree().get_nodes_in_group("enemies")) == 0:
+		wave_cleared.emit()
 
 
 func _spawn(score: int) -> Enemy:
@@ -41,7 +41,10 @@ func _random_spawn_position() -> Vector2:
 	var area: CollisionShape2D = areas.pick_random()
 	var size: Vector2 = area.shape.get_rect().size
 
-	var rand_x = area.global_position.x
+	var rand_x = randf_range(
+		area.global_position.x - (size.x * 0.5), area.global_position.x + (size.x * 0.5)
+	)
+
 	var rand_y = randf_range(
 		area.global_position.y - (size.y * 0.5), area.global_position.y + (size.y * 0.5)
 	)

@@ -10,4 +10,4 @@ func _init() -> void:
 
 
 func get_cost() -> int:
-	return (_level * 25) + 50
+	return (_level * 50) + 100
