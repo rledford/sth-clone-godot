@@ -18,7 +18,7 @@ func _ready() -> void:
 	close_btn.pressed.connect(_on_close)
 	var upgrades = _upgrade_system.get_upgrades()
 	for upgrade in upgrades:
-		var upgrade_item = UpgradeMenuButton.create(upgrade)
+		var upgrade_item = UpgradeMenuButton.create(upgrade, _upgrade_system)
 		upgrades_grid.add_child(upgrade_item)
 
 

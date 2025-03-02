@@ -16,7 +16,6 @@ func _init(purse: CoinPurse) -> void:
 	# Should come up with something a bit more elegant
 	# It could be a simple callable instead which will not silently fail at least
 	SignalBus.register_upgrade.connect(_handle_register_upgrade)
-	SignalBus.attempt_upgrade.connect(_handle_attempt_upgrade)
 
 
 func can_afford(upgrade: Upgrade) -> bool:
@@ -28,7 +27,7 @@ func get_upgrades() -> Array[Upgrade]:
 	return _upgrades
 
 
-func _handle_attempt_upgrade(upgrade: Upgrade) -> void:
+func attempt_upgrade(upgrade: Upgrade) -> void:
 	if not can_afford(upgrade):
 		return
 
