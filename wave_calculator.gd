@@ -92,7 +92,7 @@ func _is_valid_score(score: int) -> bool:
 
 func _get_difficulty(wave_number: int) -> int:
 	# Diffuclty increases linearly, which is boring, should have some more interesting curve
-	return 5 + log(wave_number + 1) + wave_number
+	return 5 + ceil(wave_number * 1.5)
 
 
 func _get_max_enemy_score(difficulty: int) -> int:
