@@ -12,14 +12,15 @@ const Mushroom = preload("res://enemy/mushroom/mushroom.tscn")
 const ENEMIES: Dictionary = {1: [FlyingEye], 2: [Goblin], 4: [Skeleton], 6: [Mushroom]}
 
 
-func spawn_wave(wave) -> void:
+func spawn_wave(wave: Array, wave_frequency: float) -> void:
+	print('[Enemy Spawn] Spawning wave in ', len(wave), ' batches at ', wave_frequency, ' frequency')
 	for batch in wave:
 		print("[Enemy Spawn] Spawning batch ", batch)
 		for enemy_difficulty in batch:
 			var enemy = _spawn(enemy_difficulty)
 			enemy.died.connect(_on_enemy_died)
 
-		await get_tree().create_timer(1.0).timeout
+		await get_tree().create_timer(wave_frequency).timeout
 
 
 func _on_enemy_died() -> void:
