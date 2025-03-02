@@ -8,7 +8,7 @@ extends Enemy
 func _ready() -> void:
 	hp = 2
 	damage = 1
-	speed = 80.0
+	speed = 65.0
 	coin_reward = 3
 	init_fsm()
 
