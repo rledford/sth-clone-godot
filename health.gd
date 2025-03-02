@@ -2,6 +2,7 @@ class_name Health
 extends Resource
 
 signal health_changed(health: int, max_health: int)
+signal took_damage
 signal died
 
 var _max_health: int
@@ -27,6 +28,7 @@ func get_max_health() -> int:
 
 func take_damage(damage: int) -> void:
 	_change_health(_health - damage)
+	took_damage.emit()
 
 
 func heal(amount: int) -> void:

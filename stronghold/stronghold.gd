@@ -10,6 +10,7 @@ func _ready() -> void:
 	_health.health_changed.connect(SignalBus.player_health_changed.emit)
 	_health.died.connect(SignalBus.player_died.emit)
 
+	RepairmanUpgrade.new().level_changed.connect(_on_repairman_upgraded)
 	RepairUpgrade.new(_health).level_changed.connect(_on_repair_level_changed)
 	SignalBus.player_hit.connect(_on_player_hit)
 
@@ -45,3 +46,7 @@ func _on_player_hit(damage: int) -> void:
 
 func _on_repair_level_changed(_level: int) -> void:
 	_health.heal(20)
+
+
+func _on_repairman_upgraded(_level: int) -> void:
+	add_child(Repairman.new(_health))
