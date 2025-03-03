@@ -13,6 +13,8 @@ func _init(health: Health) -> void:
 	_health = health
 	_health.took_damage.connect(_on_damage_taken)
 
+
+func _ready() -> void:
 	act()
 
 
