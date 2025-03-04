@@ -46,6 +46,10 @@ func unload(amount: int) -> void:
 	_change_ammo(_ammo - amount)
 
 
+func new_clip() -> void:
+	_change_ammo(_max_ammo)
+
+
 func _change_ammo(ammo: int, max_ammo = _max_ammo) -> void:
 	_ammo = clamp(ammo, 0, max_ammo)
 	_max_ammo = max_ammo
