@@ -3,13 +3,12 @@ extends Weapon
 
 const Scene = preload("res://player/weapons/uzi/uzi.tscn")
 
-var damage: float = 0.5
+var damage: float = 1
 var base_fire_rate: float = 0.05
 var reload_time: float = 2
 
 var _magazine: PlayerMagazine
-var _is_reloading: bool = false
-var _is_shooting: bool = false
+var _state: String = "idle"
 
 @onready var shoot_audio_stream: AudioStreamPlayer2D = $ShootAudioStream
 @onready var no_ammo_audio_stream: AudioStreamPlayer2D = $NoAmmoAudioStream
@@ -27,28 +26,15 @@ func _ready() -> void:
 
 
 func start_shooting(point: Vector2) -> void:
-	_shoot(point)
+	_on_event("shoot", point)
 
 
 func spray(point: Vector2) -> void:
-	_shoot(point)
+	_on_event("shoot", point)
 
 
 func reload() -> void:
-	if _magazine.is_full():
-		_is_reloading = false
-		return
-
-	if _is_reloading:
-		return
-
-	_is_reloading = true
-
-	reload_audio_stream.play()
-	await get_tree().create_timer(reload_time).timeout
-
-	_magazine.new_clip()
-	_is_reloading = false
+	_on_event("reload", null)
 
 
 func get_magazine() -> PlayerMagazine:
@@ -60,25 +46,48 @@ func _shoot(point: Vector2) -> void:
 		no_ammo_audio_stream.play()
 		return
 
-	if _is_shooting:
-		return
-
-	_is_reloading = false
-	_is_shooting = true
-
 	shoot_audio_stream.play()
 	_magazine.unload(1)
 
 	shoot_area.global_position = point
 
 	var enemies = shoot_area.get_overlapping_bodies()
-	enemies.sort_custom(y_sort)
-	var enemy = enemies.front()
-
-	if enemy:
-		enemy.hit.emit(damage)
-	else:
+	if enemies.size() == 0:
 		SignalBus.shot_hit_ground.emit(point)
+	else:
+		enemies.sort_custom(y_sort)
+		var enemy = enemies.front()
+
+		if enemy:
+			enemy.hit.emit(damage)
 
 	await get_tree().create_timer(base_fire_rate).timeout
-	_is_shooting = false
+
+
+func _reload() -> void:
+	reload_audio_stream.play()
+	await get_tree().create_timer(reload_time).timeout
+	_magazine.new_clip()
+
+
+# Not sure if I can type ctx depending on event, probably not
+func _on_event(event: String, ctx) -> void:
+	print("sending event ", event)
+	assert(event in ["shoot", "reload"])
+	if _state != "idle":
+		return
+	match event:
+		"shoot":
+			_set_state("shooting")
+			await _shoot(ctx)
+		"reload":
+			_set_state("reloading")
+			await _reload()
+
+	_set_state("idle")
+
+
+func _set_state(state: String) -> void:
+	print("setting state to ", state)
+	assert(state in ["idle", "shooting", "reloading"])
+	_state = state
