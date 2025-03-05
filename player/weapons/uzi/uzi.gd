@@ -25,35 +25,45 @@ func _ready() -> void:
 	_magazine = PlayerMagazine.new(25)
 
 
-func start_shooting(point: Vector2) -> void:
-	_on_event("shoot", point)
+func point_to(point: Vector2) -> void:
+	shoot_area.global_position = point
 
 
-func spray(point: Vector2) -> void:
-	_on_event("shoot", point)
+func pull_trigger() -> void:
+	_on_event("pull-trigger")
+
+
+func release_trigger() -> void:
+	_on_event("release-trigger")
 
 
 func reload() -> void:
-	_on_event("reload", null)
+	_on_event("reload")
 
 
 func get_magazine() -> PlayerMagazine:
 	return _magazine
 
 
-func _shoot(point: Vector2) -> void:
+func _start_shooting() -> void:
+	await _shoot()
+	print("Shot once, checking for state ", _state)
+	if _state == "shooting":
+		_start_shooting()
+
+
+func _shoot() -> void:
 	if not _magazine.has_ammo():
 		no_ammo_audio_stream.play()
+		await get_tree().create_timer(base_fire_rate).timeout
 		return
 
 	shoot_audio_stream.play()
 	_magazine.unload(1)
 
-	shoot_area.global_position = point
-
 	var enemies = shoot_area.get_overlapping_bodies()
 	if enemies.size() == 0:
-		SignalBus.shot_hit_ground.emit(point)
+		SignalBus.shot_hit_ground.emit(shoot_area.global_position)
 	else:
 		enemies.sort_custom(y_sort)
 		var enemy = enemies.front()
@@ -70,21 +80,22 @@ func _reload() -> void:
 	_magazine.new_clip()
 
 
-# Not sure if I can type ctx depending on event, probably not
-func _on_event(event: String, ctx) -> void:
+func _on_event(event: String) -> void:
 	print("sending event ", event)
-	assert(event in ["shoot", "reload"])
-	if _state != "idle":
-		return
+	assert(event in ["pull-trigger", "release-trigger", "reload"])
+
 	match event:
-		"shoot":
+		"pull-trigger":
+			if _state != "idle":
+				return
 			_set_state("shooting")
-			await _shoot(ctx)
+			_start_shooting()
+		"release-trigger":
+			_set_state("idle")
 		"reload":
 			_set_state("reloading")
 			await _reload()
-
-	_set_state("idle")
+			_set_state("idle")
 
 
 func _set_state(state: String) -> void:

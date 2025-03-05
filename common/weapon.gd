@@ -2,15 +2,15 @@ class_name Weapon
 extends Node2D
 
 
-func start_shooting(_point: Vector2) -> void:
+func pull_trigger() -> void:
 	pass
 
 
-func spray(_point: Vector2) -> void:
+func release_trigger() -> void:
 	pass
 
 
-func stop_shooting() -> void:
+func point_to(_point: Vector2) -> void:
 	pass
 
 

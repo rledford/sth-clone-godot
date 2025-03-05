@@ -5,8 +5,6 @@ const Scene = preload("res://player/player.tscn")
 
 var _weapon: Weapon
 
-var _is_shooting: bool = false
-
 
 static func create() -> Player:
 	var instance = Scene.instantiate()
@@ -27,18 +25,14 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	global_position = get_global_mouse_position()
-
-	if _is_shooting:
-		_weapon.spray(global_position)
+	_weapon.point_to(global_position)
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("shoot"):
-		_is_shooting = true
-		_weapon.start_shooting(global_position)
+		_weapon.pull_trigger()
 	elif event.is_action_released("shoot"):
-		_is_shooting = false
-		_weapon.stop_shooting()
+		_weapon.release_trigger()
 	elif event.is_action_pressed("reload"):
 		_weapon.reload()
 
