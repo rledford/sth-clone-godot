@@ -7,8 +7,11 @@ var damage: float = 1
 var base_fire_rate: float = 0.05
 var reload_time: float = 2
 
-var _magazine: PlayerMagazine
+var _magazine: Magazine
 var _state: String = "idle"
+
+var _fire_rate_upgrade: FireRateUpgrade
+var _clip_size_upgrade: ClipSizeUpgrade
 
 @onready var shoot_audio_stream: AudioStreamPlayer2D = $ShootAudioStream
 @onready var no_ammo_audio_stream: AudioStreamPlayer2D = $NoAmmoAudioStream
@@ -16,13 +19,15 @@ var _state: String = "idle"
 @onready var shoot_area: Area2D = $ShootArea
 
 
-static func create() -> Uzi:
+static func create(fire_rate_upgrade: FireRateUpgrade, clip_size_upgrade: ClipSizeUpgrade) -> Uzi:
 	var instance = Scene.instantiate()
+	instance._fire_rate_upgrade = fire_rate_upgrade
+	instance._clip_size_upgrade = clip_size_upgrade
 	return instance
 
 
 func _ready() -> void:
-	_magazine = PlayerMagazine.new(25)
+	_magazine = PlayerMagazine.new(25, _clip_size_upgrade, 0.5)
 
 
 func point_to(point: Vector2) -> void:
@@ -43,6 +48,10 @@ func reload() -> void:
 
 func get_magazine() -> PlayerMagazine:
 	return _magazine
+
+
+func get_fire_rate() -> float:
+	return base_fire_rate - (_fire_rate_upgrade.get_level() * base_fire_rate * 0.1)
 
 
 func _start_shooting() -> void:
@@ -71,7 +80,7 @@ func _shoot() -> void:
 		if enemy:
 			enemy.hit.emit(damage)
 
-	await get_tree().create_timer(base_fire_rate).timeout
+	await get_tree().create_timer(get_fire_rate()).timeout
 
 
 func _reload() -> void:

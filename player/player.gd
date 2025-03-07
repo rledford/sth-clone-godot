@@ -5,12 +5,12 @@ const Scene = preload("res://player/player.tscn")
 
 var _weapon: Weapon
 
+var _fire_rate_upgrade: FireRateUpgrade
+var _clip_size_upgrade: ClipSizeUpgrade
+
 
 static func create() -> Player:
 	var instance = Scene.instantiate()
-	# instance._weapon = Revolver.create()
-	instance._weapon = Uzi.create()
-
 	return instance
 
 
@@ -19,8 +19,12 @@ func get_magazine() -> PlayerMagazine:
 
 
 func _ready() -> void:
+	_fire_rate_upgrade = FireRateUpgrade.new()
+	_clip_size_upgrade = ClipSizeUpgrade.new()
+
+	# _weapon = Revolver.create(_fire_rate_upgrade, _clip_size_upgrade)
+	_weapon = Uzi.create(_fire_rate_upgrade, _clip_size_upgrade)
 	add_child(_weapon)
-	FireRateUpgrade.new().level_changed.connect(_handle_fire_rate_upgrade)
 
 
 func _process(_delta: float) -> void:
@@ -35,9 +39,3 @@ func _unhandled_input(event: InputEvent) -> void:
 		_weapon.release_trigger()
 	elif event.is_action_pressed("reload"):
 		_weapon.reload()
-
-
-# TODO: Need to fix this and the magazine upgrade
-func _handle_fire_rate_upgrade(_level: int):
-	pass
-	# fire_rate = base_fire_rate - (level * base_fire_rate * 0.1)

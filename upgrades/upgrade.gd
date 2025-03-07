@@ -46,6 +46,10 @@ func get_label() -> String:
 	return name + " " + str(_level)
 
 
+func get_level() -> int:
+	return _level
+
+
 func _increment_level() -> void:
 	_level += 1
 	level_changed.emit(_level)

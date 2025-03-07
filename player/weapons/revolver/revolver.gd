@@ -5,10 +5,17 @@ const Scene = preload("res://player/weapons/revolver/revolver.tscn")
 
 var damage: float = 1.0
 var base_fire_rate: float = 0.75
+var base_magazine_size: int = 7
 var reload_time: float = 0.35
+
+var bonus_magazine_level: int = 0
+var bonuse_fire_rate_level: int = 0
 
 var _magazine: PlayerMagazine
 var _state: String = "idle"
+
+var _fire_rate_upgrade: FireRateUpgrade
+var _clip_size_upgrade: ClipSizeUpgrade
 
 @onready var shoot_audio_stream: AudioStreamPlayer2D = $ShootAudioStream
 @onready var no_ammo_audio_stream: AudioStreamPlayer2D = $NoAmmoAudioStream
@@ -16,13 +23,17 @@ var _state: String = "idle"
 @onready var shoot_area: Area2D = $ShootArea
 
 
-static func create() -> Revolver:
+static func create(
+	fire_rate_upgrade: FireRateUpgrade, clip_size_upgrade: ClipSizeUpgrade
+) -> Revolver:
 	var instance = Scene.instantiate()
+	instance._fire_rate_upgrade = fire_rate_upgrade
+	instance._clip_size_upgrade = clip_size_upgrade
 	return instance
 
 
 func _ready() -> void:
-	_magazine = PlayerMagazine.new(7)
+	_magazine = PlayerMagazine.new(7, _clip_size_upgrade, 1)
 
 
 func point_to(point: Vector2) -> void:
@@ -55,11 +66,15 @@ func _shoot() -> void:
 	else:
 		SignalBus.shot_hit_ground.emit(shoot_area.global_position)
 
-	await get_tree().create_timer(base_fire_rate).timeout
+	await get_tree().create_timer(get_fire_rate()).timeout
 
 
 func get_magazine() -> PlayerMagazine:
 	return _magazine
+
+
+func get_fire_rate() -> float:
+	return base_fire_rate - (_fire_rate_upgrade.get_level() * base_fire_rate * 0.1)
 
 
 func reload() -> void:
