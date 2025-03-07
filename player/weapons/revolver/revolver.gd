@@ -8,10 +8,7 @@ var base_fire_rate: float = 0.75
 var reload_time: float = 0.35
 
 var _magazine: PlayerMagazine
-var _is_reloading: bool = false
-var _is_shooting: bool = false
-
-var _is_trigger_pulled: bool = false
+var _state: String = "idle"
 
 @onready var shoot_audio_stream: AudioStreamPlayer2D = $ShootAudioStream
 @onready var no_ammo_audio_stream: AudioStreamPlayer2D = $NoAmmoAudioStream
@@ -33,25 +30,18 @@ func point_to(point: Vector2) -> void:
 
 
 func pull_trigger() -> void:
-	if not _is_trigger_pulled:
-		_is_trigger_pulled = true
-		_shoot()
+	_on_event("pull-trigger")
 
 
 func release_trigger() -> void:
-	_is_trigger_pulled = false
+	_on_event("release-trigger")
 
 
 func _shoot() -> void:
 	if not _magazine.has_ammo():
 		no_ammo_audio_stream.play()
+		await get_tree().create_timer(base_fire_rate).timeout
 		return
-
-	if _is_shooting:
-		return
-
-	_is_reloading = false
-	_is_shooting = true
 
 	shoot_audio_stream.play()
 	_magazine.unload(1)
@@ -66,7 +56,6 @@ func _shoot() -> void:
 		SignalBus.shot_hit_ground.emit(shoot_area.global_position)
 
 	await get_tree().create_timer(base_fire_rate).timeout
-	_is_shooting = false
 
 
 func get_magazine() -> PlayerMagazine:
@@ -74,16 +63,43 @@ func get_magazine() -> PlayerMagazine:
 
 
 func reload() -> void:
-	if _magazine.is_full():
-		_is_reloading = false
-		return
+	_on_event("reload")
 
-	_is_reloading = true
+
+func _reload() -> void:
+	if _magazine.is_full():
+		_on_event("finish_reloading")
+		return
 
 	_magazine.load(1)
 	reload_audio_stream.play()
 
 	await get_tree().create_timer(reload_time).timeout
+	if _state == "reloading":
+		_reload()
 
-	if _is_reloading:
-		reload()
+
+func _on_event(event: String) -> void:
+	print("sending event ", event)
+	assert(event in ["pull-trigger", "release-trigger", "reload", "finish_reloading"])
+
+	match event:
+		"pull-trigger":
+			if _state != "idle":
+				return
+			_set_state("shooting")
+			await _shoot()
+		"release-trigger":
+			_set_state("idle")
+		"reload":
+			_set_state("reloading")
+			await _reload()
+
+		"finish_reloading":
+			_set_state("idle")
+
+
+func _set_state(state: String) -> void:
+	print("setting state to ", state)
+	assert(state in ["idle", "shooting", "reloading"])
+	_state = state
