@@ -15,7 +15,6 @@ static func create(wave: int) -> EndScreen:
 
 
 func _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	score_label.text = "REACHED WAVE " + String.num(_wave)
 	new_game_btn.pressed.connect(_on_new_game)
 

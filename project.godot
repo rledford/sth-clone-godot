@@ -21,12 +21,13 @@ SignalBus="*res://signal_bus.gd"
 
 [display]
 
-window/size/viewport_width=480
-window/size/viewport_height=320
-window/size/window_width_override=1280
-window/size/window_height_override=768
+window/size/viewport_width=640
+window/size/viewport_height=480
+window/size/window_width_override=1920
+window/size/window_height_override=1080
 window/stretch/mode="viewport"
-window/stretch/scale_mode="integer"
+mouse_cursor/custom_image="res://cursor_32x32.png"
+mouse_cursor/custom_image_hotspot=Vector2(16, 16)
 
 [global_group]
 
