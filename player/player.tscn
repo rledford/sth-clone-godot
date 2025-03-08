@@ -22,6 +22,7 @@ input_pickable = false
 shape = SubResource("CircleShape2D_vfvd7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("2_r0ndx")
 region_enabled = true
 region_rect = Rect2(0, 0, 16, 16)

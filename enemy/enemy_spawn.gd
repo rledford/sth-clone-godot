@@ -13,7 +13,9 @@ const ENEMIES: Dictionary = {1: [FlyingEye], 2: [Goblin], 4: [Skeleton], 6: [Mus
 
 
 func spawn_wave(wave: Array, wave_frequency: float) -> void:
-	print('[Enemy Spawn] Spawning wave in ', len(wave), ' batches at ', wave_frequency, ' frequency')
+	print(
+		"[Enemy Spawn] Spawning wave in ", len(wave), " batches at ", wave_frequency, " frequency"
+	)
 	for batch in wave:
 		print("[Enemy Spawn] Spawning batch ", batch)
 		for enemy_difficulty in batch:

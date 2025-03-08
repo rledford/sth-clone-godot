@@ -18,9 +18,7 @@ func get_enemy_spawns(wave_number: int) -> Array:
 
 	var result = []
 	var total_wave_score = 0
-	var enemy_choices = _enemies.keys().filter(
-		_lessThanEqualTo(_get_max_enemy_score(difficulty))
-	)
+	var enemy_choices = _enemies.keys().filter(_lessThanEqualTo(_get_max_enemy_score(difficulty)))
 
 	for _i in range(total_batches):
 		var target_batch_score = min(difficulty - total_wave_score, max_batch_score)
@@ -32,7 +30,7 @@ func get_enemy_spawns(wave_number: int) -> Array:
 
 func get_wave_frequency(wave_number: int) -> float:
 	# Just an arbitrary formula for adjusting frequency so by wave 30, batches spawn at ~0.5 second intervals
-	return 1/((_get_difficulty(wave_number) + 1)/30.0)
+	return 1 / ((_get_difficulty(wave_number) + 1) / 30.0)
 
 
 func _batch(target_score: int, enemy_score_choices: Array) -> Array:
@@ -40,12 +38,10 @@ func _batch(target_score: int, enemy_score_choices: Array) -> Array:
 	var choices = enemy_score_choices.duplicate()
 	var max_choice = choices.max()
 	var batch = []
-	
+
 	while remaining_score > 0:
 		if remaining_score < max_choice:
-			choices = choices.filter(
-				_lessThanEqualTo(remaining_score)
-			)
+			choices = choices.filter(_lessThanEqualTo(remaining_score))
 			max_choice = choices.max()
 
 		batch.append(choices.pick_random())
