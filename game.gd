@@ -13,7 +13,6 @@ var _hud: HUD
 var _purse: CoinPurse
 var _upgrades: UpgradeSystem
 var _upgrade_menu: UpgradeMenu
-var _magazine: Magazine
 var _waves: Waves
 var _stronghold: Stronghold
 @onready var enemy_spawn: EnemySpawn = $EnemySpawn
@@ -36,9 +35,7 @@ func _ready() -> void:
 	_waves = Waves.new(enemy_spawn)
 	add_child(_waves)
 
-	_magazine = PlayerMagazine.new(7, 7)
-
-	var player = Player.create(_magazine)
+	var player = Player.create()
 
 	add_child(player)
 
@@ -47,8 +44,8 @@ func _ready() -> void:
 		. create(
 			_stronghold.get_health().get_health(),
 			_stronghold.get_health().get_max_health(),
-			_magazine.get_ammo(),
-			_magazine.get_max_ammo(),
+			player.get_magazine().get_ammo(),
+			player.get_magazine().get_max_ammo(),
 			_purse.get_coins(),
 		)
 	)
