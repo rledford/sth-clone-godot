@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://chrm2k7k5x4un"]
+[gd_scene load_steps=6 format=3 uid="uid://chrm2k7k5x4un"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_1c7fc"]
-[ext_resource type="Texture2D" uid="uid://csgdvhu6rhpts" path="res://sprites/sprites.png" id="2_r0ndx"]
 [ext_resource type="AudioStream" uid="uid://dxjb2vy3t20pf" path="res://sfx/rifle_alt.wav" id="3_p3lae"]
 [ext_resource type="AudioStream" uid="uid://wrtu4sbi687v" path="res://sfx/no_ammo_click.wav" id="4_xxkso"]
 [ext_resource type="AudioStream" uid="uid://brqtlyf7twds5" path="res://sfx/single_bullet_load.wav" id="5_sf3et"]
@@ -20,12 +19,6 @@ input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_vfvd7")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-texture = ExtResource("2_r0ndx")
-region_enabled = true
-region_rect = Rect2(0, 0, 16, 16)
 
 [node name="ShootAudioStream" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_p3lae")
