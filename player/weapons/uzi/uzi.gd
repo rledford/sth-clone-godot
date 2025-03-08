@@ -7,7 +7,7 @@ var damage: float = 1
 var base_fire_rate: float = 0.05
 var reload_time: float = 2
 
-var _magazine: Magazine
+var _magazine: PlayerMagazine
 var _state: String = "idle"
 
 var _fire_rate_upgrade: FireRateUpgrade
