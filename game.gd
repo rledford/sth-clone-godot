@@ -24,7 +24,6 @@ static func create() -> Game:
 
 
 func _ready() -> void:
-	# Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	_check_window_resize()
 	_purse = CoinPurse.new()
 	_upgrades = UpgradeSystem.new(_purse)
@@ -59,11 +58,16 @@ func _ready() -> void:
 
 	SignalBus.player_died.connect(_handle_player_died)
 	SignalBus.open_upgrade_menu.connect(_handle_open_upgrade_menu)
-	#SignalBus.close_upgrade_menu.connect(_handle_close_upgrade_menu)
+	SignalBus.close_upgrade_menu.connect(_handle_close_upgrade_menu)
 
 
 func _handle_player_died() -> void:
 	SignalBus.game_over.emit(_waves.get_wave())
+
+
+func _handle_close_upgrade_menu() -> void:
+	_upgrade_menu.hide()
+	_hud.show()
 
 
 func _handle_open_upgrade_menu() -> void:
