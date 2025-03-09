@@ -8,7 +8,7 @@ var damage = 1
 var base_thinking_time = 0.25
 var shoot_time = 1
 
-var _target: Enemy
+var _target: EnemyAlt
 var _magazine: Magazine
 
 @onready var _collider: CollisionShape2D = $Area2D/CollisionShape2D
