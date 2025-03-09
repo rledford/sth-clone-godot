@@ -23,7 +23,7 @@ func _ready() -> void:
 	_clip_size_upgrade = ClipSizeUpgrade.new()
 
 	_weapon = Revolver.create(_fire_rate_upgrade, _clip_size_upgrade)
-	# _weapon = Uzi.create(_fire_rate_upgrade, _clip_size_upgrade)
+	#_weapon = Uzi.create(_fire_rate_upgrade, _clip_size_upgrade)
 	add_child(_weapon)
 
 

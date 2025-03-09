@@ -3,26 +3,26 @@ extends Node2D
 
 signal wave_cleared
 
-const FlyingEye = preload("res://enemy/flying_eye/flying_eye.tscn")
-const Goblin = preload("res://enemy/goblin/goblin.tscn")
-const Skeleton = preload("res://enemy/skeleton/skeleton.tscn")
-const Mushroom = preload("res://enemy/mushroom/mushroom.tscn")
+const Zombie = preload("res://enemy/undead/zombie/zombie.tscn")
+const ZombieLumberjack = preload("res://enemy/undead/zombie_lumberjack/zombie_lumberjack.tscn")
+const Lich = preload("res://enemy/undead/lich/lich.tscn")
 
 # Dictionary that maps diffuclty score to a set of enemies
-const ENEMIES: Dictionary = {1: [FlyingEye], 2: [Goblin], 4: [Skeleton], 6: [Mushroom]}
+const ENEMIES: Dictionary = {1: [Zombie], 4: [ZombieLumberjack], 6: [Lich]}
 
 
-func spawn_wave(wave: Array, wave_frequency: float) -> void:
-	print(
-		"[Enemy Spawn] Spawning wave in ", len(wave), " batches at ", wave_frequency, " frequency"
-	)
+func spawn_wave(wave: Array) -> void:
+	var total_enemies = 0
 	for batch in wave:
-		print("[Enemy Spawn] Spawning batch ", batch)
+		print("[Enemy Spawn] Spawning enemies in batch\n", batch)
 		for enemy_difficulty in batch:
+			total_enemies += 1
 			var enemy = _spawn(enemy_difficulty)
 			enemy.died.connect(_on_enemy_died)
 
-		await get_tree().create_timer(wave_frequency).timeout
+		await get_tree().create_timer(2.0).timeout
+	
+	print("[Enemy Spawn] Total enemies spawned: ", total_enemies)
 
 
 func _on_enemy_died() -> void:
@@ -30,7 +30,7 @@ func _on_enemy_died() -> void:
 		wave_cleared.emit()
 
 
-func _spawn(score: int) -> Enemy:
+func _spawn(score: int) -> EnemyAlt:
 	var enemy = ENEMIES.get(score).pick_random().instantiate()
 	enemy.add_to_group("enemies")
 	enemy.global_position = _random_spawn_position()

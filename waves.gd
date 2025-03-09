@@ -40,8 +40,7 @@ func _start_wave() -> void:
 	_set_state("spawning")
 	_wave += 1
 	var wave = _calculator.get_enemy_spawns(_wave)
-	var wave_frequency = _calculator.get_wave_frequency(_wave)
-	_enemy_spawn.spawn_wave(wave, wave_frequency)
+	_enemy_spawn.spawn_wave(wave)
 	SignalBus.wave_started.emit(_wave)
 	_enemy_spawn.wave_cleared.connect(_start_break)
 

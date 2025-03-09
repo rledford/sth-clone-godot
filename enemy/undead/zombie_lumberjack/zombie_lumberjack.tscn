@@ -1,0 +1,130 @@
+[gd_scene load_steps=17 format=3 uid="uid://di3ynf021grc1"]
+
+[ext_resource type="Script" path="res://enemy/enemy_alt.gd" id="1_dqji8"]
+[ext_resource type="PackedScene" uid="uid://ccvlgxna8aace" path="res://particles/enemy_hit_particle.tscn" id="2_drwsx"]
+[ext_resource type="Texture2D" uid="uid://dd4a7fxqqgny5" path="res://enemy/undead/zombie_lumberjack/zombie_lumberjack.png" id="3_e0v0m"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aasln"]
+radius = 9.51315
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8oln2"]
+atlas = ExtResource("3_e0v0m")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pomir"]
+atlas = ExtResource("3_e0v0m")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3hmh7"]
+atlas = ExtResource("3_e0v0m")
+region = Rect2(64, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tn2ic"]
+atlas = ExtResource("3_e0v0m")
+region = Rect2(80, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8j8dw"]
+atlas = ExtResource("3_e0v0m")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kknda"]
+atlas = ExtResource("3_e0v0m")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_soosu"]
+atlas = ExtResource("3_e0v0m")
+region = Rect2(96, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kmaer"]
+atlas = ExtResource("3_e0v0m")
+region = Rect2(112, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jyfh8"]
+atlas = ExtResource("3_e0v0m")
+region = Rect2(128, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m7b63"]
+atlas = ExtResource("3_e0v0m")
+region = Rect2(144, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w5su0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8oln2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pomir")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3hmh7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tn2ic")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8j8dw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kknda")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_soosu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kmaer")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jyfh8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m7b63")
+}],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_eh3w0"]
+radius = 4.0
+height = 12.0
+
+[node name="ZombieLumberjack" type="CharacterBody2D" node_paths=PackedStringArray("hitbox", "sensor", "anim")]
+scale = Vector2(2, 2)
+collision_layer = 4
+script = ExtResource("1_dqji8")
+hitbox = NodePath("Hitbox")
+sensor = NodePath("Sensor")
+anim = NodePath("AnimatedSprite2D")
+hit_particle = ExtResource("2_drwsx")
+hit_particle_color = Color(0.22473, 0.494021, 0.360467, 1)
+damage = 3
+speed = 40.0
+coin_reward = 4
+
+[node name="Sensor" type="Area2D" parent="."]
+collision_layer = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sensor"]
+shape = SubResource("CircleShape2D_aasln")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0.5, -11.5)
+sprite_frames = SubResource("SpriteFrames_w5su0")
+animation = &"idle"
+frame_progress = 0.401553
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_eh3w0")
+debug_color = Color(0.970264, 0.173435, 5.77569e-07, 0.42)
