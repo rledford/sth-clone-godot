@@ -8,6 +8,8 @@ var _weapon: Weapon
 var _fire_rate_upgrade: FireRateUpgrade
 var _clip_size_upgrade: ClipSizeUpgrade
 
+var _uzi_upgrade: UziUpgrade
+
 
 static func create() -> Player:
 	var instance = Scene.instantiate()
@@ -21,9 +23,11 @@ func get_magazine() -> PlayerMagazine:
 func _ready() -> void:
 	_fire_rate_upgrade = FireRateUpgrade.new()
 	_clip_size_upgrade = ClipSizeUpgrade.new()
+	_uzi_upgrade = UziUpgrade.new()
+
+	_uzi_upgrade.level_increased.connect(_on_uzi_purchase)
 
 	_weapon = Revolver.create(_fire_rate_upgrade, _clip_size_upgrade)
-	#_weapon = Uzi.create(_fire_rate_upgrade, _clip_size_upgrade)
 	add_child(_weapon)
 
 
@@ -39,3 +43,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		_weapon.release_trigger()
 	elif event.is_action_pressed("reload"):
 		_weapon.reload()
+
+
+func _on_uzi_purchase() -> void:
+	_weapon.queue_free()
+	_weapon = Uzi.create(_fire_rate_upgrade, _clip_size_upgrade)
+	add_child(_weapon)
