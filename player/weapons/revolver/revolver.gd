@@ -107,6 +107,8 @@ func _on_event(event: String) -> void:
 		"release-trigger":
 			_set_state("idle")
 		"reload":
+			if _state != "idle":
+				return
 			_set_state("reloading")
 			await _reload()
 
