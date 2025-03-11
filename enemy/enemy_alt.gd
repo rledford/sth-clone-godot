@@ -10,6 +10,7 @@ signal died
 @export var hit_particle: Resource
 @export var hit_particle_color: Color
 @export var attack_sfx: AudioStreamPlayer2D
+@export var attack_frame_index: int = 2
 
 @export var health: int = 2
 @export var damage: int = 1
@@ -19,7 +20,7 @@ signal died
 var _attack_position = Vector2.INF
 var _state = 'idle'
 
-signal entered_main_attack_frame
+signal entered_attack_hit_frame
 
 
 func is_alive() -> bool:
@@ -34,10 +35,8 @@ func set_difficulty(difficulty: float) -> void:
 
 
 func _ready() -> void:
-	entered_main_attack_frame.connect(_on_entered_main_attack_frame)
+	entered_attack_hit_frame.connect(_on_entered_attack_hit_frame)
 	anim.frame_changed.connect(_on_animation_frame_changed)
-	# anim.animation_finished.connect(_on_animation_finished)
-	# anim.animation_looped.connect(_on_animation_finished)
 	sensor.area_entered.connect(_on_area_2d_area_entered)
 	sensor.area_exited.connect(_on_area_2d_area_exited)
 
@@ -160,14 +159,14 @@ func _on_animation_frame_changed() -> void:
 	if anim.animation != 'attack':
 		return
 
-	var main_hit_frame_entered = (
-		anim.frame == anim.sprite_frames.get_frame_count('attack') - 2
+	var attack_hit_frame_just_entered = (
+		anim.frame == attack_frame_index
 	)
 	
-	if main_hit_frame_entered:
-		entered_main_attack_frame.emit()
+	if attack_hit_frame_just_entered:
+		entered_attack_hit_frame.emit()
 
-func _on_entered_main_attack_frame() -> void:
+func _on_entered_attack_hit_frame() -> void:
 	if attack_sfx and not attack_sfx.playing:
 		attack_sfx.play()
 

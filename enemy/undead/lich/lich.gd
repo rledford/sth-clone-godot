@@ -4,7 +4,7 @@ var Projectile: PackedScene = preload("res://enemy/undead/lich/lich_projectile.t
 
 @onready var projectile_spawn: Node2D = $ProjectileSpawn
 
-func _on_entered_main_attack_frame() -> void:
+func _on_entered_attack_hit_frame() -> void:
 	var dir = global_position.direction_to(projectile_spawn.global_position)
 	var proj = Projectile.instantiate() as Projectile
 	proj.global_position = Vector2(projectile_spawn.global_position)

@@ -15,6 +15,7 @@ func _ready() -> void:
 	
 	if not sensor:
 		print("no sensor")
+		return
 
 	sensor.area_entered.connect(_on_collision)
 

@@ -126,7 +126,7 @@ shape = SubResource("CircleShape2D_aasln")
 position = Vector2(0, -11)
 sprite_frames = SubResource("SpriteFrames_w5su0")
 animation = &"attack"
-frame_progress = 0.918298
+frame_progress = 0.15976
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_eh3w0")
