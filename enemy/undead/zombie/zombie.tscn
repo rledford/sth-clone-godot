@@ -1,9 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://8xv00v1epanp"]
+[gd_scene load_steps=19 format=3 uid="uid://8xv00v1epanp"]
 
 [ext_resource type="Texture2D" uid="uid://cradnnunmxxg2" path="res://enemy/undead/zombie/zombie.png" id="1_r73yf"]
 [ext_resource type="Script" path="res://enemy/enemy_alt.gd" id="1_xp3qv"]
 [ext_resource type="PackedScene" uid="uid://ccvlgxna8aace" path="res://particles/enemy_hit_particle.tscn" id="2_elpqj"]
 [ext_resource type="AudioStream" uid="uid://cwvqf4el1pr42" path="res://sfx/punch.wav" id="4_4vf7j"]
+[ext_resource type="PackedScene" uid="uid://d3dg8sqk7cejb" path="res://common/health_bar/health_bar.tscn" id="5_abujx"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aasln"]
 radius = 9.51315
@@ -100,7 +101,7 @@ animations = [{
 radius = 4.0
 height = 12.0
 
-[node name="Zombie" type="CharacterBody2D" node_paths=PackedStringArray("hitbox", "sensor", "anim", "attack_sfx")]
+[node name="Zombie" type="CharacterBody2D" node_paths=PackedStringArray("hitbox", "sensor", "anim", "attack_sfx", "health_bar")]
 scale = Vector2(2, 2)
 collision_layer = 4
 script = ExtResource("1_xp3qv")
@@ -110,8 +111,7 @@ anim = NodePath("AnimatedSprite2D")
 hit_particle = ExtResource("2_elpqj")
 hit_particle_color = Color(0.22473, 0.494021, 0.360467, 1)
 attack_sfx = NodePath("AudioStreamPlayer2D")
-health = 1
-damage = 2
+health_bar = NodePath("HealthBar")
 speed = 50.0
 coin_reward = 2
 
@@ -135,3 +135,6 @@ debug_color = Color(0.970264, 0.173435, 5.77569e-07, 0.42)
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_4vf7j")
 volume_db = -22.0
+
+[node name="HealthBar" parent="." instance=ExtResource("5_abujx")]
+position = Vector2(-4, -7)

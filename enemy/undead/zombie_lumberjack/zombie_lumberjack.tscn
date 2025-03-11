@@ -1,8 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://di3ynf021grc1"]
+[gd_scene load_steps=18 format=3 uid="uid://di3ynf021grc1"]
 
 [ext_resource type="Script" path="res://enemy/enemy_alt.gd" id="1_dqji8"]
 [ext_resource type="PackedScene" uid="uid://ccvlgxna8aace" path="res://particles/enemy_hit_particle.tscn" id="2_drwsx"]
 [ext_resource type="Texture2D" uid="uid://dd4a7fxqqgny5" path="res://enemy/undead/zombie_lumberjack/zombie_lumberjack.png" id="3_e0v0m"]
+[ext_resource type="PackedScene" uid="uid://d3dg8sqk7cejb" path="res://common/health_bar/health_bar.tscn" id="4_dwabn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aasln"]
 radius = 9.51315
@@ -99,7 +100,7 @@ animations = [{
 radius = 4.0
 height = 12.0
 
-[node name="ZombieLumberjack" type="CharacterBody2D" node_paths=PackedStringArray("hitbox", "sensor", "anim")]
+[node name="ZombieLumberjack" type="CharacterBody2D" node_paths=PackedStringArray("hitbox", "sensor", "anim", "health_bar")]
 scale = Vector2(2, 2)
 collision_layer = 4
 script = ExtResource("1_dqji8")
@@ -108,9 +109,11 @@ sensor = NodePath("Sensor")
 anim = NodePath("AnimatedSprite2D")
 hit_particle = ExtResource("2_drwsx")
 hit_particle_color = Color(0.22473, 0.494021, 0.360467, 1)
-damage = 3
+health_bar = NodePath("HealthBar")
+max_health = 2
+damage = 2
 speed = 40.0
-coin_reward = 4
+coin_reward = 3
 
 [node name="Sensor" type="Area2D" parent="."]
 collision_layer = 4
@@ -128,3 +131,6 @@ frame_progress = 0.401553
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_eh3w0")
 debug_color = Color(0.970264, 0.173435, 5.77569e-07, 0.42)
+
+[node name="HealthBar" parent="." instance=ExtResource("4_dwabn")]
+position = Vector2(-4, -6.5)
