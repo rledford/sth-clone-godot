@@ -17,9 +17,8 @@ func get_enemy_spawns(wave_number: int) -> Array:
 	var difficulty = _calculate_wave_difficulty(wave_number)
 	var max_enemy_cost = _calculate_max_enemy_cost(difficulty)
 	var enemy_choices = _enemies.keys().filter(_less_than_equal_to(max_enemy_cost))
-	var avg_enemy_cost = floor((enemy_choices.reduce(func(a, b): return a + b))/len(enemy_choices))
 	var max_batch_cost = max_enemy_cost * 5
-	var min_enemy_count = ceil(difficulty/2.0)
+	var min_enemy_count = ceil(difficulty/1.5)
 	var batch_count = ceil(float(difficulty) / max_batch_cost)
 
 	print(

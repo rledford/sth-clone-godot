@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://csgdvhu6rhpts" path="res://sprites/sprites.png" id="2_iu65f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ir5cf"]
-size = Vector2(89, 208)
+size = Vector2(80, 208)
 
 [node name="Stronghold" type="Node2D"]
 position = Vector2(540, 116)
@@ -14,7 +14,7 @@ script = ExtResource("1_keyt1")
 position = Vector2(101, 142)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" groups=["attack_areas"]]
-position = Vector2(-64.5, 0)
+position = Vector2(-60, 0)
 shape = SubResource("RectangleShape2D_ir5cf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

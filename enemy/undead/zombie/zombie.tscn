@@ -32,19 +32,19 @@ region = Rect2(0, 0, 16, 32)
 atlas = ExtResource("1_r73yf")
 region = Rect2(16, 0, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dm30l"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_w76w5"]
 atlas = ExtResource("1_r73yf")
 region = Rect2(96, 0, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0utga"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jiris"]
 atlas = ExtResource("1_r73yf")
 region = Rect2(112, 0, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_t6ni0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_xqlh7"]
 atlas = ExtResource("1_r73yf")
 region = Rect2(128, 0, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ps740"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_i7rj8"]
 atlas = ExtResource("1_r73yf")
 region = Rect2(144, 0, 16, 32)
 
@@ -80,16 +80,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dm30l")
+"texture": SubResource("AtlasTexture_w76w5")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0utga")
+"texture": SubResource("AtlasTexture_jiris")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_t6ni0")
+"texture": SubResource("AtlasTexture_xqlh7")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ps740")
+"texture": SubResource("AtlasTexture_i7rj8")
 }],
 "loop": true,
 "name": &"move",
@@ -126,7 +126,7 @@ shape = SubResource("CircleShape2D_aasln")
 position = Vector2(0, -11)
 sprite_frames = SubResource("SpriteFrames_w5su0")
 animation = &"attack"
-frame_progress = 0.361256
+frame_progress = 0.918298
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_eh3w0")

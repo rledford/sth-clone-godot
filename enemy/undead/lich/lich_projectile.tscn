@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0gj617bcv485"]
+
+[ext_resource type="Script" path="res://enemy/undead/lich/lich_projectile.gd" id="1_b70ke"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wkae7"]
+radius = 3.0
+
+[node name="LichProjectile" type="Node2D" node_paths=PackedStringArray("sensor")]
+script = ExtResource("1_b70ke")
+sensor = NodePath("Sensor")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+
+[node name="Sensor" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sensor"]
+shape = SubResource("CircleShape2D_wkae7")

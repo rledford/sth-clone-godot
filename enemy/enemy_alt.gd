@@ -17,7 +17,9 @@ signal died
 @export var coin_reward: int = 1
 
 var _attack_position = Vector2.INF
-var _update_fn: Callable
+var _state = 'idle'
+
+signal entered_main_attack_frame
 
 
 func is_alive() -> bool:
@@ -32,36 +34,41 @@ func set_difficulty(difficulty: float) -> void:
 
 
 func _ready() -> void:
-	anim.animation_finished.connect(_on_animation_finished)
-	anim.animation_looped.connect(_on_animation_finished)
+	entered_main_attack_frame.connect(_on_entered_main_attack_frame)
+	anim.frame_changed.connect(_on_animation_frame_changed)
+	# anim.animation_finished.connect(_on_animation_finished)
+	# anim.animation_looped.connect(_on_animation_finished)
 	sensor.area_entered.connect(_on_area_2d_area_entered)
 	sensor.area_exited.connect(_on_area_2d_area_exited)
 
 
 func _physics_process(delta: float) -> void:
-	if not _update_fn:
-		return
-
-	_update_fn.call(delta)
+	match _state:
+		'idle': _update_idle(delta)
+		'move': _update_move(delta)
+		'attack': _update_attack(delta)
+		'death': _update_death(delta)
 
 
 func _update_idle(delta: float) -> void:
 	_find_target()
-	if _has_valid_target():
-		_update_fn = _update_move
-		return 
-	
+
 	if anim.animation != 'idle':
 		anim.play('idle')
 
+	if _has_valid_target():
+		_set_state('move')
+		return 
+	
+
 
 func _update_move(delta: float) -> void:
-	if not _has_valid_target():
-		_update_fn = _update_idle
-		return
-
 	if anim.animation != 'move':
 		anim.play('move')
+
+	if not _has_valid_target():
+		_set_state('idle')
+		return
 
 	velocity = (_attack_position - hitbox.global_position).normalized() * speed
 	move_and_slide()
@@ -69,12 +76,12 @@ func _update_move(delta: float) -> void:
 
 
 func _update_attack(delta: float) -> void:
-	if not _has_valid_target():
-		_update_fn = _update_idle
-		return
-	
 	if anim.animation != 'attack':
 		anim.play('attack')
+
+	if not _has_valid_target():
+		_set_state('idle')
+		return
 
 
 func _update_death(_delta: float) -> void:
@@ -127,37 +134,50 @@ func _on_hit(_amount: int) -> void:
 
 
 func _enter_tree() -> void:
-	_update_fn = _update_idle
 	hit.connect(_on_hit)
 	died.connect(_on_died)
 
 
 func _on_area_2d_area_entered(_area: Area2D) -> void:
-	_update_fn = _update_attack
+	_set_state('attack')
 
 
 func _on_area_2d_area_exited(_area: Area2D) -> void:
 	if is_alive():
-		_update_fn = _update_idle
+		_set_state('idle')
 
 
 func _on_died() -> void:
+	_set_state('death')
 	SignalBus.enemy_died.emit(coin_reward)
 	remove_from_group("enemies")
-	_update_fn = _update_death
+	anim.stop()
 	hitbox.disabled = true
 	anim.visible = false
 
 
-func _on_animation_finished() -> void:
+func _on_animation_frame_changed() -> void:
 	if anim.animation != 'attack':
 		return
-	else:
-		if attack_sfx and not attack_sfx.playing:
-			attack_sfx.play()
+
+	var main_hit_frame_entered = (
+		anim.frame == anim.sprite_frames.get_frame_count('attack') - 2
+	)
+	
+	if main_hit_frame_entered:
+		entered_main_attack_frame.emit()
+
+func _on_entered_main_attack_frame() -> void:
+	if attack_sfx and not attack_sfx.playing:
+		attack_sfx.play()
 
 	SignalBus.player_hit.emit(self.damage)
 
 
 func _is_collision_shape(area) -> bool:
 	return area is CollisionShape2D
+
+
+func _set_state(state: String) -> void:
+	assert(state in ['idle', 'move', 'attack', 'death'])
+	_state = state
