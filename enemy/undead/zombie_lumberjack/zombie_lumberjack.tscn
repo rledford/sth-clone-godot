@@ -109,6 +109,7 @@ anim = NodePath("AnimatedSprite2D")
 hit_particle = ExtResource("2_drwsx")
 hit_particle_color = Color(0.22473, 0.494021, 0.360467, 1)
 damage = 3
+attack_speed = 1.75
 speed = 40.0
 coin_reward = 4
 
