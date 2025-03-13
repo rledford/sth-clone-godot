@@ -112,6 +112,7 @@ hit_particle_color = Color(0.22473, 0.494021, 0.360467, 1)
 health_bar = NodePath("HealthBar")
 max_health = 2
 damage = 2
+attack_speed = 1.75
 speed = 40.0
 coin_reward = 3
 

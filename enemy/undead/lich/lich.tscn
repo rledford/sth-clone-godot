@@ -65,7 +65,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"attack",
-"speed": 3.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -111,6 +111,7 @@ hit_particle = ExtResource("2_t5fr3")
 hit_particle_color = Color(0.554275, 0.297719, 0.693161, 1)
 health_bar = NodePath("HealthBar")
 max_health = 4
+attack_speed = 3.5
 speed = 60.0
 coin_reward = 5
 
@@ -125,7 +126,6 @@ shape = SubResource("CircleShape2D_aasln")
 position = Vector2(1.5, -11)
 sprite_frames = SubResource("SpriteFrames_w5su0")
 animation = &"attack"
-frame_progress = 0.560666
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 position = Vector2(0, -0.5)

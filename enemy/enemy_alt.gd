@@ -16,18 +16,28 @@ signal died
 
 @export var max_health: int = 1
 @export var damage: int = 1
+@export var attack_speed: float = 2.5
 @export var speed: float = 100.0
 @export var coin_reward: int = 1
 
 var _health: int
-var _attack_position = Vector2.INF
-var _state = 'idle'
+var _attack_position: Vector2 = Vector2.INF
+var _time_between_attacks: int = 0
+var _last_attack_time: int = 0
+var _is_attacking: bool = false
+var _state: String = 'idle'
 
 signal entered_attack_hit_frame
+signal finished_attack_animation
 
 
 func is_alive() -> bool:
 	return _health > 0
+
+
+func can_attack() -> bool:
+	var attack_time_delta = Time.get_ticks_msec() - _last_attack_time
+	return (not _is_attacking) and attack_time_delta >= (attack_speed * 1000.0)
 
 
 func set_difficulty(difficulty: float) -> void:
@@ -39,6 +49,7 @@ func set_difficulty(difficulty: float) -> void:
 
 func _ready() -> void:
 	entered_attack_hit_frame.connect(_on_entered_attack_hit_frame)
+	finished_attack_animation.connect(_on_finished_attack_animation)
 	anim.frame_changed.connect(_on_animation_frame_changed)
 	sensor.area_entered.connect(_on_area_2d_area_entered)
 	sensor.area_exited.connect(_on_area_2d_area_exited)
@@ -84,12 +95,15 @@ func _update_move(delta: float) -> void:
 
 
 func _update_attack(delta: float) -> void:
-	if anim.animation != 'attack':
-		anim.play('attack')
+	if _is_attacking or not can_attack():
+		return
 
 	if not _has_valid_target():
 		_set_state('idle')
 		return
+
+	_is_attacking = true
+	anim.play('attack')
 
 
 func _update_death(_delta: float) -> void:
@@ -173,15 +187,24 @@ func _on_animation_frame_changed() -> void:
 	var attack_hit_frame_just_entered = (
 		anim.frame == attack_frame_index
 	)
+	var attack_anim_finished = anim.frame == anim.sprite_frames.get_frame_count('attack') - 1
 	
 	if attack_hit_frame_just_entered:
 		entered_attack_hit_frame.emit()
+
+	if attack_anim_finished:
+		finished_attack_animation.emit()
 
 func _on_entered_attack_hit_frame() -> void:
 	if attack_sfx and not attack_sfx.playing:
 		attack_sfx.play()
 
 	SignalBus.player_hit.emit(self.damage)
+
+func _on_finished_attack_animation() -> void:
+	_last_attack_time = Time.get_ticks_msec()
+	_is_attacking = false
+	anim.play('idle')
 
 
 func _is_collision_shape(area) -> bool:
