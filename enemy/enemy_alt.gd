@@ -2,6 +2,7 @@ class_name EnemyAlt
 extends CharacterBody2D
 
 signal hit(damage: float)
+signal health_changed(current: int, max: int)
 signal died
 
 @export var hitbox: CollisionShape2D
@@ -11,13 +12,15 @@ signal died
 @export var hit_particle_color: Color
 @export var attack_sfx: AudioStreamPlayer2D
 @export var attack_frame_index: int = 2
+@export var health_bar: HealthBar
 
-@export var health: int = 2
+@export var max_health: int = 1
 @export var damage: int = 1
 @export var attack_speed: float = 2.5
 @export var speed: float = 100.0
 @export var coin_reward: int = 1
 
+var _health: int
 var _attack_position: Vector2 = Vector2.INF
 var _time_between_attacks: int = 0
 var _last_attack_time: int = 0
@@ -29,19 +32,12 @@ signal finished_attack_animation
 
 
 func is_alive() -> bool:
-	return health > 0
+	return _health > 0
 
 
 func can_attack() -> bool:
 	var attack_time_delta = Time.get_ticks_msec() - _last_attack_time
 	return (not _is_attacking) and attack_time_delta >= (attack_speed * 1000.0)
-
-
-func set_difficulty(difficulty: float) -> void:
-	health += ceil(difficulty)
-	damage += ceil(difficulty * 0.5)
-	speed += ceil(difficulty * 0.5)
-	coin_reward += floor(difficulty * 1.5)
 
 
 func _ready() -> void:
@@ -50,6 +46,12 @@ func _ready() -> void:
 	anim.frame_changed.connect(_on_animation_frame_changed)
 	sensor.area_entered.connect(_on_area_2d_area_entered)
 	sensor.area_exited.connect(_on_area_2d_area_exited)
+	_health = max_health
+
+	if health_bar:
+		health_changed.connect(health_bar._on_change)
+
+	health_changed.emit(_health, max_health)
 
 
 func _physics_process(delta: float) -> void:
@@ -140,10 +142,12 @@ func _on_hit(_amount: int) -> void:
 
 	add_child(particle)
 
-	health -= _amount
+	_health -= _amount
 	if not is_alive():
 		particle.finished.connect(queue_free)
 		died.emit()
+
+	health_changed.emit(_health, max_health)
 
 
 func _enter_tree() -> void:
