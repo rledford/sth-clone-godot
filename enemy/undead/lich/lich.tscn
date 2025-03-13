@@ -110,9 +110,9 @@ anim = NodePath("AnimatedSprite2D")
 hit_particle = ExtResource("2_t5fr3")
 hit_particle_color = Color(0.554275, 0.297719, 0.693161, 1)
 health_bar = NodePath("HealthBar")
-max_health = 4
-attack_speed = 3.5
-speed = 60.0
+max_health = 3
+attack_speed = 5.5
+speed = 35.0
 coin_reward = 5
 
 [node name="Sensor" type="Area2D" parent="."]
