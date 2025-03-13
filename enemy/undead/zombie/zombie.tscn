@@ -112,6 +112,8 @@ hit_particle = ExtResource("2_elpqj")
 hit_particle_color = Color(0.22473, 0.494021, 0.360467, 1)
 attack_sfx = NodePath("AudioStreamPlayer2D")
 health_bar = NodePath("HealthBar")
+max_health = 2
+damage = 2
 speed = 50.0
 coin_reward = 2
 

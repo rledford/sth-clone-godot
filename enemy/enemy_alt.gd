@@ -40,13 +40,6 @@ func can_attack() -> bool:
 	return (not _is_attacking) and attack_time_delta >= (attack_speed * 1000.0)
 
 
-func set_difficulty(difficulty: float) -> void:
-	max_health += ceil(difficulty)
-	damage += ceil(difficulty * 0.5)
-	speed += ceil(difficulty * 0.5)
-	coin_reward += floor(difficulty * 1.5)
-
-
 func _ready() -> void:
 	entered_attack_hit_frame.connect(_on_entered_attack_hit_frame)
 	finished_attack_animation.connect(_on_finished_attack_animation)
