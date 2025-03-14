@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://da126nbqmnr32"]
+
+[sub_resource type="Gradient" id="Gradient_xyxyl"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.659751, 0.989627)
+colors = PackedColorArray(1, 1, 1, 1, 0.255659, 0.255659, 0.255659, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bop70"]
+gradient = SubResource("Gradient_xyxyl")
+fill = 1
+fill_from = Vector2(0.504274, 0.534188)
+fill_to = Vector2(0.730769, 0.282051)
+
+[node name="LampLight" type="PointLight2D"]
+position = Vector2(31, 419)
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_bop70")
+texture_scale = 4.9
