@@ -129,15 +129,13 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/UpgradeRelatedContainer"]
+[node name="GunmanLabel" type="Label" parent="MarginContainer/HBoxContainer/UpgradeRelatedContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "{gunman placeholder}"
 
-[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/UpgradeRelatedContainer"]
-layout_mode = 2
-text = "{gunman placeholder}"
-
-[node name="Label3" type="Label" parent="MarginContainer/HBoxContainer/UpgradeRelatedContainer"]
+[node name="RepairmanLabel" type="Label" parent="MarginContainer/HBoxContainer/UpgradeRelatedContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "{gunman placeholder}"
 
