@@ -7,7 +7,7 @@
 size = Vector2(80, 208)
 
 [node name="Stronghold" type="Node2D"]
-position = Vector2(540, 116)
+position = Vector2(539, 53)
 script = ExtResource("1_keyt1")
 
 [node name="AttackArea" type="Area2D" parent="."]
@@ -26,7 +26,7 @@ region_rect = Rect2(160, 32, 80, 208)
 [node name="GunmanPosts" type="Node" parent="."]
 
 [node name="Post1" type="Node2D" parent="GunmanPosts" groups=["gunman_posts"]]
-position = Vector2(544, 179)
+position = Vector2(543, 116)
 metadata/_edit_group_ = true
 
 [node name="ColorRect" type="ColorRect" parent="GunmanPosts/Post1"]
@@ -37,7 +37,7 @@ offset_right = 4.0
 offset_bottom = 5.0
 
 [node name="Post2" type="Node2D" parent="GunmanPosts" groups=["gunman_posts"]]
-position = Vector2(544, 211)
+position = Vector2(543, 148)
 metadata/_edit_group_ = true
 
 [node name="ColorRect" type="ColorRect" parent="GunmanPosts/Post2"]
@@ -48,7 +48,7 @@ offset_right = 3.0
 offset_bottom = 3.0
 
 [node name="Post3" type="Node2D" parent="GunmanPosts" groups=["gunman_posts"]]
-position = Vector2(544, 243)
+position = Vector2(543, 180)
 metadata/_edit_group_ = true
 
 [node name="ColorRect" type="ColorRect" parent="GunmanPosts/Post3"]
@@ -59,7 +59,7 @@ offset_right = 3.0
 offset_bottom = 3.0
 
 [node name="Post4" type="Node2D" parent="GunmanPosts" groups=["gunman_posts"]]
-position = Vector2(544, 275)
+position = Vector2(543, 212)
 metadata/_edit_group_ = true
 
 [node name="ColorRect" type="ColorRect" parent="GunmanPosts/Post4"]
@@ -70,7 +70,7 @@ offset_right = 3.0
 offset_bottom = 4.0
 
 [node name="Post5" type="Node2D" parent="GunmanPosts" groups=["gunman_posts"]]
-position = Vector2(544, 307)
+position = Vector2(543, 244)
 metadata/_edit_group_ = true
 
 [node name="ColorRect" type="ColorRect" parent="GunmanPosts/Post5"]

@@ -1,6 +1,10 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://b7ridqq1ro7a8"]
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://b7ridqq1ro7a8"]
 
 [ext_resource type="FontFile" uid="uid://cka2lltxp0ucg" path="res://MetalMania-Regular.ttf" id="1_ydnpu"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bmv7i"]
+bg_color = Color(0.0539536, 0.0586184, 0.0866593, 1)
+
 [resource]
 Control/fonts/font = ExtResource("1_ydnpu")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_bmv7i")
