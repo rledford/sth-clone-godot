@@ -1,11 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://dar8l1i5oaags"]
+[gd_scene load_steps=12 format=3 uid="uid://dar8l1i5oaags"]
 
 [ext_resource type="Theme" uid="uid://b7ridqq1ro7a8" path="res://metal_theme.tres" id="1_c0veg"]
 [ext_resource type="Script" path="res://hud/bottom_ui.gd" id="2_oorqo"]
-[ext_resource type="Texture2D" uid="uid://dc303nts5g2di" path="res://sprites/sth-clone-ui-spritesheet.png" id="3_g38i0"]
+[ext_resource type="Texture2D" uid="uid://caprt6bkrjuiw" path="res://hud/hud-spritesheet.png" id="4_p6dt5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7o0dt"]
-atlas = ExtResource("3_g38i0")
+atlas = ExtResource("4_p6dt5")
 region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_73vt4"]
@@ -15,7 +15,7 @@ bg_color = Color(0.111197, 0.111197, 0.111197, 1)
 bg_color = Color(0.47451, 0.556863, 0.262745, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jdf1n"]
-atlas = ExtResource("3_g38i0")
+atlas = ExtResource("4_p6dt5")
 region = Rect2(48, 48, 16, 16)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fae5n"]
@@ -24,8 +24,11 @@ bg_color = Color(0.111197, 0.111197, 0.111197, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r33gw"]
 bg_color = Color(0.67451, 0.137255, 0.184314, 1)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_um632"]
+load_path = "res://.godot/imported/hud-spritesheet.png-5d08b3d6df0e944b7f465ba4e80f499b.ctex"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_022b1"]
-atlas = ExtResource("3_g38i0")
+atlas = SubResource("CompressedTexture2D_um632")
 region = Rect2(0, 48, 16, 16)
 
 [node name="PanelContainer" type="PanelContainer"]
