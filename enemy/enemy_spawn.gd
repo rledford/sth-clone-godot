@@ -6,9 +6,11 @@ signal wave_cleared
 const Zombie = preload("res://enemy/undead/zombie/zombie.tscn")
 const ZombieLumberjack = preload("res://enemy/undead/zombie_lumberjack/zombie_lumberjack.tscn")
 const Lich = preload("res://enemy/undead/lich/lich.tscn")
+const RattleBones = preload("res://enemy/undead/rattle_bones/rattle_bones.tscn")
+const Spearman = preload("res://enemy/mummified/spearman/spearman.tscn")
 
 # Dictionary that maps diffuclty score to a set of enemies
-const ENEMIES: Dictionary = {1: [Zombie], 4: [ZombieLumberjack], 6: [Lich]}
+const ENEMIES: Dictionary = {1: [Zombie, Spearman], 4: [RattleBones, ZombieLumberjack], 6: [Lich]}
 
 
 func spawn_wave(wave: Array) -> void:

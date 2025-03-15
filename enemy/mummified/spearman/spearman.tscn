@@ -1,0 +1,128 @@
+[gd_scene load_steps=17 format=3 uid="uid://dfa3x3mufrihe"]
+
+[ext_resource type="Script" path="res://enemy/enemy_alt.gd" id="1_y48vj"]
+[ext_resource type="PackedScene" uid="uid://ccvlgxna8aace" path="res://particles/enemy_hit_particle.tscn" id="2_p5tl6"]
+[ext_resource type="Texture2D" uid="uid://b0xgcd4udyu2t" path="res://enemy/mummified/spearman/spearman.png" id="3_e3fel"]
+[ext_resource type="AudioStream" uid="uid://cwvqf4el1pr42" path="res://sfx/punch.wav" id="4_gnql2"]
+[ext_resource type="PackedScene" uid="uid://d3dg8sqk7cejb" path="res://common/health_bar/health_bar.tscn" id="5_vevyy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aasln"]
+radius = 9.51315
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_okkkh"]
+atlas = ExtResource("3_e3fel")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r1i6w"]
+atlas = ExtResource("3_e3fel")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n0jbu"]
+atlas = ExtResource("3_e3fel")
+region = Rect2(64, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fvwj8"]
+atlas = ExtResource("3_e3fel")
+region = Rect2(80, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1u23m"]
+atlas = ExtResource("3_e3fel")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_23k48"]
+atlas = ExtResource("3_e3fel")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4o7lk"]
+atlas = ExtResource("3_e3fel")
+region = Rect2(96, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q58f6"]
+atlas = ExtResource("3_e3fel")
+region = Rect2(112, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w5su0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_okkkh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r1i6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n0jbu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fvwj8")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1u23m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_23k48")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4o7lk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q58f6")
+}],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_eh3w0"]
+radius = 4.0
+height = 12.0
+
+[node name="Spearman" type="CharacterBody2D" node_paths=PackedStringArray("hitbox", "sensor", "anim", "attack_sfx", "health_bar")]
+scale = Vector2(2, 2)
+collision_layer = 4
+script = ExtResource("1_y48vj")
+hitbox = NodePath("Hitbox")
+sensor = NodePath("Sensor")
+anim = NodePath("AnimatedSprite2D")
+hit_particle = ExtResource("2_p5tl6")
+hit_particle_color = Color(0.727692, 0.867129, 0.891417, 1)
+attack_sfx = NodePath("AudioStreamPlayer2D")
+health_bar = NodePath("HealthBar")
+max_health = 2
+damage = 2
+attack_speed = 2.0
+speed = 45.0
+coin_reward = 2
+
+[node name="Sensor" type="Area2D" parent="."]
+collision_layer = 4
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sensor"]
+shape = SubResource("CircleShape2D_aasln")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -11)
+sprite_frames = SubResource("SpriteFrames_w5su0")
+animation = &"attack"
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_eh3w0")
+debug_color = Color(0.970264, 0.173435, 5.77569e-07, 0.42)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_gnql2")
+volume_db = -22.0
+
+[node name="HealthBar" parent="." instance=ExtResource("5_vevyy")]
+position = Vector2(-4, -7)
