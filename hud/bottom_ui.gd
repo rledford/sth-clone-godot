@@ -10,8 +10,6 @@ const Scene = preload("res://hud/bottom_ui.tscn")
 @onready var coin_label: Label = %CoinLabel
 @onready var shop_btn: Button = %ShopButton
 @onready var break_container: PanelContainer = %"Break Container"
-@onready var break_label: Label = %BreakLabel
-@onready var wave_counter_label: Label = %WaveCounterLabel
 
 
 func _ready() -> void:
@@ -20,9 +18,6 @@ func _ready() -> void:
 	SignalBus.coins_changed.connect(_handle_coins_changed)
 	SignalBus.player_health_changed.connect(_handle_player_health_changed)
 	SignalBus.player_ammo_changed.connect(_handle_player_ammo_changed)
-	SignalBus.break_started.connect(_handle_break_started)
-	SignalBus.break_timer_change.connect(_update_break_timer)
-	SignalBus.wave_started.connect(_handle_wave_started)
 
 
 func render(health: int, max_health: int, ammo: int, max_ammo: int, coins: int) -> void:
@@ -48,22 +43,8 @@ func _handle_player_ammo_changed(ammo: int, max_ammo: int) -> void:
 	update_ammo_bar_text()
 
 
-func _update_break_timer(break_time: float) -> void:
-	break_label.text = "NEXT WAVE IN %3.1f" % break_time
-
-
-func _handle_break_started(break_time: float) -> void:
-	break_container.show()
-	_update_break_timer(break_time)
-
-
-func _handle_wave_started(wave: int) -> void:
-	break_container.hide()
-	wave_counter_label.text = "WAVE %3d" % wave
-
-
 func _update_coin_label(coins: int) -> void:
-	coin_label.text = "COINS %7d" % coins
+	coin_label.text = "%7d" % coins
 
 
 func _update_health(health: int, max_health: int) -> void:

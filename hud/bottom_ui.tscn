@@ -1,8 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://dar8l1i5oaags"]
+[gd_scene load_steps=12 format=3 uid="uid://dar8l1i5oaags"]
 
 [ext_resource type="Theme" uid="uid://b7ridqq1ro7a8" path="res://metal_theme.tres" id="1_c0veg"]
 [ext_resource type="Script" path="res://hud/bottom_ui.gd" id="2_oorqo"]
-[ext_resource type="Texture2D" uid="uid://e3lmqbfejvqp" path="res://icon.svg" id="3_ac250"]
+[ext_resource type="Texture2D" uid="uid://caprt6bkrjuiw" path="res://hud/hud-spritesheet.png" id="4_p6dt5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7o0dt"]
+atlas = ExtResource("4_p6dt5")
+region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_73vt4"]
 bg_color = Color(0.111197, 0.111197, 0.111197, 1)
@@ -10,11 +14,22 @@ bg_color = Color(0.111197, 0.111197, 0.111197, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dcgd8"]
 bg_color = Color(0.47451, 0.556863, 0.262745, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_jdf1n"]
+atlas = ExtResource("4_p6dt5")
+region = Rect2(48, 48, 16, 16)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fae5n"]
 bg_color = Color(0.111197, 0.111197, 0.111197, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r33gw"]
 bg_color = Color(0.67451, 0.137255, 0.184314, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_um632"]
+load_path = "res://.godot/imported/hud-spritesheet.png-5d08b3d6df0e944b7f465ba4e80f499b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_022b1"]
+atlas = SubResource("CompressedTexture2D_um632")
+region = Rect2(0, 48, 16, 16)
 
 [node name="PanelContainer" type="PanelContainer"]
 anchors_preset = 12
@@ -42,6 +57,7 @@ theme_override_constants/separation = 16
 [node name="StatsContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/StatsContainer"]
 layout_mode = 2
@@ -56,7 +72,7 @@ size_flags_horizontal = 3
 
 [node name="Icon" type="TextureRect" parent="MarginContainer/HBoxContainer/StatsContainer/AmmoContainer"]
 layout_mode = 2
-texture = ExtResource("3_ac250")
+texture = SubResource("AtlasTexture_7o0dt")
 expand_mode = 3
 
 [node name="AmmoBarLabel" type="Label" parent="MarginContainer/HBoxContainer/StatsContainer/AmmoContainer"]
@@ -85,7 +101,7 @@ size_flags_horizontal = 3
 
 [node name="Icon" type="TextureRect" parent="MarginContainer/HBoxContainer/StatsContainer/HealthBarContainer"]
 layout_mode = 2
-texture = ExtResource("3_ac250")
+texture = SubResource("AtlasTexture_jdf1n")
 expand_mode = 3
 stretch_mode = 4
 
@@ -111,6 +127,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="UpgradeRelatedContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer/UpgradeRelatedContainer"]
 layout_mode = 2
@@ -126,73 +143,24 @@ text = "{gunman placeholder}"
 
 [node name="ShopContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/ShopContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/HBoxContainer/ShopContainer"]
 layout_mode = 2
 
-[node name="Wave Container" type="PanelContainer" parent="MarginContainer/HBoxContainer/ShopContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/ShopContainer/HBoxContainer3"]
 layout_mode = 2
+texture = SubResource("AtlasTexture_022b1")
+expand_mode = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/ShopContainer/HBoxContainer/Wave Container"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 4
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/ShopContainer/HBoxContainer/Wave Container/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="WaveCounterLabel" type="Label" parent="MarginContainer/HBoxContainer/ShopContainer/HBoxContainer/Wave Container/MarginContainer/HBoxContainer"]
+[node name="CoinLabel" type="Label" parent="MarginContainer/HBoxContainer/ShopContainer/HBoxContainer3"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
-text = "{waves}"
+size_flags_horizontal = 3
+text = "9999"
 
-[node name="Break Container" type="PanelContainer" parent="MarginContainer/HBoxContainer/ShopContainer/HBoxContainer"]
+[node name="ShopButton" type="Button" parent="MarginContainer/HBoxContainer/ShopContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/ShopContainer/HBoxContainer/Break Container"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 4
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/ShopContainer/HBoxContainer/Break Container/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="BreakLabel" type="Label" parent="MarginContainer/HBoxContainer/ShopContainer/HBoxContainer/Break Container/MarginContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-text = "{break}"
-
-[node name="CoinPanel" type="PanelContainer" parent="MarginContainer/HBoxContainer/ShopContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/ShopContainer/CoinPanel"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 4
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/ShopContainer/CoinPanel/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="CoinLabel" type="Label" parent="MarginContainer/HBoxContainer/ShopContainer/CoinPanel/MarginContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-text = "0"
-
-[node name="ShopButton" type="Button" parent="MarginContainer/HBoxContainer/ShopContainer/CoinPanel/MarginContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
+size_flags_horizontal = 3
 text = "BUY"
