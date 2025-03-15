@@ -9,15 +9,14 @@ const Scene = preload("res://hud/bottom_ui.tscn")
 @onready var ammo_bar_label: Label = %AmmoBarLabel
 @onready var coin_label: Label = %CoinLabel
 @onready var shop_btn: Button = %ShopButton
-@onready var break_container: PanelContainer = %"Break Container"
 
 
 func _ready() -> void:
 	shop_btn.pressed.connect(func(): SignalBus.open_upgrade_menu.emit())
 
-	SignalBus.coins_changed.connect(_handle_coins_changed)
-	SignalBus.player_health_changed.connect(_handle_player_health_changed)
-	SignalBus.player_ammo_changed.connect(_handle_player_ammo_changed)
+	SignalBus.coins_changed.connect(_on_coins_changed)
+	SignalBus.player_health_changed.connect(_on_player_health_changed)
+	SignalBus.player_ammo_changed.connect(_on_player_ammo_changed)
 
 
 func render(health: int, max_health: int, ammo: int, max_ammo: int, coins: int) -> void:
@@ -28,15 +27,15 @@ func render(health: int, max_health: int, ammo: int, max_ammo: int, coins: int) 
 	update_ammo_bar_text()
 
 
-func _handle_player_health_changed(health: int, max_health: int) -> void:
+func _on_player_health_changed(health: int, max_health: int) -> void:
 	_update_health(health, max_health)
 
 
-func _handle_coins_changed(coins: int) -> void:
+func _on_coins_changed(coins: int) -> void:
 	_update_coin_label(coins)
 
 
-func _handle_player_ammo_changed(ammo: int, max_ammo: int) -> void:
+func _on_player_ammo_changed(ammo: int, max_ammo: int) -> void:
 	ammo_bar.value = ammo
 	ammo_bar.max_value = max_ammo
 
