@@ -3,12 +3,16 @@ extends PanelContainer
 
 const Scene = preload("res://hud/bottom_ui.tscn")
 
+var _upgrade_system: UpgradeSystem
+
 @onready var health_bar: ProgressBar = %HealthBar
 @onready var health_bar_label: Label = %HealthBarLabel
 @onready var ammo_bar: ProgressBar = %AmmoBar
 @onready var ammo_bar_label: Label = %AmmoBarLabel
 @onready var coin_label: Label = %CoinLabel
 @onready var shop_btn: Button = %ShopButton
+@onready var gunman_label: Label = %GunmanLabel
+@onready var repairman_label: Label = %RepairmanLabel
 
 
 func _ready() -> void:
@@ -19,7 +23,18 @@ func _ready() -> void:
 	SignalBus.player_ammo_changed.connect(_on_player_ammo_changed)
 
 
-func render(health: int, max_health: int, ammo: int, max_ammo: int, coins: int) -> void:
+func render(
+	health: int,
+	max_health: int,
+	ammo: int,
+	max_ammo: int,
+	coins: int,
+	upgrade_system: UpgradeSystem
+) -> void:
+	_upgrade_system = upgrade_system
+
+	_setup_upgrade_label("gunman", gunman_label)
+	_setup_upgrade_label("repairman", repairman_label)
 	_update_health(health, max_health)
 	_update_coin_label(coins)
 	ammo_bar.value = ammo
@@ -54,3 +69,14 @@ func _update_health(health: int, max_health: int) -> void:
 
 func update_ammo_bar_text() -> void:
 	ammo_bar_label.text = str(ammo_bar.value) + "/" + str(ammo_bar.max_value)
+
+
+func _setup_upgrade_label(id: String, label: Label) -> void:
+	var upgrade = _upgrade_system.get_by_id(id)
+
+	if not upgrade:
+		return
+
+	label.text = upgrade.get_label()
+
+	upgrade.level_changed.connect(func(_level): label.text = upgrade.get_label())

@@ -27,6 +27,15 @@ func get_upgrades() -> Array[Upgrade]:
 	return _upgrades
 
 
+func get_by_id(id: String) -> Upgrade:
+	# find_custom is not implemented?
+
+	for upgrade in _upgrades:
+		if upgrade.id == id:
+			return upgrade
+	return null
+
+
 func attempt_upgrade(upgrade: Upgrade) -> void:
 	if not can_afford(upgrade):
 		return

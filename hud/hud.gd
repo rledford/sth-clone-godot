@@ -11,12 +11,21 @@ var _init_max_ammo: int
 
 var _init_coins: int
 
+var _upgrade_system: UpgradeSystem
+
 @onready var break_label: Label = %BreakLabel
 @onready var wave_counter_label: Label = %WaveCounterLabel
 @onready var bottom_ui: BottomUI = $BottomUI
 
 
-static func create(health: int, max_health: int, ammo: int, max_ammo: int, coins: int) -> HUD:
+static func create(
+	health: int,
+	max_health: int,
+	ammo: int,
+	max_ammo: int,
+	coins: int,
+	upgrade_system: UpgradeSystem
+) -> HUD:
 	var instance = Scene.instantiate()
 
 	instance._init_health = health
@@ -26,12 +35,15 @@ static func create(health: int, max_health: int, ammo: int, max_ammo: int, coins
 	instance._init_max_ammo = max_ammo
 
 	instance._init_coins = coins
+	instance._upgrade_system = upgrade_system
 
 	return instance
 
 
 func _ready() -> void:
-	bottom_ui.render(_init_health, _init_max_health, _init_ammo, _init_max_ammo, _init_coins)
+	bottom_ui.render(
+		_init_health, _init_max_health, _init_ammo, _init_max_ammo, _init_coins, _upgrade_system
+	)
 	SignalBus.break_started.connect(_handle_break_started)
 	SignalBus.break_timer_change.connect(_update_break_timer)
 	SignalBus.wave_started.connect(_handle_wave_started)

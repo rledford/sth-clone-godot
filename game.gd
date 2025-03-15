@@ -1,9 +1,9 @@
 class_name Game
 extends Node2D
 
-const cursor_small = preload("res://cursor_16x16.png")
-const cursor_med = preload("res://cursor_32x32.png")
-const cursor_large = preload("res://cursor_48x48.png")
+const CursorSmall = preload("res://cursor_16x16.png")
+const CursorMed = preload("res://cursor_32x32.png")
+const CursorLarge = preload("res://cursor_48x48.png")
 
 const StrongholdScene = preload("res://stronghold/stronghold.tscn")
 const Scene = preload("res://game.tscn")
@@ -38,16 +38,14 @@ func _ready() -> void:
 
 	add_child(player)
 
-	_hud = (
-		HUD
-		. create(
-			_stronghold.get_health().get_health(),
-			_stronghold.get_health().get_max_health(),
-			player.get_magazine().get_ammo(),
-			player.get_magazine().get_max_ammo(),
-			_purse.get_coins(),
-		)
-	)
+	_hud = (HUD.create(
+		_stronghold.get_health().get_health(),
+		_stronghold.get_health().get_max_health(),
+		player.get_magazine().get_ammo(),
+		player.get_magazine().get_max_ammo(),
+		_purse.get_coins(),
+		_upgrades
+	))
 	add_child(_hud)
 
 	_waves.start()
@@ -84,20 +82,20 @@ func _check_window_resize() -> void:
 		print("Window size changed")
 		var magic_threshold = 1920
 		var max_window_dimension = max(w, h)
-		var cursor_res = cursor_small
-		var cusrot_hotspot = Vector2(8, 8)
+		var cursor_res = CursorSmall
+		var cursor_hotspot = Vector2(8, 8)
 
 		if max_window_dimension >= magic_threshold:
-			cursor_res = cursor_med
-			cusrot_hotspot = Vector2(16, 16)
+			cursor_res = CursorMed
+			cursor_hotspot = Vector2(16, 16)
 
 		if max_window_dimension >= magic_threshold * 2:
-			cursor_res = cursor_large
-			cusrot_hotspot = Vector2(24, 24)
+			cursor_res = CursorLarge
+			cursor_hotspot = Vector2(24, 24)
 
-		Input.set_custom_mouse_cursor(cursor_res, 0, cusrot_hotspot)
+		Input.set_custom_mouse_cursor(cursor_res, Input.CursorShape.CURSOR_ARROW, cursor_hotspot)
 
 		_window_size.x = w
 		_window_size.y = h
 
-	await get_tree().create_timer(0.1).timeout.connect(_check_window_resize)
+	get_tree().create_timer(0.1).timeout.connect(_check_window_resize)
