@@ -69,8 +69,8 @@ func _update_coin_label(coins: int) -> void:
 func _update_health(health: int, max_health: int) -> void:
 	health_bar.value = health
 	health_bar.max_value = max_health
-	health_bar_label.text = str(health) + " / " + str(max_health)
+	health_bar_label.text = str(health) + "/" + str(max_health)
 
 
 func update_ammo_bar_text() -> void:
-	ammo_bar_label.text = str(ammo_bar.value) + " / " + str(ammo_bar.max_value)
+	ammo_bar_label.text = str(ammo_bar.value) + "/" + str(ammo_bar.max_value)
