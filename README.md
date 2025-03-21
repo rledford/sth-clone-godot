@@ -7,3 +7,4 @@ Attempt to "clone" [storm-the-house](https://www.crazygames.com/game/storm-the-h
 - [ittaimanero - Zombie Apocalyps Tileset](https://ittaimanero.itch.io/zombie-apocalypse-tileset)
 - [luizmelo - Monster Creature Sprits](https://luizmelo.itch.io/monsters-creatures-fantasy)
 - Music Composed by [One Man Symphony](https://onemansymphony.bandcamp.com)
+- Color Palette [Nanner Pancakes](https://lospec.com/palette-list/nanner-pancakes) by [Afterimage](https://lospec.com/afterimage)
