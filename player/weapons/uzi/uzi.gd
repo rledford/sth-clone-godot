@@ -26,6 +26,10 @@ static func create(fire_rate_upgrade: FireRateUpgrade, clip_size_upgrade: ClipSi
 	return instance
 
 
+static func get_weapon_name() -> String:
+	return "uzi"
+
+
 func _ready() -> void:
 	_magazine = PlayerMagazine.new(25, _clip_size_upgrade, 0.5)
 

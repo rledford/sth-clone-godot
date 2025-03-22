@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://cslj2j7lhj30t"]
+
+[ext_resource type="PackedScene" uid="uid://b2cgh0148edku" path="res://hud/weapon_hotbar_item.tscn" id="1_pjbcq"]
+[ext_resource type="Script" path="res://hud/weapon_hotbar.gd" id="1_q7e2x"]
+[ext_resource type="Texture2D" uid="uid://caprt6bkrjuiw" path="res://hud/hud-spritesheet.png" id="2_lvb5w"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o6ydy"]
+atlas = ExtResource("2_lvb5w")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2j8o1"]
+atlas = ExtResource("2_lvb5w")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhqv0"]
+atlas = ExtResource("2_lvb5w")
+region = Rect2(0, 16, 32, 16)
+
+[node name="WeaponHotbar" type="HBoxContainer"]
+theme_override_constants/separation = 12
+script = ExtResource("1_q7e2x")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Weapons
+"
+
+[node name="RevolverHotbarItem" parent="." instance=ExtResource("1_pjbcq")]
+layout_mode = 2
+icon_texture = SubResource("AtlasTexture_o6ydy")
+num = "1"
+weapon_name = "revolver"
+
+[node name="UziHotbarItem" parent="." instance=ExtResource("1_pjbcq")]
+layout_mode = 2
+icon_texture = SubResource("AtlasTexture_2j8o1")
+num = "2"
+weapon_name = "uzi"
+
+[node name="ShotgunHotbarItem" parent="." instance=ExtResource("1_pjbcq")]
+layout_mode = 2
+icon_texture = SubResource("AtlasTexture_rhqv0")
+num = "3"
+weapon_name = "shotgun"

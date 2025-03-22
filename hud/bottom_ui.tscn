@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://dar8l1i5oaags"]
+[gd_scene load_steps=13 format=3 uid="uid://dar8l1i5oaags"]
 
 [ext_resource type="Theme" uid="uid://b7ridqq1ro7a8" path="res://metal_theme.tres" id="1_c0veg"]
 [ext_resource type="Script" path="res://hud/bottom_ui.gd" id="2_oorqo"]
+[ext_resource type="PackedScene" uid="uid://cslj2j7lhj30t" path="res://hud/weapon_hotbar.tscn" id="3_jksau"]
 [ext_resource type="Texture2D" uid="uid://caprt6bkrjuiw" path="res://hud/hud-spritesheet.png" id="4_p6dt5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7o0dt"]
@@ -59,12 +60,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/StatsContainer"]
+[node name="WeaponHotbar" parent="MarginContainer/HBoxContainer/StatsContainer" instance=ExtResource("3_jksau")]
 layout_mode = 2
-
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/StatsContainer/HBoxContainer"]
-layout_mode = 2
-text = "Weapon hotbar goes here"
 
 [node name="AmmoContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/StatsContainer"]
 layout_mode = 2
