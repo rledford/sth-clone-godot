@@ -3,6 +3,8 @@ extends Node2D
 
 const Scene = preload("res://player/player.tscn")
 
+var _weapons: Dictionary = {}
+
 var _weapon: Weapon
 
 var _fire_rate_upgrade: FireRateUpgrade
@@ -20,15 +22,22 @@ func get_magazine() -> PlayerMagazine:
 	return _weapon.get_magazine()
 
 
+func get_available_weapons() -> Array[String]:
+	return _weapons.keys()
+
+
+func get_current_weapon() -> String:
+	return _weapon.weapon_name
+
+
 func _ready() -> void:
 	_fire_rate_upgrade = FireRateUpgrade.new()
 	_clip_size_upgrade = ClipSizeUpgrade.new()
 	_uzi_upgrade = UziUpgrade.new()
 
+	SignalBus.weapon_hotbar_clicked.connect(_on_weapon_hotbar_used)
 	_uzi_upgrade.level_increased.connect(_on_uzi_purchase)
-
-	_weapon = Revolver.create(_fire_rate_upgrade, _clip_size_upgrade)
-	add_child(_weapon)
+	_unlock_weapon(Revolver.get_weapon_name())
 
 
 func _process(_delta: float) -> void:
@@ -46,6 +55,37 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_uzi_purchase() -> void:
-	_weapon.queue_free()
-	_weapon = Uzi.create(_fire_rate_upgrade, _clip_size_upgrade)
-	add_child(_weapon)
+	_unlock_weapon(Uzi.get_weapon_name())
+
+
+func _on_weapon_hotbar_used(weapon_name: String) -> void:
+	_change_weapon(weapon_name)
+
+
+func _change_weapon(weapon_name: String) -> void:
+	if _weapons.has(weapon_name):
+		_weapon = _weapons[weapon_name]
+		SignalBus.weapon_changed.emit(weapon_name)
+	else:
+		print("Attempted to change to locked or invalid weapon" + weapon_name)
+		return
+
+
+func _unlock_weapon(weapon_name: String):
+	var new_weapon: Weapon
+
+	match weapon_name:
+		"revolver":
+			new_weapon = Revolver.create(_fire_rate_upgrade, _clip_size_upgrade)
+		"uzi":
+			new_weapon = Uzi.create(_fire_rate_upgrade, _clip_size_upgrade)
+		_:
+			print("Attempted to unlock unknown weapon" + weapon_name)
+			return
+
+	add_child(new_weapon)
+	_weapons[weapon_name] = new_weapon
+	_weapon = new_weapon
+
+	SignalBus.weapon_unlocked.emit(weapon_name)
+	SignalBus.weapon_changed.emit(weapon_name)

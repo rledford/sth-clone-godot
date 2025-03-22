@@ -29,13 +29,16 @@ text = "Weapons
 layout_mode = 2
 icon_texture = SubResource("AtlasTexture_o6ydy")
 num = "1"
+weapon_name = "revolver"
 
 [node name="UziHotbarItem" parent="." instance=ExtResource("1_pjbcq")]
 layout_mode = 2
 icon_texture = SubResource("AtlasTexture_2j8o1")
 num = "2"
+weapon_name = "uzi"
 
 [node name="ShotgunHotbarItem" parent="." instance=ExtResource("1_pjbcq")]
 layout_mode = 2
 icon_texture = SubResource("AtlasTexture_rhqv0")
 num = "3"
+weapon_name = "shotgun"

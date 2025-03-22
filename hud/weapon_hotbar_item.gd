@@ -3,7 +3,7 @@ extends PanelContainer
 
 @export var icon_texture: Texture
 @export var num: String
-@export var weapon_id: String
+@export var weapon_name: String
 
 var _prev_stylebox: StyleBoxFlat
 
@@ -19,23 +19,15 @@ func _ready() -> void:
 	self.mouse_exited.connect(_on_mouse_exited)
 
 
-func set_selected(selected: bool) -> void:
-	var stylebox = _get_stylebox()
-
-	if selected:
-		stylebox.set_border_color(Color.WHITE_SMOKE)
-		stylebox.set_draw_center(true)
-	else:
-		stylebox.set_border_color("#9999991e")
-		stylebox.set_draw_center(false)
-
-	_apply_style(stylebox)
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("hotbar-" + num):
+		SignalBus.weapon_hotbar_clicked.emit(weapon_name)
 
 
 func _gui_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			print("Clicked! Hotbar Item! Should emit signal to change weapon")
+			SignalBus.weapon_hotbar_clicked.emit(weapon_name)
 
 
 func _on_mouse_entered() -> void:
@@ -48,6 +40,19 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	_apply_style(_prev_stylebox)
+
+
+func set_selected(selected: bool) -> void:
+	var stylebox = _get_stylebox()
+
+	if selected:
+		stylebox.set_border_color(Color.WHITE_SMOKE)
+		stylebox.set_draw_center(true)
+	else:
+		stylebox.set_border_color("#9999991e")
+		stylebox.set_draw_center(false)
+
+	_apply_style(stylebox)
 
 
 func _get_stylebox() -> StyleBox:

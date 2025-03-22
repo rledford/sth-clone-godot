@@ -32,6 +32,10 @@ static func create(
 	return instance
 
 
+static func get_weapon_name() -> String:
+	return "revolver"
+
+
 func _ready() -> void:
 	_magazine = PlayerMagazine.new(7, _clip_size_upgrade, 1)
 

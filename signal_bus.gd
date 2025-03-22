@@ -22,3 +22,8 @@ signal register_upgrade(upgrade: Upgrade)
 signal break_started(break_time: float)
 signal break_timer_change(time_left: float)
 signal wave_started(wave: int)
+
+signal weapon_unlocked(weapon_name: String)
+signal weapon_changed(weapon_name: String)
+
+signal weapon_hotbar_clicked(weapon_name: String)
