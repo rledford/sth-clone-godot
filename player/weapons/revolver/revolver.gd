@@ -2,12 +2,12 @@ class_name Revolver
 extends Weapon
 
 const Scene = preload("res://player/weapons/revolver/revolver.tscn")
+static var weapon_name = "revolver"
 
 var damage: float = 1.0
 var base_fire_rate: float = 0.75
 var base_magazine_size: int = 7
 var reload_time: float = 0.35
-
 var bonus_magazine_level: int = 0
 var bonuse_fire_rate_level: int = 0
 
@@ -30,10 +30,6 @@ static func create(
 	instance._fire_rate_upgrade = fire_rate_upgrade
 	instance._clip_size_upgrade = clip_size_upgrade
 	return instance
-
-
-static func get_weapon_name() -> String:
-	return "revolver"
 
 
 func _ready() -> void:

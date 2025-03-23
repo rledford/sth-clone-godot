@@ -2,10 +2,6 @@ class_name Weapon
 extends Node2D
 
 
-static func get_weapon_name() -> String:
-	return "base-weapon"
-
-
 func pull_trigger() -> void:
 	pass
 

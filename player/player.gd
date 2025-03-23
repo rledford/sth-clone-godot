@@ -22,7 +22,7 @@ func get_magazine() -> PlayerMagazine:
 	return _weapon.get_magazine()
 
 
-func get_available_weapons() -> Array[String]:
+func get_available_weapons() -> Array:
 	return _weapons.keys()
 
 
@@ -31,13 +31,15 @@ func get_current_weapon() -> String:
 
 
 func _ready() -> void:
+	self.add_to_group("player")
+
 	_fire_rate_upgrade = FireRateUpgrade.new()
 	_clip_size_upgrade = ClipSizeUpgrade.new()
 	_uzi_upgrade = UziUpgrade.new()
 
 	SignalBus.weapon_hotbar_clicked.connect(_on_weapon_hotbar_used)
 	_uzi_upgrade.level_increased.connect(_on_uzi_purchase)
-	_unlock_weapon(Revolver.get_weapon_name())
+	_unlock_weapon(Revolver.weapon_name)
 
 
 func _process(_delta: float) -> void:
@@ -55,7 +57,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_uzi_purchase() -> void:
-	_unlock_weapon(Uzi.get_weapon_name())
+	_unlock_weapon(Uzi.weapon_name)
 
 
 func _on_weapon_hotbar_used(weapon_name: String) -> void:
@@ -75,9 +77,9 @@ func _unlock_weapon(weapon_name: String):
 	var new_weapon: Weapon
 
 	match weapon_name:
-		"revolver":
+		Revolver.weapon_name:
 			new_weapon = Revolver.create(_fire_rate_upgrade, _clip_size_upgrade)
-		"uzi":
+		Uzi.weapon_name:
 			new_weapon = Uzi.create(_fire_rate_upgrade, _clip_size_upgrade)
 		_:
 			print("Attempted to unlock unknown weapon" + weapon_name)
