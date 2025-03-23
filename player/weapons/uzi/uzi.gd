@@ -2,6 +2,7 @@ class_name Uzi
 extends Weapon
 
 const Scene = preload("res://player/weapons/uzi/uzi.tscn")
+static var weapon_name = "uzi"
 
 var damage: float = 1
 var base_fire_rate: float = 0.05
@@ -24,10 +25,6 @@ static func create(fire_rate_upgrade: FireRateUpgrade, clip_size_upgrade: ClipSi
 	instance._fire_rate_upgrade = fire_rate_upgrade
 	instance._clip_size_upgrade = clip_size_upgrade
 	return instance
-
-
-static func get_weapon_name() -> String:
-	return "uzi"
 
 
 func _ready() -> void:
