@@ -41,8 +41,6 @@ func _ready() -> void:
 	_hud = (HUD.create(
 		_stronghold.get_health().get_health(),
 		_stronghold.get_health().get_max_health(),
-		player.get_magazine().get_ammo(),
-		player.get_magazine().get_max_ammo(),
 		_purse.get_coins(),
 		_upgrades
 	))

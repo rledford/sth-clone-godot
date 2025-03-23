@@ -17,29 +17,21 @@ var _upgrade_system: UpgradeSystem
 
 func _ready() -> void:
 	shop_btn.pressed.connect(func(): SignalBus.open_upgrade_menu.emit())
+	_refresh_ammo()
 
 	SignalBus.coins_changed.connect(_on_coins_changed)
 	SignalBus.player_health_changed.connect(_on_player_health_changed)
-	SignalBus.player_ammo_changed.connect(_on_player_ammo_changed)
+	SignalBus.player_ammo_changed.connect(func(_ammo, _max_ammo): _refresh_ammo())
+	SignalBus.weapon_changed.connect(_on_weapon_changed)
 
 
-func render(
-	health: int,
-	max_health: int,
-	ammo: int,
-	max_ammo: int,
-	coins: int,
-	upgrade_system: UpgradeSystem
-) -> void:
+func render(health: int, max_health: int, coins: int, upgrade_system: UpgradeSystem) -> void:
 	_upgrade_system = upgrade_system
 
 	_setup_upgrade_label("gunman", gunman_label)
 	_setup_upgrade_label("repairman", repairman_label)
 	_update_health(health, max_health)
 	_update_coin_label(coins)
-	ammo_bar.value = ammo
-	ammo_bar.max_value = max_ammo
-	update_ammo_bar_text()
 
 
 func _on_player_health_changed(health: int, max_health: int) -> void:
@@ -50,11 +42,8 @@ func _on_coins_changed(coins: int) -> void:
 	_update_coin_label(coins)
 
 
-func _on_player_ammo_changed(ammo: int, max_ammo: int) -> void:
-	ammo_bar.value = ammo
-	ammo_bar.max_value = max_ammo
-
-	update_ammo_bar_text()
+func _on_weapon_changed(_name: String) -> void:
+	_refresh_ammo()
 
 
 func _update_coin_label(coins: int) -> void:
@@ -67,7 +56,16 @@ func _update_health(health: int, max_health: int) -> void:
 	health_bar_label.text = str(health) + "/" + str(max_health)
 
 
-func update_ammo_bar_text() -> void:
+func _refresh_ammo() -> void:
+	var player = _get_player()
+	if player:
+		var magazine = player.get_magazine()
+		_render_ammo(magazine.get_ammo(), magazine.get_max_ammo())
+
+
+func _render_ammo(ammo: int, max_ammo: int) -> void:
+	ammo_bar.max_value = max_ammo
+	ammo_bar.value = ammo
 	ammo_bar_label.text = str(ammo_bar.value) + "/" + str(ammo_bar.max_value)
 
 
@@ -80,3 +78,11 @@ func _setup_upgrade_label(id: String, label: Label) -> void:
 	label.text = upgrade.get_label()
 
 	upgrade.level_changed.connect(func(_level): label.text = upgrade.get_label())
+
+
+## Can return null!
+func _get_player() -> Player:
+	var nodes = self.get_tree().get_nodes_in_group("player")
+	if nodes.size() == 0:
+		return null
+	return nodes[0] as Player
