@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://b7l231n1g7tgx"]
+
+[ext_resource type="Script" path="res://player/weapons/shotgun/shotgun.gd" id="1_t1fyo"]
+[ext_resource type="AudioStream" uid="uid://wrtu4sbi687v" path="res://sfx/no_ammo_click.wav" id="2_3jmy2"]
+[ext_resource type="AudioStream" uid="uid://qx70hq8mkh4o" path="res://sfx/shotgun.wav" id="2_a13ss"]
+[ext_resource type="AudioStream" uid="uid://brqtlyf7twds5" path="res://sfx/single_bullet_load.wav" id="3_x7x4c"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_afo1a"]
+
+[node name="Shotgun" type="Node2D"]
+script = ExtResource("1_t1fyo")
+
+[node name="ShootAudioStream" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_a13ss")
+pitch_scale = 0.9
+
+[node name="NoAmmoAudioStream" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_3jmy2")
+volume_db = 10.0
+
+[node name="ReloadAudioStream" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_x7x4c")
+
+[node name="ShootArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShootArea"]
+shape = SubResource("CircleShape2D_afo1a")
