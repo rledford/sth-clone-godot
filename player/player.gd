@@ -11,6 +11,7 @@ var _fire_rate_upgrade: FireRateUpgrade
 var _clip_size_upgrade: ClipSizeUpgrade
 
 var _uzi_upgrade: UziUpgrade
+var _shotgun_upgrade: ShotgunUpgrade
 
 
 static func create() -> Player:
@@ -36,9 +37,11 @@ func _ready() -> void:
 	_fire_rate_upgrade = FireRateUpgrade.new()
 	_clip_size_upgrade = ClipSizeUpgrade.new()
 	_uzi_upgrade = UziUpgrade.new()
+	_shotgun_upgrade = ShotgunUpgrade.new()
 
 	SignalBus.weapon_hotbar_clicked.connect(_on_weapon_hotbar_used)
 	_uzi_upgrade.level_increased.connect(_on_uzi_purchase)
+	_shotgun_upgrade.level_increased.connect(_on_shotgun_purchase)
 	_unlock_weapon(Revolver.weapon_name)
 
 
@@ -58,6 +61,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_uzi_purchase() -> void:
 	_unlock_weapon(Uzi.weapon_name)
+
+
+func _on_shotgun_purchase() -> void:
+	_unlock_weapon(Shotgun.weapon_name)
 
 
 func _on_weapon_hotbar_used(weapon_name: String) -> void:
@@ -81,6 +88,8 @@ func _unlock_weapon(weapon_name: String):
 			new_weapon = Revolver.create(_fire_rate_upgrade, _clip_size_upgrade)
 		Uzi.weapon_name:
 			new_weapon = Uzi.create(_fire_rate_upgrade, _clip_size_upgrade)
+		Shotgun.weapon_name:
+			new_weapon = Shotgun.create(_fire_rate_upgrade, _clip_size_upgrade)
 		_:
 			print("Attempted to unlock unknown weapon" + weapon_name)
 			return
