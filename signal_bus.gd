@@ -27,3 +27,4 @@ signal weapon_unlocked(weapon_name: String)
 signal weapon_changed(weapon_name: String)
 
 signal weapon_hotbar_clicked(weapon_name: String)
+signal turret_placed(turret: Turret)
