@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://slofpfprsu74"]
+[gd_scene load_steps=13 format=4 uid="uid://slofpfprsu74"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3d8c0"]
 [ext_resource type="Texture2D" uid="uid://bjqesobto8552" path="res://tilesets/zombie-apocalypse/zombie-apocalypse-tileset.png" id="2_2h2ra"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://enemy/enemy_spawn.gd" id="3_6mtbq"]
 [ext_resource type="Script" path="res://decal.gd" id="4_5n8ne"]
 [ext_resource type="Texture2D" uid="uid://d2rlqflfbfun4" path="res://cone_light_texture.png" id="5_muqc5"]
+[ext_resource type="PackedScene" uid="uid://cs7fpdkrig2oc" path="res://npc/turret/turret.tscn" id="7_43ckl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ngs1m"]
 texture = ExtResource("2_2h2ra")
@@ -1637,3 +1638,6 @@ texture = ExtResource("5_muqc5")
 position = Vector2(395, 276)
 rotation = -3.97237
 texture = ExtResource("5_muqc5")
+
+[node name="Turret" parent="." instance=ExtResource("7_43ckl")]
+position = Vector2(384, 205)
