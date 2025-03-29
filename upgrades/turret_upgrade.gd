@@ -3,6 +3,7 @@ extends Upgrade
 
 var is_enabled = true
 
+
 func _init() -> void:
 	name = "Turret"
 	id = "turret"
@@ -20,6 +21,7 @@ func get_cost() -> int:
 
 func can_buy() -> bool:
 	return is_enabled
+
 
 func _on_turret_placed(turret: Turret):
 	turret.activate()

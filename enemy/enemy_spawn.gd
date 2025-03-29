@@ -23,7 +23,7 @@ func spawn_wave(wave: Array) -> void:
 			enemy.died.connect(_on_enemy_died)
 
 		await get_tree().create_timer(2.0).timeout
-	
+
 	print("[Enemy Spawn] Total enemies spawned: ", total_enemies)
 
 

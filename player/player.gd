@@ -87,7 +87,7 @@ func _on_turret_purchase() -> void:
 		push_error("at least one node in the 'turrets' group must exist for turrets to added to")
 
 	self._turret_to_place = turret
-	
+
 	turret_group[0].add_child(turret)
 	SignalBus.close_upgrade_menu.emit()
 

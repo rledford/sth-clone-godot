@@ -6,13 +6,12 @@ extends Node2D
 @export var detection_radius: float = 120.0
 @export var heat_threshold: float = 120.0
 @export var heat_per_shot: float = 20.0
-@export var heat_dissipation: float = 40.0 # heat dissipated per second
+@export var heat_dissipation: float = 40.0  # heat dissipated per second
 @export var rest_rotation_degrees: float = -180.0
 
 @onready var heat_level_bar: ColorRect = $HeatBar/HeatLevel
 @onready var heat_level_bar_bg: ColorRect = $HeatBar/Background
 @onready var heat_bar: Node2D = $HeatBar
-
 
 var _last_fire_time: int = 0
 var _heat_level: float = 0.0
@@ -21,6 +20,7 @@ var _is_active: bool = false
 var _target: EnemyAlt
 
 var _heat_level_bar_size: Vector2
+
 
 func _ready():
 	self._heat_level_bar_size = Vector2(self.heat_level_bar_bg.get_rect().size)
@@ -45,7 +45,7 @@ func _physics_process(delta: float) -> void:
 
 	if self._can_fire():
 		self._fire()
-	
+
 	# keep heat bar orientation vertical
 	heat_bar.set_rotation(-self.rotation + PI)
 
@@ -57,14 +57,14 @@ func _update_heat(delta):
 		self._is_overheated = false
 
 	heat_level_bar.size.y = min(
-		ceil(float(self._heat_level)/float(self.heat_threshold) * self._heat_level_bar_size.y),
+		ceil(float(self._heat_level) / float(self.heat_threshold) * self._heat_level_bar_size.y),
 		self._heat_level_bar_size.y
 	)
 
 
 func _acquire_target() -> void:
 	var closest_enemy = (get_tree().get_nodes_in_group("enemies")).reduce(self._closest_enemy)
-	
+
 	if closest_enemy and self._is_in_range(closest_enemy):
 		self._target = closest_enemy
 		self._target.died.connect(self._on_target_died)
@@ -79,14 +79,14 @@ func _is_in_range(other: Node2D):
 func _closest_enemy(a: EnemyAlt, b: EnemyAlt) -> EnemyAlt:
 	var a_dist = global_position.distance_squared_to(a.global_position)
 	var b_dist = global_position.distance_squared_to(b.global_position)
-	
+
 	return a if a_dist < b_dist else b
 
 
 func _aim(delta: float) -> void:
-	var delta_scale = 0.25 if (not self._target or self._is_overheated) else 1.0 # slower rotation change when overheated
+	var delta_scale = 0.25 if (not self._target or self._is_overheated) else 1.0  # slower rotation change when overheated
 	var target_rotation = deg_to_rad(self.rest_rotation_degrees)
-	
+
 	if self._target:
 		target_rotation = self.global_position.angle_to_point(self._target.global_position)
 
@@ -96,7 +96,7 @@ func _aim(delta: float) -> void:
 func _fire() -> void:
 	if not self._target:
 		return
-	
+
 	self._heat_level = min(self._heat_level + self.heat_per_shot, self.heat_threshold)
 
 	if self._heat_level == self.heat_threshold:
@@ -104,6 +104,7 @@ func _fire() -> void:
 
 	self._target.hit.emit(self.damage)
 	self._last_fire_time = Time.get_ticks_msec()
+
 
 func _can_fire() -> bool:
 	if not self._target:
@@ -113,7 +114,11 @@ func _can_fire() -> bool:
 	var aiming_angle = lerp_angle(self.rotation, target_rotation, 1)
 	var is_in_view = abs(self.rotation - aiming_angle) < 0.05
 
-	return is_in_view and not self._is_overheated and Time.get_ticks_msec() - self._last_fire_time >= (self.fire_rate * 1000)
+	return (
+		is_in_view
+		and not self._is_overheated
+		and Time.get_ticks_msec() - self._last_fire_time >= (self.fire_rate * 1000)
+	)
 
 
 func _on_target_died() -> void:
@@ -121,7 +126,7 @@ func _on_target_died() -> void:
 	self._acquire_target()
 
 
-func _draw() -> void: # see docs for how _draw is cached
+func _draw() -> void:  # see docs for how _draw is cached
 	if not self._is_active:
 		self.modulate.a = 0.33
 		draw_circle(Vector2.ZERO, self.detection_radius, Color.CYAN)

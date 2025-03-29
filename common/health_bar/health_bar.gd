@@ -13,5 +13,5 @@ func _ready() -> void:
 
 
 func _on_change(current: int, max: int) -> void:
-	foreground.size.x = min(ceil(float(current)/float(max) * _size.x), _size.x)
+	foreground.size.x = min(ceil(float(current) / float(max) * _size.x), _size.x)
 	visible = current > 0 and current < max
