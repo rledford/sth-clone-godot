@@ -10,7 +10,7 @@ var base_reload_time: float = 2
 var base_magazine_size: int = 25
 
 var _level: int = 0
-var _magazine: Magazine
+var _magazine: PlayerMagazine
 var _state: String = "idle"
 var _upgrade: UziUpgrade
 
@@ -27,8 +27,7 @@ static func create(upgrade: UziUpgrade) -> Uzi:
 
 
 func _ready() -> void:
-	_magazine = Magazine.new(base_magazine_size, base_magazine_size)
-	_magazine.ammo_changed.connect(SignalBus.player_ammo_changed.emit)
+	_magazine = PlayerMagazine.new(base_magazine_size)
 	_upgrade.level_changed.connect(_on_level_changed)
 
 

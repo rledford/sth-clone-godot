@@ -10,7 +10,7 @@ var base_magazine_size: int = 7
 var base_reload_time: float = 0.35
 
 var _level: int = 0
-var _magazine: Magazine
+var _magazine: PlayerMagazine
 var _state: String = "idle"
 var _upgrade: RevolverUpgrade
 
@@ -26,8 +26,7 @@ static func create() -> Revolver:
 
 
 func _ready() -> void:
-	_magazine = Magazine.new(base_magazine_size, base_magazine_size)
-	_magazine.ammo_changed.connect(SignalBus.player_ammo_changed.emit)
+	_magazine = PlayerMagazine.new(base_magazine_size)
 	_upgrade = RevolverUpgrade.new()
 
 	_upgrade.level_changed.connect(_on_level_changed)
