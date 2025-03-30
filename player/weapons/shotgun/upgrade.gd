@@ -13,14 +13,6 @@ func _init() -> void:
 
 
 func get_cost() -> int:
-	return 1000
-
-
-func can_buy() -> bool:
-	return _level == 0
-
-
-func get_label() -> String:
 	if _level == 0:
-		return name
-	return name + " (OWNED)"
+		return 1000
+	return ceil(Scaling.exponential_growth(500, 1.5, _level))

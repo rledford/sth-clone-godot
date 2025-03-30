@@ -10,7 +10,6 @@ var base_magazine_size: int = 7
 var base_reload_time: float = 0.35
 
 var _level: int = 0
-
 var _magazine: Magazine
 var _state: String = "idle"
 var _upgrade: RevolverUpgrade
@@ -32,9 +31,6 @@ func _ready() -> void:
 	_upgrade = RevolverUpgrade.new()
 
 	_upgrade.level_changed.connect(_on_level_changed)
-
-	for i in range(20):
-		print_revolver_stats(i)
 
 
 func point_to(point: Vector2) -> void:
@@ -70,7 +66,7 @@ func _shoot() -> void:
 	await get_tree().create_timer(_get_fire_rate()).timeout
 
 
-func get_magazine() -> PlayerMagazine:
+func get_magazine() -> Magazine:
 	return _magazine
 
 
@@ -155,16 +151,3 @@ func scale_clip_size(level: int) -> int:
 
 func scale_reload_time(level: int) -> float:
 	return Scaling.exponential_decay(base_reload_time, 0.08, level)
-
-
-func get_revolver_stats(level: int) -> Dictionary:
-	return {
-		"damage": scale_damage(level),
-		"fire_rate": scale_fire_rate(level),
-		"clip_size": scale_clip_size(level),
-		"reload_rate": scale_reload_time(level)
-	}
-
-
-func print_revolver_stats(level: int) -> void:
-	print("Level ", level, " revolver stats: ", get_revolver_stats(level))
