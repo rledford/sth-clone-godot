@@ -90,6 +90,8 @@ func _on_turret_purchase() -> void:
 
 	turret_group[0].add_child(turret)
 	SignalBus.close_upgrade_menu.emit()
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	
 
 
 func _on_weapon_hotbar_used(weapon_name: String) -> void:

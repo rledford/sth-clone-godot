@@ -5,13 +5,14 @@ extends Node2D
 @export var fire_rate: float = 0.25
 @export var detection_radius: float = 120.0
 @export var heat_threshold: float = 120.0
-@export var heat_per_shot: float = 20.0
+@export var heat_per_shot: float = 40.0
 @export var heat_dissipation: float = 40.0  # heat dissipated per second
 @export var rest_rotation_degrees: float = -180.0
 
 @onready var heat_level_bar: ColorRect = $HeatBar/HeatLevel
 @onready var heat_level_bar_bg: ColorRect = $HeatBar/Background
 @onready var heat_bar: Node2D = $HeatBar
+@onready var light: PointLight2D = $Light
 
 var _last_fire_time: int = 0
 var _heat_level: float = 0.0
@@ -25,6 +26,7 @@ var _heat_level_bar_size: Vector2
 func _ready():
 	self._heat_level_bar_size = Vector2(self.heat_level_bar_bg.get_rect().size)
 	self.rotation = deg_to_rad(self.rest_rotation_degrees)
+	self.light.texture_scale =  2 * (1/(self.light.texture.get_size().x/self.detection_radius))
 
 
 func activate():
@@ -94,12 +96,9 @@ func _aim(delta: float) -> void:
 
 
 func _fire() -> void:
-	if not self._target:
-		return
-
 	self._heat_level = min(self._heat_level + self.heat_per_shot, self.heat_threshold)
 
-	if self._heat_level == self.heat_threshold:
+	if self._heat_level >= self.heat_threshold:
 		self._is_overheated = true
 
 	self._target.hit.emit(self.damage)
@@ -107,18 +106,21 @@ func _fire() -> void:
 
 
 func _can_fire() -> bool:
+	return self._has_fire_time_elapsed() and self._is_target_in_view()
+
+
+func _is_target_in_view() -> bool:
 	if not self._target:
 		return false
 
 	var target_rotation = self.global_position.angle_to_point(self._target.global_position)
 	var aiming_angle = lerp_angle(self.rotation, target_rotation, 1)
-	var is_in_view = abs(self.rotation - aiming_angle) < 0.05
+	
+	return abs(self.rotation - aiming_angle) <= 0.05
 
-	return (
-		is_in_view
-		and not self._is_overheated
-		and Time.get_ticks_msec() - self._last_fire_time >= (self.fire_rate * 1000)
-	)
+
+func _has_fire_time_elapsed() -> bool:
+	return Time.get_ticks_msec() - self._last_fire_time >= (self.fire_rate * 1000)
 
 
 func _on_target_died() -> void:
@@ -127,9 +129,10 @@ func _on_target_died() -> void:
 
 
 func _draw() -> void:  # see docs for how _draw is cached
-	if not self._is_active:
-		self.modulate.a = 0.33
-		draw_circle(Vector2.ZERO, self.detection_radius, Color.CYAN)
-	else:
-		self.modulate.a = 1.0
-		draw_circle(Vector2.ZERO, self.detection_radius, Color.RED, false)
+	pass
+	#if not self._is_active:
+		#self.modulate.a = 0.33
+		#draw_circle(Vector2.ZERO, self.detection_radius, Color.CYAN)
+	#else:
+		#self.modulate.a = 1.0
+		#draw_circle(Vector2.ZERO, self.detection_radius, Color.RED, false)

@@ -26,6 +26,7 @@ func can_buy() -> bool:
 func _on_turret_placed(turret: Turret):
 	turret.activate()
 	self.is_enabled = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
 func _increment_level() -> void:
