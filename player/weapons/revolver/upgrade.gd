@@ -13,7 +13,7 @@ func _init() -> void:
 
 
 func get_cost() -> int:
-	return (_level * 15) + 10
+	return ceil(Scaling.exponential_growth(15, 1.5, _level))
 
 
 func get_label() -> String:
