@@ -18,29 +18,34 @@ func get_enemy_spawns(wave_number: int) -> Array:
 	var max_enemy_cost = _calculate_max_enemy_cost(difficulty)
 	var enemy_choices = _enemies.keys().filter(_less_than_equal_to(max_enemy_cost))
 	var max_batch_cost = max_enemy_cost * 5
-	var min_enemy_count = ceil(difficulty/1.5)
+	var min_enemy_count = ceil(difficulty / 1.5)
 	var batch_count = ceil(float(difficulty) / max_batch_cost)
 
 	print(
 		"[Wave Calc] Wave parameters",
-		"\n\tdifficulty: ", difficulty,
-		"\n\tmin_enemy_count: ", min_enemy_count,
-		"\n\tmax_enemy_cost: ", max_enemy_cost,
-		"\n\tmax_batch_cost: ", max_batch_cost,
-		"\n\tbatch_count: ", batch_count
+		"\n\tdifficulty: ",
+		difficulty,
+		"\n\tmin_enemy_count: ",
+		min_enemy_count,
+		"\n\tmax_enemy_cost: ",
+		max_enemy_cost,
+		"\n\tmax_batch_cost: ",
+		max_batch_cost,
+		"\n\tbatch_count: ",
+		batch_count
 	)
 
 	var total_wave_cost = 0
 	var total_enemies = 0
-	
+
 	for _i in batch_count:
 		var batch_cost = min(difficulty - total_wave_cost, max_batch_cost)
 		var batch = _batch(batch_cost, enemy_choices)
-		
+
 		result.append(batch)
 		total_enemies += len(batch)
 		total_wave_cost += batch_cost
-	
+
 	if min_enemy_count > total_enemies:
 		print("[Wave Calc] Adding extra batch")
 		var extra_batch = []
@@ -52,7 +57,7 @@ func get_enemy_spawns(wave_number: int) -> Array:
 
 
 func _calculate_wave_difficulty(wave_number: int) -> int:
-	return 20 + ceil(wave_number**1.5)
+	return 20 + ceil(wave_number ** 1.5)
 
 
 func _calculate_max_enemy_cost(difficulty: int) -> int:

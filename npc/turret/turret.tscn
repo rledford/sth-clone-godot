@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://cs7fpdkrig2oc"]
+
+[ext_resource type="Script" path="res://npc/turret/turret.gd" id="1_ci83r"]
+[ext_resource type="Texture2D" uid="uid://csgdvhu6rhpts" path="res://sprites/sprites.png" id="2_v7mh0"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5uj46"]
+light_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_406ke"]
+light_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_w1moc"]
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_isiy4"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qurxm"]
+gradient = SubResource("Gradient_isiy4")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0.5)
+
+[node name="Turret" type="Node2D"]
+script = ExtResource("1_ci83r")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_5uj46")
+texture = ExtResource("2_v7mh0")
+region_enabled = true
+region_rect = Rect2(0, 32, 32, 32)
+
+[node name="HeatBar" type="Node2D" parent="."]
+rotation = -3.14159
+
+[node name="Background" type="ColorRect" parent="HeatBar"]
+material = SubResource("CanvasItemMaterial_406ke")
+offset_left = -1.0
+offset_top = -3.0
+offset_right = 1.0
+offset_bottom = 3.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.501961)
+
+[node name="HeatLevel" type="ColorRect" parent="HeatBar"]
+material = SubResource("CanvasItemMaterial_w1moc")
+offset_left = -1.0
+offset_top = -3.0
+offset_right = 1.0
+offset_bottom = 3.0
+mouse_filter = 2
+color = Color(0.991966, 0.471967, 0, 1)
+
+[node name="Light" type="PointLight2D" parent="."]
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_qurxm")

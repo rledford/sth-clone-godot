@@ -1,7 +1,6 @@
 extends Node2D
 class_name Projectile
 
-
 @export var sensor: Area2D
 @export var speed: float = 100.0
 @export var damage: int = 1
@@ -9,10 +8,11 @@ class_name Projectile
 
 var direction: Vector2 = Vector2.ZERO
 
+
 func _ready() -> void:
 	SignalBus.player_died.connect(queue_free)
 	get_tree().create_timer(lifetime).timeout.connect(queue_free)
-	
+
 	if not sensor:
 		print("no sensor")
 		return
@@ -22,7 +22,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	global_position += direction * speed * delta
-	
+
 
 func _on_collision(_area) -> void:
 	print("_on_collision not implemented")

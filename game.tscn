@@ -1601,6 +1601,8 @@ position = Vector2(-392, 70)
 shape = SubResource("RectangleShape2D_ctb01")
 disabled = true
 
+[node name="Turrets" type="Node2D" parent="." groups=["turrets"]]
+
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color(0, 0, 0, 1)
 
