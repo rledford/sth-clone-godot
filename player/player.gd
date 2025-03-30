@@ -38,8 +38,6 @@ func get_current_weapon() -> String:
 func _ready() -> void:
 	self.add_to_group("player")
 
-	_fire_rate_upgrade = FireRateUpgrade.new()
-	_clip_size_upgrade = ClipSizeUpgrade.new()
 	_uzi_upgrade = UziUpgrade.new()
 	_shotgun_upgrade = ShotgunUpgrade.new()
 	_turret_upgrade = TurretUpgrade.new()
@@ -112,7 +110,7 @@ func _unlock_weapon(weapon_name: String):
 
 	match weapon_name:
 		Revolver.weapon_name:
-			new_weapon = Revolver.create(_fire_rate_upgrade, _clip_size_upgrade)
+			new_weapon = Revolver.create()
 		Uzi.weapon_name:
 			new_weapon = Uzi.create(_fire_rate_upgrade, _clip_size_upgrade)
 		Shotgun.weapon_name:
