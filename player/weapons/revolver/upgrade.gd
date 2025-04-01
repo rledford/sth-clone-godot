@@ -1,10 +1,10 @@
-class_name FireRateUpgrade
+class_name RevolverUpgrade
 extends Upgrade
 
 
 func _init() -> void:
-	name = "Fire Rate"
-	id = "fire_rate"
+	name = "Revolver"
+	id = "revolver"
 	_category = UpgradeCategory.WEAPON
 	priority = 2
 
@@ -13,4 +13,8 @@ func _init() -> void:
 
 
 func get_cost() -> int:
-	return (_level * 15) + 10
+	return ceil(Scaling.exponential_growth(15, 1.5, _level))
+
+
+func get_label() -> String:
+	return name + " " + str(_level + 1)

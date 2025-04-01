@@ -4,18 +4,15 @@ extends Weapon
 const Scene = preload("res://player/weapons/revolver/revolver.tscn")
 static var weapon_name = "revolver"
 
-var damage: float = 1.0
+var base_damage: float = 1.0
 var base_fire_rate: float = 0.75
 var base_magazine_size: int = 7
-var reload_time: float = 0.35
-var bonus_magazine_level: int = 0
-var bonuse_fire_rate_level: int = 0
+var base_reload_time: float = 0.35
 
+var _level: int = 0
 var _magazine: PlayerMagazine
 var _state: String = "idle"
-
-var _fire_rate_upgrade: FireRateUpgrade
-var _clip_size_upgrade: ClipSizeUpgrade
+var _upgrade: RevolverUpgrade
 
 @onready var shoot_audio_stream: AudioStreamPlayer2D = $ShootAudioStream
 @onready var no_ammo_audio_stream: AudioStreamPlayer2D = $NoAmmoAudioStream
@@ -23,17 +20,16 @@ var _clip_size_upgrade: ClipSizeUpgrade
 @onready var shoot_area: Area2D = $ShootArea
 
 
-static func create(
-	fire_rate_upgrade: FireRateUpgrade, clip_size_upgrade: ClipSizeUpgrade
-) -> Revolver:
+static func create() -> Revolver:
 	var instance = Scene.instantiate()
-	instance._fire_rate_upgrade = fire_rate_upgrade
-	instance._clip_size_upgrade = clip_size_upgrade
 	return instance
 
 
 func _ready() -> void:
-	_magazine = PlayerMagazine.new(base_magazine_size, _clip_size_upgrade, 1)
+	_magazine = PlayerMagazine.new(base_magazine_size)
+	_upgrade = RevolverUpgrade.new()
+
+	_upgrade.level_changed.connect(_on_level_changed)
 
 
 func point_to(point: Vector2) -> void:
@@ -51,7 +47,7 @@ func release_trigger() -> void:
 func _shoot() -> void:
 	if not _magazine.has_ammo():
 		no_ammo_audio_stream.play()
-		await get_tree().create_timer(base_fire_rate).timeout
+		await get_tree().create_timer(_get_fire_rate()).timeout
 		return
 
 	shoot_audio_stream.play()
@@ -62,19 +58,15 @@ func _shoot() -> void:
 	var enemy = enemies.front()
 
 	if enemy:
-		enemy.hit.emit(damage)
+		enemy.hit.emit(_get_damage())
 	else:
 		SignalBus.shot_hit_ground.emit(shoot_area.global_position)
 
-	await get_tree().create_timer(get_fire_rate()).timeout
+	await get_tree().create_timer(_get_fire_rate()).timeout
 
 
-func get_magazine() -> PlayerMagazine:
+func get_magazine() -> Magazine:
 	return _magazine
-
-
-func get_fire_rate() -> float:
-	return base_fire_rate - (_fire_rate_upgrade.get_level() * base_fire_rate * 0.1)
 
 
 func reload() -> void:
@@ -89,7 +81,7 @@ func _reload() -> void:
 	_magazine.load(1)
 	reload_audio_stream.play()
 
-	await get_tree().create_timer(reload_time).timeout
+	await get_tree().create_timer(_get_reload_time()).timeout
 	if _state == "reloading":
 		_reload()
 
@@ -120,3 +112,41 @@ func _set_state(state: String) -> void:
 	print("setting state to ", state)
 	assert(state in ["idle", "shooting", "reloading"])
 	_state = state
+
+
+func _on_level_changed(level: int) -> void:
+	_level = level
+	_magazine.change_size(_get_clip_size())
+
+
+func _get_damage() -> float:
+	return scale_damage(_level)
+
+
+func _get_fire_rate() -> float:
+	return scale_fire_rate(_level)
+
+
+func _get_clip_size() -> int:
+	return scale_clip_size(_level)
+
+
+func _get_reload_time() -> float:
+	return scale_reload_time(_level)
+
+
+func scale_damage(level: int) -> int:
+	return ceil(Scaling.logarithmic_growth(base_damage, 1, level))
+
+
+func scale_fire_rate(level: int) -> float:
+	return Scaling.exponential_decay(base_reload_time, 0.05, level)
+
+
+func scale_clip_size(level: int) -> int:
+	@warning_ignore("INTEGER_DIVISION")
+	return base_magazine_size + (level / 5)
+
+
+func scale_reload_time(level: int) -> float:
+	return Scaling.exponential_decay(base_reload_time, 0.08, level)

@@ -8,9 +8,6 @@ var _weapons: Dictionary = {}
 
 var _weapon: Weapon
 
-var _fire_rate_upgrade: FireRateUpgrade
-var _clip_size_upgrade: ClipSizeUpgrade
-
 var _uzi_upgrade: UziUpgrade
 var _shotgun_upgrade: ShotgunUpgrade
 var _turret_upgrade: TurretUpgrade
@@ -38,8 +35,6 @@ func get_current_weapon() -> String:
 func _ready() -> void:
 	self.add_to_group("player")
 
-	_fire_rate_upgrade = FireRateUpgrade.new()
-	_clip_size_upgrade = ClipSizeUpgrade.new()
 	_uzi_upgrade = UziUpgrade.new()
 	_shotgun_upgrade = ShotgunUpgrade.new()
 	_turret_upgrade = TurretUpgrade.new()
@@ -112,11 +107,11 @@ func _unlock_weapon(weapon_name: String):
 
 	match weapon_name:
 		Revolver.weapon_name:
-			new_weapon = Revolver.create(_fire_rate_upgrade, _clip_size_upgrade)
+			new_weapon = Revolver.create()
 		Uzi.weapon_name:
-			new_weapon = Uzi.create(_fire_rate_upgrade, _clip_size_upgrade)
+			new_weapon = Uzi.create(_uzi_upgrade)
 		Shotgun.weapon_name:
-			new_weapon = Shotgun.create(_fire_rate_upgrade, _clip_size_upgrade)
+			new_weapon = Shotgun.create(_shotgun_upgrade)
 		_:
 			print("Attempted to unlock unknown weapon" + weapon_name)
 			return
