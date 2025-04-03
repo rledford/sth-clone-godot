@@ -5,7 +5,6 @@ const CursorSmall = preload("res://cursor_16x16.png")
 const CursorMed = preload("res://cursor_32x32.png")
 const CursorLarge = preload("res://cursor_48x48.png")
 
-const StrongholdScene = preload("res://stronghold/stronghold.tscn")
 const Scene = preload("res://game.tscn")
 
 var _window_size: Vector2
@@ -14,7 +13,6 @@ var _purse: CoinPurse
 var _upgrades: UpgradeSystem
 var _upgrade_menu: UpgradeMenu
 var _waves: Waves
-var _stronghold: Stronghold
 @onready var enemy_spawn: EnemySpawn = $EnemySpawn
 
 
@@ -28,9 +26,6 @@ func _ready() -> void:
 	_purse = CoinPurse.new()
 	_upgrades = UpgradeSystem.new(_purse)
 
-	_stronghold = StrongholdScene.instantiate()
-	add_child(_stronghold)
-
 	_waves = Waves.new(enemy_spawn)
 	add_child(_waves)
 
@@ -39,8 +34,8 @@ func _ready() -> void:
 	add_child(player)
 
 	_hud = (HUD.create(
-		_stronghold.get_health().get_health(),
-		_stronghold.get_health().get_max_health(),
+		100,
+		100,
 		_purse.get_coins(),
 		_upgrades
 	))
