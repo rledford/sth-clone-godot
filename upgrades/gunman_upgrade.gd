@@ -27,4 +27,4 @@ func _on_stronghold_vacant():
 
 
 func get_cost() -> int:
-	return 0  #(_level * 50) + 100
+	return (_level * 50) + 100

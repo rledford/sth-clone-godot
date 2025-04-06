@@ -15,7 +15,7 @@ func _init() -> void:
 
 
 func get_cost() -> int:
-	return 0
+	return ceil(Scaling.exponential_growth(800, 2.5, _level))
 
 
 func can_buy() -> bool:

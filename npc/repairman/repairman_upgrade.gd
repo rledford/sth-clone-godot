@@ -29,4 +29,4 @@ func can_buy() -> bool:
 
 
 func get_cost() -> int:
-	return 0  #(_level * 25) + 50
+	return (_level * 25) + 50
