@@ -6,7 +6,7 @@ extends Node2D
 
 var _health: Health
 var _level: int = 0
-var _max_level: int = 3
+var _max_level: int = 2
 var _base_health: int = 100
 var _current_occupants: int = 0
 var _occupant_slot_progression: Array[int] = [5, 12, 21]
@@ -34,6 +34,8 @@ func _handle_stronghold_upgrade(_level: int):
 	self._level = _level
 	self._update_sprite()
 	self._check_vacancy()
+	if _level >= self._max_level:
+		SignalBus.stronghold_max_level_reached.emit()
 
 
 func _max_occupant_slots() -> int:

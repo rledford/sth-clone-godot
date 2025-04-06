@@ -2,6 +2,8 @@ class_name UpgradeMenuButton
 extends PanelContainer
 
 const Scene = preload("res://upgrades/menu/upgrade_menu_button.tscn")
+const BuyText = 'BUY'
+const MaxText = 'MAX'
 
 var _upgrade: Upgrade
 var _system: UpgradeSystem
@@ -29,6 +31,7 @@ func _ready() -> void:
 func update_values() -> void:
 	name_label.text = _upgrade.get_label()
 	cost_label.text = String.num(_upgrade.get_cost())
+	buy_btn.text = MaxText if _upgrade.is_maxed() else BuyText
 	buy_btn.disabled = not _system.can_afford(_upgrade) or not _upgrade.can_buy()
 
 

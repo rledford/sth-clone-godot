@@ -31,5 +31,6 @@ signal turret_placed(turret: Turret)
 
 signal stronghold_vacant
 signal stronghold_full
+signal stronghold_max_level_reached
 
 signal upgrade_completed
