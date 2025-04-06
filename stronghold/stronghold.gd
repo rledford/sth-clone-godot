@@ -9,7 +9,7 @@ var _level: int = 0
 var _max_level: int = 3
 var _base_health: int = 100
 var _current_occupants: int = 0
-var _occupant_slot_progression: Array[int] = [5,12,21]
+var _occupant_slot_progression: Array[int] = [5, 12, 21]
 
 
 func _ready() -> void:
@@ -43,10 +43,10 @@ func _max_occupant_slots() -> int:
 func _handle_gunman_upgrade(_level: int):
 	var target_areas = get_tree().get_nodes_in_group("enemy_spawn_areas") as Array[CollisionShape2D]
 	var area: CollisionShape2D = target_areas.pick_random()
-	
+
 	var gunman = Gunman.create()
 	gunman.rotation = gunman.global_position.angle_to_point(area.global_position)
-	
+
 	self._add_occupant(gunman)
 
 
@@ -62,16 +62,17 @@ func _check_vacancy():
 	else:
 		SignalBus.stronghold_vacant.emit()
 
+
 func _add_occupant(entity):
 	var max_slots = self._max_occupant_slots()
 	var slots = occupants.get_children().slice(0, max_slots)
-	
+
 	for i in range(len(slots)):
 		if len(slots[i].get_children()) == 0:
 			slots[i].add_child(entity)
 			self._current_occupants += 1
 			break
-	
+
 	_check_vacancy()
 
 

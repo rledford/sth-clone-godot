@@ -12,6 +12,7 @@ var repair_delay: float = 1.0
 var _health: Health
 var _is_repairing: bool = false
 
+
 static func create(health: Health) -> Repairman:
 	var instance = Scene.instantiate()
 	instance._health = health
@@ -20,7 +21,7 @@ static func create(health: Health) -> Repairman:
 
 
 func _ready() -> void:
-	self.animation_player.play('default')
+	self.animation_player.play("default")
 	self.heal_particle.emitting = false
 	act()
 

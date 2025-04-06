@@ -3,12 +3,13 @@ extends Upgrade
 
 var _enabled: bool = true
 
+
 func _init() -> void:
 	name = "Gunman"
 	id = "gunman"
 	SignalBus.register_upgrade.emit(self)
 	level_increased.connect(_on_level_increased)
-	
+
 	SignalBus.stronghold_full.connect(_on_stronghold_full)
 	SignalBus.stronghold_vacant.connect(_on_stronghold_vacant)
 
@@ -26,4 +27,4 @@ func _on_stronghold_vacant():
 
 
 func get_cost() -> int:
-	return 0#(_level * 50) + 100
+	return 0  #(_level * 50) + 100

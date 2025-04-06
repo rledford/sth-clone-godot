@@ -3,6 +3,7 @@ extends Upgrade
 
 var _enabled = true
 
+
 func _init() -> void:
 	name = "Repairman"
 	id = "repairman"
@@ -28,4 +29,4 @@ func can_buy() -> bool:
 
 
 func get_cost() -> int:
-	return 0#(_level * 25) + 50
+	return 0  #(_level * 25) + 50

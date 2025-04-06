@@ -34,12 +34,7 @@ func _ready() -> void:
 	add_child(player)
 	add_child(Stronghold.instantiate())
 
-	_hud = (HUD.create(
-		100,
-		100,
-		_purse.get_coins(),
-		_upgrades
-	))
+	_hud = (HUD.create(100, 100, _purse.get_coins(), _upgrades))
 	add_child(_hud)
 
 	_waves.start()

@@ -46,7 +46,7 @@ func attempt_upgrade(upgrade: Upgrade) -> void:
 
 	_purse.spend_coins(cost)
 	upgrade.level_increased.emit()
-	
+
 	SignalBus.upgrade_completed.emit()
 
 

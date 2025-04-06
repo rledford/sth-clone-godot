@@ -26,7 +26,7 @@ var _heat_level_bar_size: Vector2
 func _ready():
 	self._heat_level_bar_size = Vector2(self.heat_level_bar_bg.get_rect().size)
 	self.rotation = deg_to_rad(self.rest_rotation_degrees)
-	self.light.texture_scale =  2 * (1/(self.light.texture.get_size().x/self.detection_radius))
+	self.light.texture_scale = 2 * (1 / (self.light.texture.get_size().x / self.detection_radius))
 
 
 func activate():
@@ -115,7 +115,7 @@ func _is_target_in_view() -> bool:
 
 	var target_rotation = self.global_position.angle_to_point(self._target.global_position)
 	var aiming_angle = lerp_angle(self.rotation, target_rotation, 1)
-	
+
 	return abs(self.rotation - aiming_angle) <= 0.05
 
 
@@ -131,8 +131,8 @@ func _on_target_died() -> void:
 func _draw() -> void:  # see docs for how _draw is cached
 	pass
 	#if not self._is_active:
-		#self.modulate.a = 0.33
-		#draw_circle(Vector2.ZERO, self.detection_radius, Color.CYAN)
+	#self.modulate.a = 0.33
+	#draw_circle(Vector2.ZERO, self.detection_radius, Color.CYAN)
 	#else:
-		#self.modulate.a = 1.0
-		#draw_circle(Vector2.ZERO, self.detection_radius, Color.RED, false)
+	#self.modulate.a = 1.0
+	#draw_circle(Vector2.ZERO, self.detection_radius, Color.RED, false)
