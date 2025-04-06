@@ -1,0 +1,92 @@
+[gd_scene load_steps=8 format=3 uid="uid://ccv12ffyujm51"]
+
+[ext_resource type="Script" path="res://npc/repairman/repairman.gd" id="1_umtdm"]
+[ext_resource type="PackedScene" uid="uid://jr1o3h2qi8sy" path="res://particles/heal_particle.tscn" id="2_8q7v2"]
+[ext_resource type="Texture2D" uid="uid://csgdvhu6rhpts" path="res://sprites/sprites.png" id="2_pxw6y"]
+
+[sub_resource type="Curve" id="Curve_lax7f"]
+_data = [Vector2(0, 0.984724), 0.0, 1.4, 0, 0, Vector2(0.997015, 0.495887), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Animation" id="Animation_i568f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_m0cnh"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -4)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uhvuk"]
+_data = {
+"RESET": SubResource("Animation_i568f"),
+"default": SubResource("Animation_m0cnh")
+}
+
+[node name="Repairman" type="Node2D"]
+script = ExtResource("1_umtdm")
+
+[node name="HealParticle" parent="." instance=ExtResource("2_8q7v2")]
+lifetime = 0.25
+speed_scale = 0.5
+scale_amount_min = 1.0
+scale_amount_max = 4.0
+scale_amount_curve = SubResource("Curve_lax7f")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_pxw6y")
+region_enabled = true
+region_rect = Rect2(0, 80, 16, 16)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_uhvuk")
+}

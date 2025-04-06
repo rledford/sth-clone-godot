@@ -8,41 +8,130 @@ colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_yqkdu"]
 gradient = SubResource("Gradient_o4nr5")
-width = 92
-height = 48
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ir5cf"]
-size = Vector2(37, 32)
+size = Vector2(174, 170)
 
 [node name="Stronghold" type="Node2D"]
+position = Vector2(488, 197)
 script = ExtResource("1_keyt1")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(46, -6.50002)
+scale = Vector2(4.84375, 5.82812)
+energy = 1.5
 texture = SubResource("GradientTexture2D_yqkdu")
+
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="Level1" type="Sprite2D" parent="Sprites"]
+texture = ExtResource("2_iu65f")
+region_enabled = true
+region_rect = Rect2(94, 69, 56, 187)
+
+[node name="Level2" type="Sprite2D" parent="Sprites"]
+position = Vector2(26, -8)
+texture = ExtResource("2_iu65f")
+region_enabled = true
+region_rect = Rect2(94, 53, 109, 203)
+
+[node name="Level3" type="Sprite2D" parent="Sprites"]
+position = Vector2(53, -16)
+texture = ExtResource("2_iu65f")
+region_enabled = true
+region_rect = Rect2(94, 37, 162, 219)
 
 [node name="AttackArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" groups=["attack_areas"]]
-position = Vector2(-2.5, 0)
+position = Vector2(46, -6)
 shape = SubResource("RectangleShape2D_ir5cf")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_iu65f")
-region_enabled = true
-region_rect = Rect2(80, 16, 32, 32)
+[node name="Occupants" type="Node2D" parent="."]
 
-[node name="GunmanPosts" type="Node" parent="."]
-
-[node name="Post1" type="Node2D" parent="GunmanPosts" groups=["gunman_posts"]]
-position = Vector2(-12, 0)
+[node name="Post1" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(-12, -69)
 metadata/_edit_group_ = true
 
-[node name="ColorRect" type="ColorRect" parent="GunmanPosts/Post1"]
-visible = false
-offset_left = -2.0
-offset_top = -2.0
-offset_right = 4.0
-offset_bottom = 5.0
+[node name="Post2" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(-12, -4)
+metadata/_edit_group_ = true
+
+[node name="Post3" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(-12, 60)
+metadata/_edit_group_ = true
+
+[node name="Post4" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(13, -36)
+metadata/_edit_group_ = true
+
+[node name="Post5" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(13, 28)
+metadata/_edit_group_ = true
+
+[node name="Post6" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(40, -85)
+metadata/_edit_group_ = true
+
+[node name="Post7" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(40, -21)
+metadata/_edit_group_ = true
+
+[node name="Post8" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(41, 43)
+metadata/_edit_group_ = true
+
+[node name="Post9" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(66, -85)
+metadata/_edit_group_ = true
+
+[node name="Post10" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(66, -52)
+metadata/_edit_group_ = true
+
+[node name="Post11" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(66, 12)
+metadata/_edit_group_ = true
+
+[node name="Post12" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(66, 44)
+metadata/_edit_group_ = true
+
+[node name="Post13" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(94, -100)
+metadata/_edit_group_ = true
+
+[node name="Post14" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(94, -68)
+metadata/_edit_group_ = true
+
+[node name="Post15" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(94, -36)
+metadata/_edit_group_ = true
+
+[node name="Post16" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(94, -4)
+metadata/_edit_group_ = true
+
+[node name="Post17" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(94, 28)
+metadata/_edit_group_ = true
+
+[node name="Post18" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(119, -100)
+metadata/_edit_group_ = true
+
+[node name="Post19" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(118, -68)
+metadata/_edit_group_ = true
+
+[node name="Post20" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(119, -4)
+metadata/_edit_group_ = true
+
+[node name="Post21" type="Node2D" parent="Occupants" groups=["occupants"]]
+position = Vector2(119, 28)
+metadata/_edit_group_ = true

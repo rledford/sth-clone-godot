@@ -28,3 +28,8 @@ signal weapon_changed(weapon_name: String)
 
 signal weapon_hotbar_clicked(weapon_name: String)
 signal turret_placed(turret: Turret)
+
+signal stronghold_vacant
+signal stronghold_full
+
+signal upgrade_completed

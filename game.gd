@@ -6,6 +6,7 @@ const CursorMed = preload("res://cursor_32x32.png")
 const CursorLarge = preload("res://cursor_48x48.png")
 
 const Scene = preload("res://game.tscn")
+const Stronghold = preload("res://stronghold/stronghold.tscn")
 
 var _window_size: Vector2
 var _hud: HUD
@@ -25,13 +26,13 @@ func _ready() -> void:
 	_check_window_resize()
 	_purse = CoinPurse.new()
 	_upgrades = UpgradeSystem.new(_purse)
-
 	_waves = Waves.new(enemy_spawn)
 	add_child(_waves)
 
 	var player = Player.create()
 
 	add_child(player)
+	add_child(Stronghold.instantiate())
 
 	_hud = (HUD.create(
 		100,
