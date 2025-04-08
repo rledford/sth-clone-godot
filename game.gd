@@ -30,11 +30,19 @@ func _ready() -> void:
 	add_child(_waves)
 
 	var player = Player.create()
+	var stronghold = Stronghold.instantiate() as Stronghold
 
 	add_child(player)
-	add_child(Stronghold.instantiate())
+	add_child(stronghold)
 
-	_hud = (HUD.create(100, 100, _purse.get_coins(), _upgrades))
+	_hud = (
+		HUD.create(
+			stronghold.get_health().get_health(),
+			stronghold.get_health().get_max_health(),
+			_purse.get_coins(),
+			_upgrades
+			)
+		)
 	add_child(_hud)
 
 	_waves.start()

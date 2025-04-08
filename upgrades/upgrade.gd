@@ -25,6 +25,7 @@ var id: String
 var priority: int = -1
 
 var _level: int = 0
+var _max_level: int = 999
 var _category: UpgradeCategory
 
 
@@ -33,7 +34,7 @@ func can_buy() -> bool:
 
 
 func is_maxed() -> bool:
-	return false
+	return self._level >= self._max_level
 
 
 func get_cost() -> int:

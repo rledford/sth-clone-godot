@@ -26,7 +26,7 @@ func _ready() -> void:
 	buy_btn.pressed.connect(_on_buy)
 
 	SignalBus.open_upgrade_menu.connect(update_values)
-	SignalBus.upgrade_completed.connect(update_values)
+	SignalBus.upgrade_purchased.connect(update_values)
 
 
 func update_values() -> void:

@@ -5,9 +5,8 @@ extends Node2D
 @onready var sprites: Node2D = $Sprites
 
 var _health: Health
-var _level: int = 0
-var _max_level: int = 2
 var _base_health: int = 100
+var _upgrade: StrongholdUpgrade
 var _current_occupants: int = 0
 var _occupant_slot_progression: Array[int] = [5, 12, 21]
 
@@ -17,8 +16,9 @@ func _ready() -> void:
 	_health.health_changed.connect(SignalBus.player_health_changed.emit)
 	_health.died.connect(SignalBus.player_died.emit)
 
+	_upgrade = StrongholdUpgrade.new()
+	_upgrade.level_changed.connect(_handle_stronghold_upgrade)
 	GunmanUpgrade.new().level_changed.connect(_handle_gunman_upgrade)
-	StrongholdUpgrade.new().level_changed.connect(_handle_stronghold_upgrade)
 	RepairmanUpgrade.new().level_changed.connect(_on_repairman_upgraded)
 	RepairUpgrade.new(_health).level_changed.connect(_on_repair_level_changed)
 	SignalBus.player_hit.connect(_on_player_hit)
@@ -31,31 +31,22 @@ func get_health() -> Health:
 
 
 func _handle_stronghold_upgrade(_level: int):
-	self._level = _level
 	self._update_sprite()
 	self._check_vacancy()
-	if _level >= self._max_level:
-		SignalBus.stronghold_max_level_reached.emit()
 
 
 func _max_occupant_slots() -> int:
-	return self._occupant_slot_progression[self._level]
+	return self._occupant_slot_progression[self._upgrade.get_level()]
 
 
 func _handle_gunman_upgrade(_level: int):
-	var target_areas = get_tree().get_nodes_in_group("enemy_spawn_areas") as Array[CollisionShape2D]
-	var area: CollisionShape2D = target_areas.pick_random()
-
-	var gunman = Gunman.create()
-	gunman.rotation = gunman.global_position.angle_to_point(area.global_position)
-
-	self._add_occupant(gunman)
+	self._add_occupant(Gunman.create())
 
 
 func _update_sprite():
 	var level_sprites = self.sprites.get_children()
 	for i in range(self.sprites.get_child_count()):
-		level_sprites[i].visible = i == self._level
+		level_sprites[i].visible = i == self._upgrade.get_level()
 
 
 func _check_vacancy():

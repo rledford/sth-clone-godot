@@ -16,13 +16,16 @@ var _magazine: Magazine
 @onready var _gun_shot_sfx: AudioStreamPlayer2D = $GunShotSFX
 @onready var _single_bullet_load_stream: AudioStreamPlayer2D = $SingleBulletLoadStream
 
-
 static func create() -> Gunman:
 	var instance = Scene.instantiate()
 	return instance
 
 
 func _ready() -> void:
+	var target_areas = get_tree().get_nodes_in_group("enemy_spawn_areas") as Array[CollisionShape2D]
+	var area: CollisionShape2D = target_areas.pick_random()
+
+	self.rotation = self.global_position.angle_to_point(area.global_position)
 	_muzzle_fire_particle.one_shot = true
 	_muzzle_fire_particle.emitting = false
 	_magazine = Magazine.new(2, 2)
