@@ -46,6 +46,7 @@ func attempt_upgrade(upgrade: Upgrade) -> void:
 
 	_purse.spend_coins(cost)
 	upgrade.level_increased.emit()
+	SignalBus.upgrade_purchased.emit()
 
 
 func _handle_register_upgrade(upgrade: Upgrade) -> void:

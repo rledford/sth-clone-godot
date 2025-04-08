@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://jr1o3h2qi8sy"]
+
+[node name="HealParticle" type="CPUParticles2D"]
+lifetime = 0.5
+randomness = 0.05
+lifetime_randomness = 0.5
+emission_shape = 1
+emission_sphere_radius = 6.06
+gravity = Vector2(0, -980)
+scale_amount_min = 0.5
+scale_amount_max = 2.5
+color = Color(0.249176, 0.525324, 0.407661, 1)

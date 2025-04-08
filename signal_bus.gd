@@ -14,6 +14,7 @@ signal coins_changed(coins: int)
 
 signal shot_hit_ground(global_position: Vector2)
 
+signal upgrade_purchased
 signal open_upgrade_menu
 signal close_upgrade_menu
 
@@ -28,3 +29,7 @@ signal weapon_changed(weapon_name: String)
 
 signal weapon_hotbar_clicked(weapon_name: String)
 signal turret_placed(turret: Turret)
+
+signal stronghold_vacant
+signal stronghold_full
+signal stronghold_max_level_reached
