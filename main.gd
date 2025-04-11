@@ -12,7 +12,6 @@ func _ready() -> void:
 	SignalBus.game_over.connect(_handle_game_over)
 	SignalBus.start_new_game.connect(_handle_new_game)
 
-	# Show start screen instead of immediately starting a new game
 	_show_start_screen()
 
 
