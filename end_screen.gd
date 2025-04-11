@@ -1,15 +1,16 @@
 class_name EndScreen
-extends Node2D
+extends CanvasLayer
+
+const Scene = preload("res://end_screen.tscn")
+
+var _wave: int
 
 @onready var score_label: Label = %ScoreLabel
 @onready var new_game_btn: Button = %NewGameBtn
 
-const scene = preload("res://end_screen.tscn")
-var _wave: int
-
 
 static func create(wave: int) -> EndScreen:
-	var instance = scene.instantiate()
+	var instance = Scene.instantiate()
 	instance._wave = wave
 	return instance
 
