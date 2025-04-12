@@ -7,6 +7,10 @@ signal died
 signal entered_attack_hit_frame
 signal finished_attack_animation
 
+# Stagger phase constants
+const KNOCKBACK_PHASE_RATIO := 0.3  # First 30% of stagger time is knockback
+const MOVEMENT_DISABLED_PHASE_RATIO := 0.7  # Can't move during first 70% of stagger
+
 @export var hitbox: CollisionShape2D
 @export var sensor: Area2D
 @export var anim: AnimatedSprite2D
@@ -48,6 +52,14 @@ func can_attack() -> bool:
 	return (not _is_attacking) and attack_time_delta >= (attack_speed * 1000.0)
 
 
+func can_move() -> bool:
+	if not _is_staggered:
+		return true
+
+	# Can only move in the later phase of stagger
+	return _stagger_timer <= (_stagger_duration * (1.0 - MOVEMENT_DISABLED_PHASE_RATIO))
+
+
 func _ready() -> void:
 	entered_attack_hit_frame.connect(_on_entered_attack_hit_frame)
 	finished_attack_animation.connect(_on_finished_attack_animation)
@@ -85,7 +97,7 @@ func _update_stagger(delta: float) -> void:
 		_is_staggered = false
 		speed = _original_speed
 	else:
-		var knockback_duration = _stagger_duration * 0.3
+		var knockback_duration = _stagger_duration * KNOCKBACK_PHASE_RATIO
 		if _stagger_timer > (_stagger_duration - knockback_duration):
 			velocity = _stagger_direction * _knockback_force
 			move_and_slide()
@@ -101,7 +113,7 @@ func _update_idle(_delta: float) -> void:
 	if anim.animation != "idle":
 		anim.play("idle")
 
-	if _has_valid_target() and not _is_staggered:
+	if _has_valid_target() and can_move():
 		_set_state("move")
 		return
 
@@ -114,7 +126,7 @@ func _update_move(_delta: float) -> void:
 		_set_state("idle")
 		return
 
-	if not _is_staggered or _stagger_timer <= (_stagger_duration * 0.7):
+	if can_move():
 		velocity = (_attack_position - hitbox.global_position).normalized() * speed
 		move_and_slide()
 		_flip()
