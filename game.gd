@@ -16,6 +16,8 @@ var _upgrade_menu: UpgradeMenu
 var _waves: Waves
 var _stronghold: Stronghold
 var _initial_state: Dictionary = {}
+var _player: Player
+
 @onready var enemy_spawn: EnemySpawn = $EnemySpawn
 
 
@@ -34,15 +36,17 @@ func _ready() -> void:
 	_waves = Waves.new(enemy_spawn, _initial_state.get("cleared_waves", 0))
 	add_child(_waves)
 
-	var player = Player.create()
+	_player = Player.create()
 	_stronghold = StrongholdScene.instantiate()
 
-	add_child(player)
+	add_child(_player)
 	add_child(_stronghold)
 
-	# Restore stronghold occupants if available in saved state
 	if _initial_state.has("occupants"):
 		_stronghold.restore_occupants(_initial_state.get("occupants", []))
+
+	if _initial_state.has("turrets"):
+		_player.restore_turrets(_initial_state.get("turrets", []))
 
 	_hud = (HUD.create(
 		_stronghold.get_health().get_health(),
@@ -63,6 +67,7 @@ func _ready() -> void:
 	SignalBus.close_upgrade_menu.connect(_on_close_upgrade_menu)
 	SignalBus.break_started.connect(_on_break_started)
 	SignalBus.upgrade_purchased.connect(_on_upgrade_purchased)
+	_player.turrets_changed.connect(_report_game_state)
 
 
 func _on_player_died() -> void:
@@ -83,7 +88,8 @@ func _report_game_state() -> void:
 		"coins": _purse.get_coins(),
 		"cleared_waves": _waves.get_cleared_waves(),
 		"upgrades": _upgrades.get_upgrade_levels(),
-		"occupants": _stronghold.get_occupants()
+		"occupants": _stronghold.get_occupants(),
+		"turrets": _player.get_placed_turrets()
 	}
 
 	SignalBus.game_state_changed.emit(game_state)
