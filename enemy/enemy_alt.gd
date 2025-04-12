@@ -4,6 +4,12 @@ extends CharacterBody2D
 signal hit(damage: float)
 signal health_changed(current: int, max: int)
 signal died
+signal entered_attack_hit_frame
+signal finished_attack_animation
+
+# Stagger phase constants
+const KNOCKBACK_PHASE_RATIO := 0.3  # First 30% of stagger time is knockback
+const MOVEMENT_DISABLED_PHASE_RATIO := 0.7  # Can't move during first 70% of stagger
 
 @export var hitbox: CollisionShape2D
 @export var sensor: Area2D
@@ -19,16 +25,22 @@ signal died
 @export var attack_speed: float = 2.5
 @export var speed: float = 100.0
 @export var coin_reward: int = 1
+@export var stagger_resistance: float = 1.0  # Higher values reduce stagger effect
 
 var _health: int
 var _attack_position: Vector2 = Vector2.INF
-var _time_between_attacks: int = 0
 var _last_attack_time: int = 0
 var _is_attacking: bool = false
 var _state: String = "idle"
 
-signal entered_attack_hit_frame
-signal finished_attack_animation
+# Stagger properties
+var _is_staggered: bool = false
+var _stagger_timer: float = 0.0
+var _stagger_duration: float = 0.0
+var _stagger_speed_penalty: float = 0.0
+var _stagger_direction: Vector2 = Vector2.ZERO
+var _original_speed: float = 0.0
+var _knockback_force: float = 0.0
 
 
 func is_alive() -> bool:
@@ -40,6 +52,14 @@ func can_attack() -> bool:
 	return (not _is_attacking) and attack_time_delta >= (attack_speed * 1000.0)
 
 
+func can_move() -> bool:
+	if not _is_staggered:
+		return true
+
+	# Can only move in the later phase of stagger
+	return _stagger_timer <= (_stagger_duration * (1.0 - MOVEMENT_DISABLED_PHASE_RATIO))
+
+
 func _ready() -> void:
 	entered_attack_hit_frame.connect(_on_entered_attack_hit_frame)
 	finished_attack_animation.connect(_on_finished_attack_animation)
@@ -47,6 +67,7 @@ func _ready() -> void:
 	sensor.area_entered.connect(_on_area_2d_area_entered)
 	sensor.area_exited.connect(_on_area_2d_area_exited)
 	_health = max_health
+	_original_speed = speed
 
 	if health_bar:
 		health_changed.connect(health_bar._on_change)
@@ -55,6 +76,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if _is_staggered:
+		_update_stagger(delta)
+
 	match _state:
 		"idle":
 			_update_idle(delta)
@@ -66,18 +90,35 @@ func _physics_process(delta: float) -> void:
 			_update_death(delta)
 
 
-func _update_idle(delta: float) -> void:
+func _update_stagger(delta: float) -> void:
+	_stagger_timer -= delta
+
+	if _stagger_timer <= 0:
+		_is_staggered = false
+		speed = _original_speed
+	else:
+		var knockback_duration = _stagger_duration * KNOCKBACK_PHASE_RATIO
+		if _stagger_timer > (_stagger_duration - knockback_duration):
+			velocity = _stagger_direction * _knockback_force
+			move_and_slide()
+
+		speed = (
+			_original_speed * (1.0 - _stagger_speed_penalty * (_stagger_timer / _stagger_duration))
+		)
+
+
+func _update_idle(_delta: float) -> void:
 	_find_target()
 
 	if anim.animation != "idle":
 		anim.play("idle")
 
-	if _has_valid_target():
+	if _has_valid_target() and can_move():
 		_set_state("move")
 		return
 
 
-func _update_move(delta: float) -> void:
+func _update_move(_delta: float) -> void:
 	if anim.animation != "move":
 		anim.play("move")
 
@@ -85,13 +126,14 @@ func _update_move(delta: float) -> void:
 		_set_state("idle")
 		return
 
-	velocity = (_attack_position - hitbox.global_position).normalized() * speed
-	move_and_slide()
-	_flip()
+	if can_move():
+		velocity = (_attack_position - hitbox.global_position).normalized() * speed
+		move_and_slide()
+		_flip()
 
 
-func _update_attack(delta: float) -> void:
-	if _is_attacking or not can_attack():
+func _update_attack(_delta: float) -> void:
+	if _is_attacking or not can_attack() or _is_staggered:
 		return
 
 	if not _has_valid_target():
@@ -138,14 +180,40 @@ func _flip() -> void:
 		scale.x = scale.y * -1
 
 
-func _on_hit(_amount: int) -> void:
+func apply_stagger(damage_amount: int) -> void:
+	var stagger_factor = damage_amount / max(stagger_resistance, 0.1)
+	_stagger_duration = clamp(stagger_factor * 0.5, 0.5, 2.0)
+	_stagger_speed_penalty = clamp(stagger_factor * 0.2, 0.1, 0.8)
+
+	if _has_valid_target():
+		var movement_dir = (_attack_position - hitbox.global_position).normalized()
+		_stagger_direction = -movement_dir
+
+	# Calculate knockback force based on damage and resistance
+	_knockback_force = _original_speed * 1.5 * (damage_amount / (stagger_resistance + 1.0))
+
+	# Ensure minimum knockback
+	_knockback_force = max(_knockback_force, _original_speed * 0.5)
+
+	_is_staggered = true
+	_stagger_timer = _stagger_duration
+
+	anim.modulate = Color(1.5, 1.5, 1.5)  # Flash white
+	var tween = create_tween()
+	tween.tween_property(anim, "modulate", Color(1, 1, 1), 0.3)
+
+
+func _on_hit(amount: int) -> void:
 	var particle = hit_particle.instantiate() as CPUParticles2D
 	particle.color = hit_particle_color
 	particle.one_shot = true
 
 	add_child(particle)
 
-	_health -= _amount
+	_health -= amount
+
+	apply_stagger(amount)
+
 	if not is_alive():
 		particle.finished.connect(queue_free)
 		died.emit()
@@ -159,7 +227,8 @@ func _enter_tree() -> void:
 
 
 func _on_area_2d_area_entered(_area: Area2D) -> void:
-	_set_state("attack")
+	if not _is_staggered:
+		_set_state("attack")
 
 
 func _on_area_2d_area_exited(_area: Area2D) -> void:
