@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxjpnwvlvwcnl"]
+
+[ext_resource type="Script" path="res://start_screen.gd" id="1_jv4rl"]
+[ext_resource type="Theme" uid="uid://b7ridqq1ro7a8" path="res://metal_theme.tres" id="2_qtlfa"]
+
+[node name="StartScreen" type="CanvasLayer"]
+script = ExtResource("1_jv4rl")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_qtlfa")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="TitleContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TitleContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Unnamed STH Clone"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TitleContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "A Storm the House Clone"
+horizontal_alignment = 1
+
+[node name="StartGameBtn" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "START GAME"
