@@ -2,6 +2,7 @@ extends Node
 
 signal game_over(wave: int)
 signal start_new_game
+signal game_state_changed(data: Dictionary)
 
 signal player_hit(damage: int)
 signal player_died

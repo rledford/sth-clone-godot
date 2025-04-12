@@ -14,19 +14,23 @@ var _purse: CoinPurse
 var _upgrades: UpgradeSystem
 var _upgrade_menu: UpgradeMenu
 var _waves: Waves
+var _initial_state: Dictionary = {}
 @onready var enemy_spawn: EnemySpawn = $EnemySpawn
 
 
-static func create() -> Game:
+static func create(initial_state: Dictionary = {}) -> Game:
 	var instance = Scene.instantiate()
+	instance._initial_state = initial_state
 	return instance
 
 
 func _ready() -> void:
 	_check_window_resize()
-	_purse = CoinPurse.new()
+
+	_purse = CoinPurse.new(_initial_state.get("coins", 0))
 	_upgrades = UpgradeSystem.new(_purse)
-	_waves = Waves.new(enemy_spawn)
+
+	_waves = Waves.new(enemy_spawn, _initial_state.get("cleared_waves", 0))
 	add_child(_waves)
 
 	var player = Player.create()
@@ -35,14 +39,12 @@ func _ready() -> void:
 	add_child(player)
 	add_child(stronghold)
 
-	_hud = (
-		HUD.create(
-			stronghold.get_health().get_health(),
-			stronghold.get_health().get_max_health(),
-			_purse.get_coins(),
-			_upgrades
-			)
-		)
+	_hud = (HUD.create(
+		stronghold.get_health().get_health(),
+		stronghold.get_health().get_max_health(),
+		_purse.get_coins(),
+		_upgrades
+	))
 	add_child(_hud)
 
 	_waves.start()
@@ -54,10 +56,28 @@ func _ready() -> void:
 	SignalBus.player_died.connect(_handle_player_died)
 	SignalBus.open_upgrade_menu.connect(_handle_open_upgrade_menu)
 	SignalBus.close_upgrade_menu.connect(_handle_close_upgrade_menu)
+	SignalBus.break_started.connect(_handle_break_started)
 
 
 func _handle_player_died() -> void:
-	SignalBus.game_over.emit(_waves.get_wave())
+	_report_game_state("game_over")
+	SignalBus.game_over.emit(_waves.get_cleared_waves())
+
+
+func _handle_break_started(_break_time: float) -> void:
+	_report_game_state("wave_cleared")
+
+
+func _report_game_state(state_type: String) -> void:
+	var is_game_running = state_type == "wave_cleared"
+	var coins = _purse.get_coins() if is_game_running else 0
+	var cleared_waves = _waves.get_cleared_waves() if is_game_running else 0
+
+	var game_state = {
+		"is_game_running": is_game_running, "coins": coins, "cleared_waves": cleared_waves
+	}
+
+	SignalBus.game_state_changed.emit(game_state)
 
 
 func _handle_close_upgrade_menu() -> void:
