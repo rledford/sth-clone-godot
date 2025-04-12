@@ -22,6 +22,11 @@ func _ready() -> void:
 		upgrades_grid.add_child(upgrade_item)
 
 
+func _process(_delta) -> void:
+	if Input.is_action_just_pressed("dismiss") and visible:
+		_on_close()
+
+
 func _on_close() -> void:
 	# Rename signal to upgrade_menu_closed, and it could also be a local one
 	SignalBus.close_upgrade_menu.emit()
