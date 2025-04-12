@@ -115,6 +115,7 @@ damage = 2
 attack_speed = 1.75
 speed = 40.0
 coin_reward = 3
+stagger_resistance = 2.0
 
 [node name="Sensor" type="Area2D" parent="."]
 collision_layer = 4
