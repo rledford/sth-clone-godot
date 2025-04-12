@@ -6,7 +6,7 @@ const CursorMed = preload("res://cursor_32x32.png")
 const CursorLarge = preload("res://cursor_48x48.png")
 
 const Scene = preload("res://game.tscn")
-const Stronghold = preload("res://stronghold/stronghold.tscn")
+const StrongholdScene = preload("res://stronghold/stronghold.tscn")
 
 var _window_size: Vector2
 var _hud: HUD
@@ -28,13 +28,13 @@ func _ready() -> void:
 	_check_window_resize()
 
 	_purse = CoinPurse.new(_initial_state.get("coins", 0))
-	_upgrades = UpgradeSystem.new(_purse)
+	_upgrades = UpgradeSystem.new(_purse, _initial_state.get("upgrades", {}))
 
 	_waves = Waves.new(enemy_spawn, _initial_state.get("cleared_waves", 0))
 	add_child(_waves)
 
 	var player = Player.create()
-	var stronghold = Stronghold.instantiate() as Stronghold
+	var stronghold = StrongholdScene.instantiate()
 
 	add_child(player)
 	add_child(stronghold)
@@ -57,6 +57,7 @@ func _ready() -> void:
 	SignalBus.open_upgrade_menu.connect(_on_open_upgrade_menu)
 	SignalBus.close_upgrade_menu.connect(_on_close_upgrade_menu)
 	SignalBus.break_started.connect(_on_break_started)
+	SignalBus.upgrade_purchased.connect(_on_upgrade_purchased)
 
 
 func _on_player_died() -> void:
@@ -64,8 +65,19 @@ func _on_player_died() -> void:
 
 
 func _on_break_started(_break_time: float) -> void:
+	_report_game_state()
+
+
+func _on_upgrade_purchased() -> void:
+	_report_game_state()
+
+
+func _report_game_state() -> void:
 	var game_state = {
-		"is_running": true, "coins": _purse.get_coins(), "cleared_waves": _waves.get_cleared_waves()
+		"is_running": true,
+		"coins": _purse.get_coins(),
+		"cleared_waves": _waves.get_cleared_waves(),
+		"upgrades": _upgrades.get_upgrade_levels()
 	}
 
 	SignalBus.game_state_changed.emit(game_state)

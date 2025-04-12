@@ -2,7 +2,9 @@ class_name SavedGame
 extends Resource
 
 const SAVE_FILE_PATH = "user://saved_game.json"
-const DEFAULT_SAVE_DATA = {"current_game": {"is_running": false, "coins": 0, "cleared_waves": 0}}
+const DEFAULT_SAVE_DATA = {
+	"current_game": {"is_running": false, "coins": 0, "cleared_waves": 0, "upgrades": {}}
+}
 
 var _current_save_data: Dictionary = DEFAULT_SAVE_DATA.duplicate(true)
 
@@ -34,11 +36,11 @@ func reset_current_game() -> void:
 
 
 func _on_game_state_changed(data: Dictionary) -> void:
-	# Convert from flat structure to nested structure
 	_current_save_data.current_game = {
 		"is_running": data.get("is_running", false),
 		"coins": data.get("coins", 0),
-		"cleared_waves": data.get("cleared_waves", 0)
+		"cleared_waves": data.get("cleared_waves", 0),
+		"upgrades": data.get("upgrades", {})
 	}
 	_save_game()
 	print("[SavedGame] Game state updated: ", _current_save_data.current_game)
