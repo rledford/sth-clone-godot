@@ -78,6 +78,13 @@ func _new_debug_game() -> void:
 
 
 func _on_game_over(cleared_waves: int) -> void:
+	var game_state = {
+		"is_running": false,
+		"coins": 0,
+		"cleared_waves": cleared_waves,
+	}
+	SignalBus.game_state_changed.emit(game_state)
+
 	_end_screen = EndScreen.create(cleared_waves)
 	_delete_game()
 	add_child(_end_screen)

@@ -53,39 +53,32 @@ func _ready() -> void:
 	_upgrade_menu.hide()
 	add_child(_upgrade_menu)
 
-	SignalBus.player_died.connect(_handle_player_died)
-	SignalBus.open_upgrade_menu.connect(_handle_open_upgrade_menu)
-	SignalBus.close_upgrade_menu.connect(_handle_close_upgrade_menu)
-	SignalBus.break_started.connect(_handle_break_started)
+	SignalBus.player_died.connect(_on_player_died)
+	SignalBus.open_upgrade_menu.connect(_on_open_upgrade_menu)
+	SignalBus.close_upgrade_menu.connect(_on_close_upgrade_menu)
+	SignalBus.break_started.connect(_on_break_started)
 
 
-func _handle_player_died() -> void:
-	_report_game_state("game_over")
+func _on_player_died() -> void:
 	SignalBus.game_over.emit(_waves.get_cleared_waves())
 
 
-func _handle_break_started(_break_time: float) -> void:
-	_report_game_state("wave_cleared")
-
-
-func _report_game_state(state_type: String) -> void:
-	var is_game_running = state_type == "wave_cleared"
-	var coins = _purse.get_coins() if is_game_running else 0
-	var cleared_waves = _waves.get_cleared_waves() if is_game_running else 0
-
+func _on_break_started(_break_time: float) -> void:
 	var game_state = {
-		"is_game_running": is_game_running, "coins": coins, "cleared_waves": cleared_waves
+		"is_game_running": true,
+		"coins": _purse.get_coins(),
+		"cleared_waves": _waves.get_cleared_waves()
 	}
 
 	SignalBus.game_state_changed.emit(game_state)
 
 
-func _handle_close_upgrade_menu() -> void:
+func _on_close_upgrade_menu() -> void:
 	_upgrade_menu.hide()
 	_hud.show()
 
 
-func _handle_open_upgrade_menu() -> void:
+func _on_open_upgrade_menu() -> void:
 	_hud.hide()
 	_upgrade_menu.show()
 
