@@ -54,7 +54,7 @@ func attempt_upgrade(upgrade: Upgrade) -> void:
 	var cost = upgrade.get_cost()
 
 	_purse.spend_coins(cost)
-	upgrade.level_increased.emit()
+	upgrade.upgrade_purchased.emit()
 	SignalBus.upgrade_purchased.emit()
 
 

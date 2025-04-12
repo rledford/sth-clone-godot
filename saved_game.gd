@@ -4,7 +4,14 @@ extends Resource
 const SAVE_FILE_PATH = "user://saved_game.json"
 const DEFAULT_SAVE_DATA = {
 	"current_game":
-	{"is_running": false, "coins": 0, "cleared_waves": 0, "upgrades": {}, "occupants": []}
+	{
+		"is_running": false,
+		"coins": 0,
+		"cleared_waves": 0,
+		"upgrades": {},
+		"occupants": [],
+		"turrets": []
+	}
 }
 
 var _current_save_data: Dictionary = DEFAULT_SAVE_DATA.duplicate(true)
@@ -42,7 +49,8 @@ func _on_game_state_changed(data: Dictionary) -> void:
 		"coins": data.get("coins", 0),
 		"cleared_waves": data.get("cleared_waves", 0),
 		"upgrades": data.get("upgrades", {}),
-		"occupants": data.get("occupants", [])
+		"occupants": data.get("occupants", []),
+		"turrets": data.get("turrets", [])
 	}
 	_save_game()
 	print("[SavedGame] Game state updated: ", _current_save_data.current_game)

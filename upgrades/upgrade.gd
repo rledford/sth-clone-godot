@@ -2,7 +2,7 @@ class_name Upgrade
 extends Resource
 
 @warning_ignore("UNUSED_SIGNAL")
-signal level_increased
+signal upgrade_purchased
 signal level_changed(level: int)
 
 enum UpgradeCategory {
@@ -60,5 +60,5 @@ func _increment_level() -> void:
 	level_changed.emit(_level)
 
 
-func _on_level_increased() -> void:
+func _on_upgrade_purchased() -> void:
 	_increment_level()

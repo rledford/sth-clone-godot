@@ -12,7 +12,7 @@ func _init() -> void:
 
 	SignalBus.register_upgrade.emit(self)
 	SignalBus.turret_placed.connect(_on_turret_placed)
-	level_increased.connect(_on_level_increased)
+	upgrade_purchased.connect(_on_upgrade_purchased)
 
 
 func get_cost() -> int:

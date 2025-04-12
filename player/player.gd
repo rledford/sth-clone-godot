@@ -40,8 +40,8 @@ func _ready() -> void:
 	_turret_upgrade = TurretUpgrade.new()
 
 	SignalBus.weapon_hotbar_clicked.connect(_on_weapon_hotbar_used)
-	_uzi_upgrade.level_changed.connect(_on_uzi_purchase)
-	_shotgun_upgrade.level_changed.connect(_on_shotgun_purchase)
+	_uzi_upgrade.upgrade_purchased.connect(_on_uzi_purchase)
+	_shotgun_upgrade.upgrade_purchased.connect(_on_shotgun_purchase)
 
 	if _uzi_upgrade.get_level() > 0:
 		_unlock_weapon(Uzi.weapon_name)
@@ -49,7 +49,7 @@ func _ready() -> void:
 	if _shotgun_upgrade.get_level() > 0:
 		_unlock_weapon(Shotgun.weapon_name)
 
-	_turret_upgrade.level_changed.connect(_on_turret_purchase)
+	_turret_upgrade.upgrade_purchased.connect(_on_turret_purchase)
 	_unlock_weapon(Revolver.weapon_name)
 
 
