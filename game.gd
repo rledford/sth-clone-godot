@@ -14,6 +14,7 @@ var _purse: CoinPurse
 var _upgrades: UpgradeSystem
 var _upgrade_menu: UpgradeMenu
 var _waves: Waves
+var _stronghold: Stronghold
 var _initial_state: Dictionary = {}
 @onready var enemy_spawn: EnemySpawn = $EnemySpawn
 
@@ -34,14 +35,18 @@ func _ready() -> void:
 	add_child(_waves)
 
 	var player = Player.create()
-	var stronghold = StrongholdScene.instantiate()
+	_stronghold = StrongholdScene.instantiate()
 
 	add_child(player)
-	add_child(stronghold)
+	add_child(_stronghold)
+
+	# Restore stronghold occupants if available in saved state
+	if _initial_state.has("occupants"):
+		_stronghold.restore_occupants(_initial_state.get("occupants", []))
 
 	_hud = (HUD.create(
-		stronghold.get_health().get_health(),
-		stronghold.get_health().get_max_health(),
+		_stronghold.get_health().get_health(),
+		_stronghold.get_health().get_max_health(),
 		_purse.get_coins(),
 		_upgrades
 	))
@@ -77,7 +82,8 @@ func _report_game_state() -> void:
 		"is_running": true,
 		"coins": _purse.get_coins(),
 		"cleared_waves": _waves.get_cleared_waves(),
-		"upgrades": _upgrades.get_upgrade_levels()
+		"upgrades": _upgrades.get_upgrade_levels(),
+		"occupants": _stronghold.get_occupants()
 	}
 
 	SignalBus.game_state_changed.emit(game_state)
