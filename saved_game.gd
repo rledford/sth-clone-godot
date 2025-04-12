@@ -36,7 +36,7 @@ func reset_current_game() -> void:
 func _on_game_state_changed(data: Dictionary) -> void:
 	# Convert from flat structure to nested structure
 	_current_save_data.current_game = {
-		"is_running": data.get("is_game_running", false),
+		"is_running": data.get("is_running", false),
 		"coins": data.get("coins", 0),
 		"cleared_waves": data.get("cleared_waves", 0)
 	}

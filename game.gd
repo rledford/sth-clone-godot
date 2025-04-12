@@ -65,9 +65,7 @@ func _on_player_died() -> void:
 
 func _on_break_started(_break_time: float) -> void:
 	var game_state = {
-		"is_game_running": true,
-		"coins": _purse.get_coins(),
-		"cleared_waves": _waves.get_cleared_waves()
+		"is_running": true, "coins": _purse.get_coins(), "cleared_waves": _waves.get_cleared_waves()
 	}
 
 	SignalBus.game_state_changed.emit(game_state)
