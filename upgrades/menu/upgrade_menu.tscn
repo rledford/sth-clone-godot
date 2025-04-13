@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxn8amhs6oilh"]
 
-[ext_resource type="Script" path="res://upgrades/menu/upgrade_menu.gd" id="1_7f686"]
+[ext_resource type="Script" uid="uid://bo1ft5wi3q7f2" path="res://upgrades/menu/upgrade_menu.gd" id="1_7f686"]
 [ext_resource type="Theme" uid="uid://b7ridqq1ro7a8" path="res://metal_theme.tres" id="2_qtlfa"]
 
 [node name="UpgradeMenu" type="CanvasLayer"]

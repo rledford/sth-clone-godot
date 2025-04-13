@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://b2cgh0148edku"]
 
 [ext_resource type="Texture2D" uid="uid://caprt6bkrjuiw" path="res://hud/hud-spritesheet.png" id="1_ckri1"]
-[ext_resource type="Script" path="res://hud/weapon_hotbar_item.gd" id="1_v6dge"]
+[ext_resource type="Script" uid="uid://ddj3xob5y2ibp" path="res://hud/weapon_hotbar_item.gd" id="1_v6dge"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w3a4q"]
 bg_color = Color(0.6, 0.6, 0.6, 0.0784314)

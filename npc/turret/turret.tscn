@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://cs7fpdkrig2oc"]
 
-[ext_resource type="Script" path="res://npc/turret/turret.gd" id="1_ci83r"]
+[ext_resource type="Script" uid="uid://nqjomjoihcj6" path="res://npc/turret/turret.gd" id="1_ci83r"]
 [ext_resource type="Texture2D" uid="uid://csgdvhu6rhpts" path="res://sprites/sprites.png" id="2_v7mh0"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5uj46"]

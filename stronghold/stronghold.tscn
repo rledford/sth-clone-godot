@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://d0yl5nwauy8ue"]
 
-[ext_resource type="Script" path="res://stronghold/stronghold.gd" id="1_keyt1"]
+[ext_resource type="Script" uid="uid://cd47vu7ng17y5" path="res://stronghold/stronghold.gd" id="1_keyt1"]
 [ext_resource type="Texture2D" uid="uid://csgdvhu6rhpts" path="res://sprites/sprites.png" id="2_iu65f"]
 
 [sub_resource type="Gradient" id="Gradient_o4nr5"]
