@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://dfa3x3mufrihe"]
 
-[ext_resource type="Script" path="res://enemy/enemy_alt.gd" id="1_y48vj"]
+[ext_resource type="Script" uid="uid://bh6y3l3sqdt1f" path="res://enemy/enemy_alt.gd" id="1_y48vj"]
 [ext_resource type="PackedScene" uid="uid://ccvlgxna8aace" path="res://particles/enemy_hit_particle.tscn" id="2_p5tl6"]
 [ext_resource type="Texture2D" uid="uid://b0xgcd4udyu2t" path="res://enemy/mummified/spearman/spearman.png" id="3_e3fel"]
 [ext_resource type="AudioStream" uid="uid://cwvqf4el1pr42" path="res://sfx/punch.wav" id="4_gnql2"]

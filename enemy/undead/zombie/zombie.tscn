@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=3 uid="uid://8xv00v1epanp"]
 
 [ext_resource type="Texture2D" uid="uid://cradnnunmxxg2" path="res://enemy/undead/zombie/zombie.png" id="1_r73yf"]
-[ext_resource type="Script" path="res://enemy/enemy_alt.gd" id="1_xp3qv"]
+[ext_resource type="Script" uid="uid://bh6y3l3sqdt1f" path="res://enemy/enemy_alt.gd" id="1_xp3qv"]
 [ext_resource type="PackedScene" uid="uid://ccvlgxna8aace" path="res://particles/enemy_hit_particle.tscn" id="2_elpqj"]
 [ext_resource type="AudioStream" uid="uid://cwvqf4el1pr42" path="res://sfx/punch.wav" id="4_4vf7j"]
 [ext_resource type="PackedScene" uid="uid://d3dg8sqk7cejb" path="res://common/health_bar/health_bar.tscn" id="5_abujx"]

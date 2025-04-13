@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://dar8l1i5oaags"]
 
 [ext_resource type="Theme" uid="uid://b7ridqq1ro7a8" path="res://metal_theme.tres" id="1_c0veg"]
-[ext_resource type="Script" path="res://hud/bottom_ui.gd" id="2_oorqo"]
+[ext_resource type="Script" uid="uid://brha4tk8epyv0" path="res://hud/bottom_ui.gd" id="2_oorqo"]
 [ext_resource type="PackedScene" uid="uid://cslj2j7lhj30t" path="res://hud/weapon_hotbar.tscn" id="3_jksau"]
 [ext_resource type="Texture2D" uid="uid://caprt6bkrjuiw" path="res://hud/hud-spritesheet.png" id="4_p6dt5"]
 

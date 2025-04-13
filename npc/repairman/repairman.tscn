@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://ccv12ffyujm51"]
 
-[ext_resource type="Script" path="res://npc/repairman/repairman.gd" id="1_umtdm"]
+[ext_resource type="Script" uid="uid://cntnfwnxongs0" path="res://npc/repairman/repairman.gd" id="1_umtdm"]
 [ext_resource type="PackedScene" uid="uid://jr1o3h2qi8sy" path="res://particles/heal_particle.tscn" id="2_8q7v2"]
 [ext_resource type="Texture2D" uid="uid://csgdvhu6rhpts" path="res://sprites/sprites.png" id="2_pxw6y"]
 
@@ -67,8 +67,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uhvuk"]
 _data = {
-"RESET": SubResource("Animation_i568f"),
-"default": SubResource("Animation_m0cnh")
+&"RESET": SubResource("Animation_i568f"),
+&"default": SubResource("Animation_m0cnh")
 }
 
 [node name="Repairman" type="Node2D"]

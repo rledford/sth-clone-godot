@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://b7l231n1g7tgx"]
 
-[ext_resource type="Script" path="res://player/weapons/shotgun/shotgun.gd" id="1_t1fyo"]
+[ext_resource type="Script" uid="uid://dvxvj6tm1a7fl" path="res://player/weapons/shotgun/shotgun.gd" id="1_t1fyo"]
 [ext_resource type="AudioStream" uid="uid://wrtu4sbi687v" path="res://sfx/no_ammo_click.wav" id="2_3jmy2"]
 [ext_resource type="AudioStream" uid="uid://qx70hq8mkh4o" path="res://sfx/shotgun.wav" id="2_a13ss"]
 [ext_resource type="AudioStream" uid="uid://brqtlyf7twds5" path="res://sfx/single_bullet_load.wav" id="3_x7x4c"]

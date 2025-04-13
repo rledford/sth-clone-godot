@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://d0wslu4gux2vm"]
 
-[ext_resource type="Script" path="res://npc/gunman/gunman.gd" id="1_0g4hj"]
+[ext_resource type="Script" uid="uid://cg40dixxpen6a" path="res://npc/gunman/gunman.gd" id="1_0g4hj"]
 [ext_resource type="PackedScene" uid="uid://yhxqwlgqwm4m" path="res://particles/muzzle_fire_particle.tscn" id="2_6bqfm"]
 [ext_resource type="AudioStream" uid="uid://dxjb2vy3t20pf" path="res://sfx/rifle_alt.wav" id="3_2bivg"]
 [ext_resource type="AudioStream" uid="uid://brqtlyf7twds5" path="res://sfx/single_bullet_load.wav" id="4_53mvx"]

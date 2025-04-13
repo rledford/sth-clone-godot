@@ -1,10 +1,10 @@
 [gd_scene load_steps=12 format=4 uid="uid://slofpfprsu74"]
 
-[ext_resource type="Script" path="res://game.gd" id="1_3d8c0"]
+[ext_resource type="Script" uid="uid://bp0difiwm7u84" path="res://game.gd" id="1_3d8c0"]
 [ext_resource type="Texture2D" uid="uid://bjqesobto8552" path="res://tilesets/zombie-apocalypse/zombie-apocalypse-tileset.png" id="2_2h2ra"]
-[ext_resource type="Script" path="res://ground/ground.gd" id="2_o8htg"]
-[ext_resource type="Script" path="res://enemy/enemy_spawn.gd" id="3_6mtbq"]
-[ext_resource type="Script" path="res://decal.gd" id="4_5n8ne"]
+[ext_resource type="Script" uid="uid://0jpoyjcp6yri" path="res://ground/ground.gd" id="2_o8htg"]
+[ext_resource type="Script" uid="uid://da1yruegk1am8" path="res://enemy/enemy_spawn.gd" id="3_6mtbq"]
+[ext_resource type="Script" uid="uid://dlj4mm0a5p7de" path="res://decal.gd" id="4_5n8ne"]
 [ext_resource type="Texture2D" uid="uid://d2rlqflfbfun4" path="res://cone_light_texture.png" id="5_muqc5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ngs1m"]
