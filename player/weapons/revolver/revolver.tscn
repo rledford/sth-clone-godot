@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dch3eoutrvoxe"]
 
 [ext_resource type="AudioStream" uid="uid://dxjb2vy3t20pf" path="res://sfx/rifle_alt.wav" id="1_55b5x"]
-[ext_resource type="Script" path="res://player/weapons/revolver/revolver.gd" id="1_d40mf"]
+[ext_resource type="Script" uid="uid://6dbpr8wv7274" path="res://player/weapons/revolver/revolver.gd" id="1_d40mf"]
 [ext_resource type="AudioStream" uid="uid://wrtu4sbi687v" path="res://sfx/no_ammo_click.wav" id="2_8bh02"]
 [ext_resource type="AudioStream" uid="uid://brqtlyf7twds5" path="res://sfx/single_bullet_load.wav" id="3_tnma4"]
 

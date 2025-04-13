@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://decshe1k1616e"]
 
-[ext_resource type="Script" path="res://hud/hud.gd" id="1_v4jn8"]
+[ext_resource type="Script" uid="uid://bmo8j3ybw5k6e" path="res://hud/hud.gd" id="1_v4jn8"]
 [ext_resource type="PackedScene" uid="uid://dar8l1i5oaags" path="res://hud/bottom_ui.tscn" id="2_t4p8x"]
 [ext_resource type="Theme" uid="uid://b7ridqq1ro7a8" path="res://metal_theme.tres" id="3_ia33a"]
 

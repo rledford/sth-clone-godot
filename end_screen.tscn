@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b2686q2yqno12"]
 
-[ext_resource type="Script" path="res://end_screen.gd" id="1_ha82k"]
+[ext_resource type="Script" uid="uid://tog43s65x310" path="res://end_screen.gd" id="1_ha82k"]
 [ext_resource type="Theme" uid="uid://b7ridqq1ro7a8" path="res://metal_theme.tres" id="2_xnpfq"]
 
 [node name="EndScreen" type="CanvasLayer"]

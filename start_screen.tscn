@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cxjpnwvlvwcnl"]
 
-[ext_resource type="Script" path="res://start_screen.gd" id="1_jv4rl"]
+[ext_resource type="Script" uid="uid://chnsdkhvgcf7p" path="res://start_screen.gd" id="1_jv4rl"]
 [ext_resource type="Theme" uid="uid://b7ridqq1ro7a8" path="res://metal_theme.tres" id="2_qtlfa"]
 
 [node name="StartScreen" type="CanvasLayer"]
@@ -41,9 +41,35 @@ theme_override_font_sizes/font_size = 16
 text = "A Storm the House Clone"
 horizontal_alignment = 1
 
-[node name="StartGameBtn" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ButtonsContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="ContinueGameBtn" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ButtonsContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "START GAME"
+text = "CONTINUE"
+
+[node name="NewGameBtn" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ButtonsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "NEW GAME"
+
+[node name="StartDebugGameBtn" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ButtonsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "START DEBUG GAME"
+
+[node name="WipeSaveBtn" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ButtonsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "WIPE SAVE DATA"

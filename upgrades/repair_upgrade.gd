@@ -12,7 +12,7 @@ func _init(health: Health) -> void:
 	_health = health
 
 	SignalBus.register_upgrade.emit(self)
-	level_increased.connect(_on_level_increased)
+	upgrade_purchased.connect(_on_upgrade_purchased)
 
 
 func can_buy() -> bool:

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c0gj617bcv485"]
 
-[ext_resource type="Script" path="res://enemy/undead/lich/lich_projectile.gd" id="1_b70ke"]
+[ext_resource type="Script" uid="uid://bdxpgh7bsowq" path="res://enemy/undead/lich/lich_projectile.gd" id="1_b70ke"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wkae7"]
 radius = 3.0

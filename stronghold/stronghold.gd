@@ -1,14 +1,14 @@
 class_name Stronghold
 extends Node2D
 
-@onready var occupants: Node = $Occupants
-@onready var sprites: Node2D = $Sprites
-
 var _health: Health
 var _base_health: int = 100
 var _upgrade: StrongholdUpgrade
-var _current_occupants: int = 0
 var _occupant_slot_progression: Array[int] = [5, 12, 21]
+var _occupants: Array[String] = []
+
+@onready var occupants: Node = $Occupants
+@onready var sprites: Node2D = $Sprites
 
 
 func _ready() -> void:
@@ -30,6 +30,17 @@ func get_health() -> Health:
 	return _health
 
 
+func get_occupants() -> Array[String]:
+	return _occupants.duplicate()
+
+
+func restore_occupants(occupant_data: Array) -> void:
+	for occupant in occupant_data:
+		_add_occupant(occupant)
+
+	_check_vacancy()
+
+
 func _handle_stronghold_upgrade(_level: int):
 	self._update_sprite()
 	self._check_vacancy()
@@ -40,7 +51,7 @@ func _max_occupant_slots() -> int:
 
 
 func _handle_gunman_upgrade(_level: int):
-	self._add_occupant(Gunman.create())
+	self._add_occupant("gunman")
 
 
 func _update_sprite():
@@ -50,20 +61,29 @@ func _update_sprite():
 
 
 func _check_vacancy():
-	if self._current_occupants >= self._max_occupant_slots():
+	if _occupants.size() >= self._max_occupant_slots():
 		SignalBus.stronghold_full.emit()
 	else:
 		SignalBus.stronghold_vacant.emit()
 
 
-func _add_occupant(entity):
+func create_occupant(type: String) -> Node:
+	match type:
+		"gunman":
+			return Gunman.create()
+		"repairman":
+			return Repairman.create(_health)
+	return null
+
+
+func _add_occupant(type: String) -> void:
 	var max_slots = self._max_occupant_slots()
 	var slots = occupants.get_children().slice(0, max_slots)
 
 	for i in range(len(slots)):
 		if len(slots[i].get_children()) == 0:
-			slots[i].add_child(entity)
-			self._current_occupants += 1
+			slots[i].add_child(create_occupant(type))
+			_occupants.append(type)
 			break
 
 	_check_vacancy()
@@ -78,4 +98,4 @@ func _on_repair_level_changed(_level: int) -> void:
 
 
 func _on_repairman_upgraded(_level: int) -> void:
-	self._add_occupant(Repairman.create(_health))
+	self._add_occupant("repairman")

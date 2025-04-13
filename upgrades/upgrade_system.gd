@@ -5,11 +5,13 @@ extends Resource
 var _upgrades: Array[Upgrade]
 
 var _purse: CoinPurse
+var _saved_upgrade_levels: Dictionary = {}
 
 
-func _init(purse: CoinPurse) -> void:
+func _init(purse: CoinPurse, saved_upgrades: Dictionary = {}) -> void:
 	_upgrades = []
 	_purse = purse
+	_saved_upgrade_levels = saved_upgrades
 
 	# I'm not sure about the register any more.
 	# It's a bit of a code smell and it requires a certain order of initialization
@@ -36,6 +38,13 @@ func get_by_id(id: String) -> Upgrade:
 	return null
 
 
+func get_upgrade_levels() -> Dictionary:
+	var levels = {}
+	for upgrade in _upgrades:
+		levels[upgrade.id] = upgrade.get_level()
+	return levels
+
+
 func attempt_upgrade(upgrade: Upgrade) -> void:
 	if not can_afford(upgrade):
 		return
@@ -45,13 +54,23 @@ func attempt_upgrade(upgrade: Upgrade) -> void:
 	var cost = upgrade.get_cost()
 
 	_purse.spend_coins(cost)
-	upgrade.level_increased.emit()
+	upgrade.upgrade_purchased.emit()
 	SignalBus.upgrade_purchased.emit()
 
 
 func _handle_register_upgrade(upgrade: Upgrade) -> void:
 	_upgrades.append(upgrade)
 	_upgrades.sort_custom(_sort)
+
+	if _saved_upgrade_levels.has(upgrade.id):
+		var saved_level = _saved_upgrade_levels[upgrade.id]
+		_apply_saved_level(upgrade, saved_level)
+
+
+func _apply_saved_level(upgrade: Upgrade, level: int) -> void:
+	for i in range(level):
+		upgrade._increment_level()
+	print("[UpgradeSystem] Restored upgrade %s to level %d" % [upgrade.id, level])
 
 
 # Returns true if a should come before b

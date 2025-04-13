@@ -10,7 +10,7 @@ func _init() -> void:
 	_category = UpgradeCategory.HEALTH
 	priority = 2
 	SignalBus.register_upgrade.emit(self)
-	level_increased.connect(_on_level_increased)
+	upgrade_purchased.connect(_on_upgrade_purchased)
 
 	SignalBus.stronghold_full.connect(_on_stronghold_full)
 	SignalBus.stronghold_vacant.connect(_on_stronghold_vacant)
