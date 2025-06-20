@@ -9,24 +9,27 @@ extends Node2D
 @export var heat_dissipation: float = 40.0  # heat dissipated per second
 @export var rest_rotation_degrees: float = -180.0
 
-@onready var heat_level_bar: ColorRect = $HeatBar/HeatLevel
-@onready var heat_level_bar_bg: ColorRect = $HeatBar/Background
-@onready var heat_bar: Node2D = $HeatBar
-@onready var light: PointLight2D = $Light
-
 var _last_fire_time: int = 0
 var _heat_level: float = 0.0
 var _is_overheated: bool = false
 var _is_active: bool = false
 var _target: EnemyAlt
-
 var _heat_level_bar_size: Vector2
+
+@onready var heat_level_bar: ColorRect = $HeatBar/HeatLevel
+@onready var heat_level_bar_bg: ColorRect = $HeatBar/Background
+@onready var heat_bar: Node2D = $HeatBar
+@onready var light: PointLight2D = $Light
+@onready var _muzzle_fire_particle: CPUParticles2D = $MuzzleFireParticle
+@onready var _gun_shot_sfx: AudioStreamPlayer2D = $GunShotSFX
 
 
 func _ready():
 	self._heat_level_bar_size = Vector2(self.heat_level_bar_bg.get_rect().size)
 	self.rotation = deg_to_rad(self.rest_rotation_degrees)
 	self.light.texture_scale = 2 * (1 / (self.light.texture.get_size().x / self.detection_radius))
+	_muzzle_fire_particle.one_shot = true
+	_muzzle_fire_particle.emitting = false
 
 
 func activate():
@@ -86,7 +89,8 @@ func _closest_enemy(a: EnemyAlt, b: EnemyAlt) -> EnemyAlt:
 
 
 func _aim(delta: float) -> void:
-	var delta_scale = 0.25 if (not self._target or self._is_overheated) else 1.0  # slower rotation change when overheated
+	# slower rotation change when overheated
+	var delta_scale = 0.25 if (not self._target or self._is_overheated) else 1.0
 	var target_rotation = deg_to_rad(self.rest_rotation_degrees)
 
 	if self._target:
@@ -101,6 +105,9 @@ func _fire() -> void:
 	if self._heat_level >= self.heat_threshold:
 		self._is_overheated = true
 
+	_muzzle_fire_particle.restart()
+	_muzzle_fire_particle.emitting = true
+	_gun_shot_sfx.play()
 	self._target.hit.emit(self.damage)
 	self._last_fire_time = Time.get_ticks_msec()
 

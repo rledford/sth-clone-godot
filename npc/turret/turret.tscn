@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://cs7fpdkrig2oc"]
+[gd_scene load_steps=10 format=3 uid="uid://cs7fpdkrig2oc"]
 
 [ext_resource type="Script" uid="uid://nqjomjoihcj6" path="res://npc/turret/turret.gd" id="1_ci83r"]
 [ext_resource type="Texture2D" uid="uid://csgdvhu6rhpts" path="res://sprites/sprites.png" id="2_v7mh0"]
+[ext_resource type="PackedScene" uid="uid://yhxqwlgqwm4m" path="res://particles/muzzle_fire_particle.tscn" id="3_5kr0s"]
+[ext_resource type="AudioStream" uid="uid://dxjb2vy3t20pf" path="res://sfx/rifle_alt.wav" id="4_wjf3d"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5uj46"]
 light_mode = 1
@@ -54,3 +56,10 @@ color = Color(0.991966, 0.471967, 0, 1)
 [node name="Light" type="PointLight2D" parent="."]
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_qurxm")
+
+[node name="MuzzleFireParticle" parent="." instance=ExtResource("3_5kr0s")]
+position = Vector2(15, 0)
+
+[node name="GunShotSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_wjf3d")
+volume_db = -3.0
